@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android" 
+	android:shape="line">
+
+    <stroke
+       android:color="@color/light_grey"
+       android:dashWidth="2dp"
+       android:dashGap="4dp" 
+       android:width="1dp"
+    	/>
+
+    <size 
+        android:height="2dp"
+        /> 
+</shape>
+
+<!-- 
+to use it:
+<ImageView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:src="@drawable/dotted" />
+    
+programmatically, 
+    Paint fgPaintSel = new Paint();
+	fgPaintSel.setARGB(255, 0, 0,0);
+	fgPaintSel.setStyle(Style.STROKE);
+	fgPaintSel.setPathEffect(new DashPathEffect(new float[] {10,20}, 0));
+    
+ -->

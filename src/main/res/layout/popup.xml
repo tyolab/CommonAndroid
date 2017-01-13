@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/*
+**
+** /res/layout/quickaction.xml
+**
+** Author: Lorensius W. L. T <lorenz@londatiga.net>
+**
+  lots of things can be replaced with styles
+  android:background="@drawable/quickaction_top_frame"
+    style="@style/PopupMenuStyle"
+*/ 
+-->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+	style="?attr/popupBackgroundStyle"
+    >
+            
+     <!--
+     <FrameLayout
+  		android:layout_marginTop="10dip"
+        android:id="@+id/header2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/quickaction_slider_background"
+        />
+    <include layout="@layout/quickaction_arrow_up"
+        />
+       -->
+    <ScrollView
+        android:id="@+id/scroll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:minHeight="50dp"
+        android:minWidth="80dp"
+        android:fadingEdgeLength="0dip"
+        android:paddingLeft="1dip"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:id="@+id/quickaction_tracks"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="-1dip"
+            android:paddingBottom="-1dip" 
+            android:orientation="vertical">
+            
+            <include layout="@layout/popup_content"/>
+        
+            <!-- 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/quickaction_slider_grip_top" />
+			 -->
+			 <!--  
+			<ListView
+              android:id="@+id/popup_list"
+              android:layout_height="wrap_content"
+              android:layout_width="match_parent">
+         		</ListView>
+         	-->
+			 <!-- 
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@drawable/quickaction_slider_grip_bottom" />
+             -->
+        </LinearLayout>
+            
+    </ScrollView>
+        <!-- 
+    <FrameLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/scroll"
+        android:background="@drawable/quickaction_bottom_frame"
+		 />
+	 -->
+    <!--  
+    <include 
+        layout="@layout/quickaction_arrow_down"
+ 		/>
+	-->
+</LinearLayout>

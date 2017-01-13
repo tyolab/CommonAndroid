@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="alert_dialog_ok">결정</string>
+    <string name="alert_dialog_hide">숨겨진</string>
+    <string name="alert_dialog_cancel">취소</string>
+    <string name="search_hint">의키워드를입력해주십시오</string>
+    <string name="enabled">활성화</string>
+    <string name="disabled">비활성화</string>
+    <string name="function_button_search">위키백과에게검색</string>
+    <string name="exit_app_prompt">당신이종료할것인지여부를확인하시기바랍니다!</string>
+    <string name="choose_theme">사용가능한테마</string>
+    <string name="theme">Theme</string>
+    <string name="light_theme">밝은배경을</string>
+    <string name="dark_theme">검은배경을</string>
+    <string name="resume">복구</string>
+    <string name="pause">일시정지</string>
+    <string name="loading">로드</string>
+    <string name="ellipsis">......</string>
+    <string name="home">홈</string>
+    <string name="random">랜덤</string>
+    <string name="recommendation">추천</string>
+    <string name="quit">종료</string>
+    <string name="settings">설정</string>
+    <string name="donate">기부</string>
+    <string name="support">지원</string>
+    <string name="support_us">우리를 지원</string>
+    <string name="rate_this_app">이 응용 프로그램을 평가</string>
+    <string name="cache_management">캐시 관리</string>
+    <string name="cache">은닉처</string>
+    <string name="cache_unavailable">캐싱보기 역사는이 장치에 사용할 수 없습니다. </string>
+    <string name="write_disk_warining">사용할 수있는 충분한 디스크 공간이 충분한 쓰기 파일 사용 권한이 있는지 확인하십시오.</string>
+    <string name="clear_cache">지우기</string>
+    <string name="clear_cache_desc">모든 시청 역사는 캐시됩니다. 당신은 선택을 취소하려면 여기를 눌러주세요.</string>
+    <string name="clear_cache_prompt">모든 기록을 삭제하려면 있는지 확인하십시오?</string>
+    <string name="accessibility">접근성</string>
+    <string name="font_size">글꼴 크기</string>
+    <string name="adjust_font_size">텍스트의 글꼴 크기를 조정</string>
+    <string name="network">네트워크</string>
+    <string name="external_storage_directories">가능한 외부 스토리지 목록</string>
+    <string name="please_choose_an_external_storage_for_data">데이터 저장 폴더를 선택하세요</string>
+    <string name="online_mode">온라인 모드</string>
+    <string name="find_on_page">페이지에서 찾기</string>
+    <string name="expand_all">페이지 확대</string>
+    <string name="collapse_all">붕괴 페이지</string>
+    <string name="expand_or_collapse">페이지를 축소 / 확대</string>
+    <string name="not_available">사용할 수 없음</string>
+</resources>

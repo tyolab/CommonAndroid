@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="EngravedText">
+        <item name="android:padding">2dp</item>
+        <item name="android:shadowColor">@color/white</item>
+        <item name="android:shadowDx">1</item>
+        <item name="android:shadowDy">1</item>
+        <item name="android:shadowRadius">0.6</item>
+    </style>
+    
+	<style name="SmallText" parent="EngravedText">
+	    <item name="android:textAppearance">?android:attr/textAppearanceSmall</item>		
+	</style>
+	
+	<style name="MediumText" parent="EngravedText">
+	    <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>		
+	</style>
+	
+	<style name="LargeText" parent="EngravedText">
+	    <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>		
+	</style>
+</resources>

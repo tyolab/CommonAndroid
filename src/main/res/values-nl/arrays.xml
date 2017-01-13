@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string-array name="available_themes_default">
+	    <item name="light_theme">Helder</item>
+	    <item name="dark_theme">Zwart</item>
+    </string-array>
+    
+</resources>

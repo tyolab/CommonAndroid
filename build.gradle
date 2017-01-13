@@ -1,0 +1,31 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
+
+    defaultConfig {
+        minSdkVersion 11
+        targetSdkVersion 14
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+
+    useLibrary  'org.apache.http.legacy'
+}
+
+dependencies {
+    compile project(':CommonUtils')
+    compile files('libs/amazon-ads-5.8.1.1.jar')
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}

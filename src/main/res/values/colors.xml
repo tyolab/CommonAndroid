@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <!-- DRAWABLE COLOR -->
+     <drawable name="red">#ff0000</drawable>
+	 <drawable name="blue">#0000ff</drawable>
+	 <drawable name="green">#00ff00</drawable>
+	 <drawable name="brown">#2F1700</drawable>
+    
+    
+    <!--  COLOR COLOR -->
+    <color name="white">#ffffffff</color>
+    <color name="black">#ff000000</color>
+    <color name="dark_green">#0e8519</color>
+    
+    <color name="popup_bg_color">#D9D9D9</color>
+    <color name="popup_bg_color_dark">#6D6D6D</color>
+    
+    <color name="popup_border_color">#8F9183</color>
+    <color name="popup_border_color_dark">#D9D9D9</color>
+    
+    <color name="bookmarkWidgetHeader">#383847</color>
+    <color name="bookmarkWidgetDivider">#383847</color>
+    <color name="bookmarkWidgetItemBackground">#2b2b3c</color>
+    <color name="bookmarkWidgetFolderBackground">#A0383847</color>
+    <color name="bookmarkWidgetFaviconBackground">#23ffffff</color>
+    <color name="bookmarkListFaviconBackground">#23ffffff</color>
+    <color name="tabFaviconBackground">#FF555555</color>
+    <color name="tabFocusHighlight">#FF99CC00</color>
+    <color name="qcMenuBackground">#C0000000</color>
+    <color name="qc_normal">#E02A96BC</color>
+    <color name="qc_selected">#F01A5B73</color>
+    <color name="qc_tab_nr">#F033B5E5</color>
+    <color name="tabViewTitleBackground">#D0000000</color>
+    <color name="navtab_bg">#80606060</color>
+    
+	<color name="blue">#2554C7</color>
+	<color name="green">#347C2C</color>
+	<color name="orange">#ff9900</color>
+	<color name="pink">#FF00FF</color>
+	<color name="violet">#a020f0</color>
+	<color name="grey">#778899</color>
+	<color name="red">#C11B17</color>
+	<color name="yellow">#FFFF8C</color>
+	<color name="PowderBlue">#b0e0e6</color>
+	<color name="brown">#2F1700</color>
+	<color name="Hotpink">#7D2252</color>
+	<color name="cyan">#00ffff</color>
+	<color name="light_grey">#888888</color>
+	<color name="dark_red">#c92a1a</color>
+</resources>

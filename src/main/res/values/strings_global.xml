@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <string name="dollar" formatted="true">$</string>
+    
+    <string name="empty_string"></string>
+    
+    <string name="go">Go</string>
+    
+    <string name="app_copyright">Copyright ©2015 \n\nTYONLINE TECHNOLOGY PTY. LTD.</string>
+    
+    <string name="app_contact_us">Contact Us:</string>
+    
+    <string name="app_credits">\nWebsite: http://www.tyo.com.au\nEmail: dev@tyo.com.au \n</string>
+    
+    <string name="app_acknowledgement_title">Acknowledgements</string>
+    
+    <string name="app_acknowledgement"></string>
+    
+    <string name="app_name">CommonAndroid Library</string>
+    
+</resources>

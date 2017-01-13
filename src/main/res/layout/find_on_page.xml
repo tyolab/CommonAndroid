@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/dialog_find_on_page_height"
+    android:orientation="horizontal" >
+
+    <EditText
+        android:id="@+id/tv_find_on_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        android:layout_margin="3dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"
+        android:ems="10" 
+        />
+    
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="horizontal" >
+        
+        <!-- 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/go"
+            />
+ 		-->
+        <ImageButton
+            android:id="@+id/iv_find_on_page_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="?attr/ic_action_up" 
+            android:background="@null"
+            android:layout_marginRight="15dp"
+            />
+
+        <ImageButton
+            android:id="@+id/iv_find_on_page_down"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="?attr/ic_action_down" 
+            android:background="@null"
+            />
+        
+    </LinearLayout>
+
+</RelativeLayout>
