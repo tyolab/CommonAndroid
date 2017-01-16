@@ -1,5 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!--
+        ##Transparent / Opaque##
+        0% = #00
+        10% = #16
+        20% = #32
+        30% = #48
+        40% = #64
+        50% = #80
+        60% = #96
+        70% = #112
+        80% = #128
+        90% = #144
+    -->
     
     <!-- DRAWABLE COLOR -->
      <drawable name="red">#ff0000</drawable>
