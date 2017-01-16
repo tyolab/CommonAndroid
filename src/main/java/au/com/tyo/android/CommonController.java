@@ -54,7 +54,7 @@ public interface CommonController extends Observer {
 
 	void startMainActivity();
 	
-	void setActivityContext(Activity activity);
+	void setCurrentActivity(Activity activity);
 	
 	void onSaveInstanceState(Bundle savedInstanceState);
 
@@ -62,7 +62,7 @@ public interface CommonController extends Observer {
 
 //	void onScaleChanged(float oldScale, float newScale);
 
-	Activity getActivityContext();
+	Activity getCurrentActivity();
 
 	void initializeInMainThread(Context context);
 

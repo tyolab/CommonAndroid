@@ -47,7 +47,7 @@ public class CommonApplicationImpl implements CommonController {
 	
 	protected boolean hasAd;
 	
-	protected Activity mainActivity;
+	protected Activity currentActivity;
 	
 	protected int logoResId;
 	
@@ -347,13 +347,13 @@ public class CommonApplicationImpl implements CommonController {
 	}
 	
 	@Override
-	public void setActivityContext(Activity activity) {
-		this.mainActivity = activity;
+	public void setCurrentActivity(Activity activity) {
+		this.currentActivity = activity;
 	}
 	
 	@Override
-	public Activity getActivityContext() {
-		return this.mainActivity;
+	public Activity getCurrentActivity() {
+		return this.currentActivity;
 	}
 	
 	@Override
@@ -461,7 +461,7 @@ public class CommonApplicationImpl implements CommonController {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		mainActivity.getMenuInflater().inflate(R.menu.common_menu, menu);
+		currentActivity.getMenuInflater().inflate(R.menu.common_menu, menu);
 		return true;
 	}
 	
