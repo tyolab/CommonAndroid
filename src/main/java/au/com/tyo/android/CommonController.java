@@ -1,34 +1,24 @@
 package au.com.tyo.android;
 
-import java.util.Observer;
-
 import android.app.Activity;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.DialogInterface.OnClickListener;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.Observer;
+
 public interface CommonController extends Observer {
 	
 //	void initializeUserInterface(CommonUI ui);
-	
-	void onResume();
-	
-	void onDestroy();
-	
-	void onCreate();
-	
-	void onPause();
-	
+
 	boolean onKeyDown(int keyCode, KeyEvent event);
 
 	boolean onKeyUp(int keyCode, KeyEvent event);
-	
-	void onStop();
 	
 	Context getContext();
 	
@@ -76,11 +66,7 @@ public interface CommonController extends Observer {
 
 	boolean onCreateOptionsMenu(Menu menu);
 
-	void onPrepareOptionsMenu(Menu menu);
-
 	void onActivityResult(int requestCode, int resultCode, Intent data);
-
-	boolean onKeyLongPress(int keyCode, KeyEvent event);
 
 	void onPostCreate(Bundle savedInstanceState);
 

@@ -1,14 +1,15 @@
 package au.com.tyo.android.utils;
 
+import android.content.Context;
+import android.util.Log;
+
 import java.io.File;
 import java.lang.ref.SoftReference;
 import java.util.Map;
 
-import android.content.Context;
-import android.content.pm.PackageManager.NameNotFoundException;
-import android.util.Log;
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.io.Cache;
+import au.com.tyo.io.FileUtils;
 
 public abstract class CacheManager<FileType> extends Cache<FileType> {
 	
@@ -134,5 +135,17 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	   	  file = fileRef.get();
 
 		 return file;
+	}
+
+	/**
+	 * Clean up cache
+	 */
+	public void cleanup() {
+		try {
+			FileUtils.delete(getCacheDirectory());
+		}
+		catch (Exception ex) {
+			Log.e(LOG_TAG, "failed to clean up cache with error " + null != ex.getMessage() ? ex.getMessage() : "unknown");
+		}
 	}
 }

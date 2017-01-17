@@ -24,7 +24,7 @@ import java.util.Observable;
 
 import au.com.tyo.Debug;
 
-public class CommonApplicationImpl implements CommonController {
+public abstract class CommonApplicationImpl implements CommonController {
 	
 	private static final String LOG_TAG = "CommonApplicationImpl";
 	
@@ -32,7 +32,7 @@ public class CommonApplicationImpl implements CommonController {
 	protected static Object instance;
 	
 	protected Class preferenceActivityClass;
-	
+
 	protected Class mainActivityClass;
 	
 	protected Class splashScreenClass;
@@ -425,7 +425,7 @@ public class CommonApplicationImpl implements CommonController {
 //	    TextView textView = (TextView) messageView.findViewById(R.id.info_credits);
 //	    int defaultColor = textView.getTextColors().getDefaultColor();
 //	    textView.setTextColor(defaultColor);
-	
+
 	    AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	    builder.setIcon(logoResId);
 	    builder.setTitle(appDesc);
@@ -463,51 +463,6 @@ public class CommonApplicationImpl implements CommonController {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		currentActivity.getMenuInflater().inflate(R.menu.common_menu, menu);
 		return true;
-	}
-	
-	@Override
-	public void onPrepareOptionsMenu(Menu menu) {
-	}
-
-	@Override
-	public boolean onKeyLongPress(int keyCode, KeyEvent event) {
-		return false;
-	}
-
-	@Override
-	public void onPostCreate(Bundle savedInstanceState) {
-	}
-
-	@Override
-	public void update(Observable observable, Object data) {
-	}
-
-	@Override
-	public void onResume() {
-	}
-
-	@Override
-	public void onDestroy() {
-	}
-
-	@Override
-	public void onPause() {
-	}
-
-	@Override
-	public void onStop() {
-	}
-
-	@Override
-	public void onSaveInstanceState(Bundle savedInstanceState) {
-	}
-
-	@Override
-	public void onRestoreInstanceState(Bundle savedInstanceState) {
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	}
 
 }
