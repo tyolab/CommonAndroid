@@ -80,4 +80,6 @@ public interface CommonController extends Observer {
 	void showAlertDialog(String title, String message,
 			OnClickListener okListener, OnClickListener cancelListner,
 			boolean cancelable);
+
+	void onCreate();
 }

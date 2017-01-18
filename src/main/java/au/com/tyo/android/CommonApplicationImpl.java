@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
@@ -20,7 +19,6 @@ import android.view.View;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Observable;
 
 import au.com.tyo.Debug;
 
@@ -75,19 +73,42 @@ public abstract class CommonApplicationImpl implements CommonController {
 	public static void setInstance(Object obj) {
 		instance = obj;
 	}
-	
+
+	/**
+	 *
+	 * @param theClass
+     */
 	public static void initializeInstance(Class<?> theClass) {
 		initializeInstance(theClass, null);
 	}
-	
+
+	/**
+	 * Initialize the static instance, no dat initialization for those should be left till in a background thread
+	 *
+	 * @param theClass
+	 * @param context
+     */
 	public static void initializeInstance(Class<?> theClass, Context context) {
 		initializeInstance(theClass, context, true, false);
 	}
-	
+
+	/**
+	 *
+	 * @param theClass
+	 * @param context
+	 * @param initializeBackground
+     */
 	public static void initializeInstance(Class<?> theClass, Context context, boolean initializeBackground) {
 		initializeInstance(theClass, context, true, initializeBackground);
 	}
-	
+
+	/**
+	 *
+	 * @param theClass
+	 * @param context
+	 * @param initializeMain
+	 * @param initializeBackground
+     */
 	public static void initializeInstance(Class<?> theClass, Context context, boolean initializeMain, boolean initializeBackground) {
 		if (instance == null)
 			try {
@@ -116,8 +137,9 @@ public abstract class CommonApplicationImpl implements CommonController {
 			}
 		
 		CommonController ca = (CommonController) instance;
-		if (ca.getContext() == null && context != null) {
-			ca.setContext(context);
+		if (context != null) {
+			if (ca.getContext() == null)
+				ca.setContext(context);
 			
 			if (initializeMain)
 				ca.initializeInMainThread(context);
