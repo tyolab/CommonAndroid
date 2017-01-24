@@ -1,10 +1,12 @@
 package au.com.tyo.android.services;
 
-import java.io.File;
-import java.io.InputStream;
-import java.lang.ref.SoftReference;
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.os.AsyncTask;
+import android.os.Handler;
+import android.os.Message;
+import android.util.Log;
+import android.widget.ImageView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -17,13 +19,12 @@ import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.CoreProtocolPNames;
 import org.apache.http.params.HttpParams;
 
-import android.content.Context;
-import android.graphics.Bitmap;
-import android.os.AsyncTask;
-import android.os.Handler;
-import android.os.Message;
-import android.util.Log;
-import android.widget.ImageView;
+import java.io.File;
+import java.io.InputStream;
+import java.lang.ref.SoftReference;
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+
 import au.com.tyo.android.utils.CacheManager;
 
 public abstract class Downloader<FileType, ContainerType> extends CacheManager<FileType>
@@ -177,12 +178,18 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
         protected FileType doInBackground(String... params) {
              // params comes from the execute() call: params[0] is the url.
         	 url = (String) params[0];
-             return downloadFile(reference.get(), params[0]);
+			FileType f = downloadFile(reference.get(), params[0]);
+			return f;
         }
 
         @Override
         // Once the image is downloaded, associates it to the imageView
         protected void onPostExecute(FileType file) {
+			if (null == file) {
+				Log.e(LOG_TAG, "The value of downloaded file is null");
+				return;
+			}
+
         	// I don't care what happen next, but surely have ot get rid of task in the hashmap
             ContainerType container = reference.get();
             
@@ -194,8 +201,11 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
         		caller.onDownloadFinished(file);
         	
             if (isCancelled()) {
+				Log.i(LOG_TAG, "Downloader task got cancelled");
                 file = null;
+				return;
             }
+
             // Change bitmap only if this process is still associated with it
             if (this == fileDownloaderTask) {
             	if (container != null) {

@@ -1,6 +1,8 @@
 package au.com.tyo.android;
 
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -312,4 +314,5 @@ public class AndroidUtils {
 	public static Uri getRawResourceUri(Context context, String resName) {
 		return Uri.parse("android.resource://" + context.getPackageName() + "/raw/" + resName);
 	}
+
 }
