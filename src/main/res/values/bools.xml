@@ -9,4 +9,10 @@
       <bool name="showDonation">true</bool>
       
       <bool name="showAcknowledgement">false</bool>
+
+      <bool name="isTV">false</bool>
+
+      <bool name="isWatch">false</bool>
+
+      <bool name="isAuto">false</bool>
 </resources>
