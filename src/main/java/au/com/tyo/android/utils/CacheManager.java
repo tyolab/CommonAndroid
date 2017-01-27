@@ -38,6 +38,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		this.subDirStr = subdir;
 		
 		cacheDir = this.getCacheDirectory();
+
 		if (cacheDir != null && !cacheDir.exists())
 			cacheDir.mkdirs();
 		if (cacheDir.exists())
@@ -59,7 +60,13 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	//our caching functions
 	// Find the dir to save cached images
 	public static File getCacheDirectory(Context refContext, String subDirStr){
-		String sdState = android.os.Environment.getExternalStorageState();
+		String sdState = "";
+		try {
+			android.os.Environment.getExternalStorageState();
+		}
+		catch (Exception ex) {
+			Log.e(LOG_TAG, "Unable to get external storage state");
+		}
 		File cacheDir = null;
     
 		if (sdState.equals(android.os.Environment.MEDIA_MOUNTED)) {

@@ -20,8 +20,6 @@ import android.view.View;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import au.com.tyo.Debug;
-
 public abstract class CommonApplicationImpl implements CommonController {
 	
 	private static final String LOG_TAG = "CommonApplicationImpl";
@@ -382,8 +380,13 @@ public abstract class CommonApplicationImpl implements CommonController {
 	public void setAdStatus(Context context) {
 		hasAd = context.getResources().getBoolean(R.bool.showAd);
 
+		/**
+		 * should solely controlled by the bools.xml
+
 		if (hasAd && !Debug.debugging) 
 			hasAd = false;
+
+		 */
 	}
 
 	public String getAppName() {
