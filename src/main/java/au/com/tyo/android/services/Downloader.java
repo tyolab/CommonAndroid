@@ -1,12 +1,10 @@
 package au.com.tyo.android.services;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.widget.ImageView;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -84,10 +82,8 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
 	}
 	
 	public void handleResult(ContainerType container, FileType file) {
-		
-		if (container instanceof ImageView && file instanceof Bitmap)
-			((ImageView) container).setImageBitmap((Bitmap) file);
-		
+		// do nothing
+		// override it to handle the downloaded result
 	}
 
 	public DownloadListener<FileType> getCaller() {
@@ -308,9 +304,9 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
 
    	 	File f = urlToFile(url, false);
    	 	
-   	    SoftReference<FileType> bitmapRef = new SoftReference<FileType>(fileType); 
+   	    SoftReference<FileType> ref = new SoftReference<FileType>(fileType);
    	 	
-   	 	fileCache.put(f.getPath(), bitmapRef);
+   	 	fileCache.put(f.getPath(), ref);
    	 	
         write(fileType, f);
 	}

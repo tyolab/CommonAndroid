@@ -6,7 +6,7 @@ android {
 
     defaultConfig {
         minSdkVersion 11
-        targetSdkVersion 14
+        targetSdkVersion 19
     }
 
     buildTypes {
@@ -16,12 +16,12 @@ android {
         }
     }
 
-    useLibrary  'org.apache.http.legacy'
 }
 
 dependencies {
     compile project(':CommonUtils')
     compile files('libs/amazon-ads-5.8.1.1.jar')
+    compile files('libs/org.apache.http.legacy.jar')
 }
 
 repositories {
