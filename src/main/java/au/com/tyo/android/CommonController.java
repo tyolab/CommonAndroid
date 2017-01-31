@@ -34,6 +34,8 @@ public interface CommonController extends Observer {
 
 	Class getSplashScreenClass();
 
+	void setMainActivityClass(Class cls);
+
 	Class getPreferenceActivityClass();
 
 	Class getMainActivityClass();

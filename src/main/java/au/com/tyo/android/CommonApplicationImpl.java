@@ -310,6 +310,7 @@ public abstract class CommonApplicationImpl implements CommonController {
 		return mainActivityClass;
 	}
 
+	@Override
 	public void setMainActivityClass(Class cls) {
 		mainActivityClass = cls;
 	}
