@@ -315,4 +315,13 @@ public class AndroidUtils {
 		return Uri.parse("android.resource://" + context.getPackageName() + "/raw/" + resName);
 	}
 
+	public static float pxToDp(Context context, float px) {
+		float density = context.getResources().getDisplayMetrics().density;
+		return px / density;
+	}
+
+	public static float dpToPx(Context context, float dp) {
+		float density = context.getResources().getDisplayMetrics().density;
+		return dp * density;
+	}
 }

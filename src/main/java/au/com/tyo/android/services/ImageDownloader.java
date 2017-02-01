@@ -14,7 +14,17 @@ public class ImageDownloader extends Downloader<Bitmap, ImageView> {
 	private static final String LOG_TAG = "ImageDownloader";
 
 	private int quality = 100;
-	
+
+	private int sampleSize = 1;
+
+	public int getSampleSize() {
+		return sampleSize;
+	}
+
+	public void setSampleSize(int sampleSize) {
+		this.sampleSize = sampleSize;
+	}
+
 	public ImageDownloader(Context context, String subdir){
 		super(context, subdir);
 	}
@@ -31,6 +41,7 @@ public class ImageDownloader extends Downloader<Bitmap, ImageView> {
 	public void setQuality(int quality) {
 		this.quality = quality;
 	}
+
 
 	///////////////////////
 	@Override
@@ -52,7 +63,7 @@ public class ImageDownloader extends Downloader<Bitmap, ImageView> {
 	@Override
 	protected Bitmap processInputStream(InputStream inputStream) {
         final BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 8;
+        options.inSampleSize = sampleSize;
 		return BitmapFactory.decodeStream(inputStream, null, options);
 	}
 
