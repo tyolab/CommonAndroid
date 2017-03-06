@@ -35,6 +35,11 @@ public class CommonInitializer {
 	 */
 	public static Class clsUi = null; // UIBase.class;
 
+	/**
+	 * The class of main activity
+	 */
+	public static Class clsActivityMain = null;
+
 	//public static Class clsData; // normally we don't have this
 
 	/**
