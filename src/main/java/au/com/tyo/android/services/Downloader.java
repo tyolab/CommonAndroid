@@ -27,6 +27,10 @@ import au.com.tyo.android.utils.CacheManager;
 
 public abstract class Downloader<FileType, ContainerType> extends CacheManager<FileType>
 	implements DownloaderInterface<FileType, ContainerType> {
+
+	public interface Callback {
+		void onDownloadFinished(Object file);
+	}
 	
 	private static final String LOG_TAG = "Downloader";
 	
@@ -80,8 +84,13 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
 		tasks = new HashMap<ContainerType, DownloaderTask>();
 		handler = new MessageHandler<FileType, ContainerType>(this);
 	}
+
+
 	
-	public void handleResult(ContainerType container, FileType file) {
+	public void handleResult(Callback callback, ContainerType container, FileType file) {
+        if (null != callback) {
+            callback.onDownloadFinished(file);
+        }
 		// do nothing
 		// override it to handle the downloaded result
 	}
@@ -97,8 +106,12 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
 	public FileType download(String url) {
 		return download(url, null, false);
 	}
+
+    protected FileType download(String url, ContainerType container, boolean asynchronously) {
+        return download(url, null, container, asynchronously);
+    }
 	
-	protected FileType download(String url, ContainerType container, boolean asynchronously) {
+	protected FileType download(String url, Callback callback, ContainerType container, boolean asynchronously) {
 		FileType fileType = null;
 	     if (url != null && cancelPotentialDownload(url, container)) {
 	    	 
@@ -113,12 +126,12 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
 	    	  //No? download it
 	    	  if(fileType == null){
 	    		  if (asynchronously) {
-		    		  DownloaderTask task = new DownloaderTask(container);
+		    		  DownloaderTask task = new DownloaderTask(callback, container);
 		    		  tasks.put(container, task);
 		    		  task.execute(url);
 	    		  }
 	    		  else {
-	    			  fileType = downloadFile(container, url);
+	    			  fileType = downloadFile(callback, container, url);
 	    			  if (fileType != null) {
 		    			  if (!url.startsWith(File.separator))
 			    			  try {
@@ -127,7 +140,7 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
 			    			  } catch (Exception e) {
 			    				  Log.e(LOG_TAG, "failed download image: " + url);
 			    			  }
-		    			  handleResult(container, fileType);
+		    			  handleResult(callback, container, fileType);
 	    			  }
 	    		  }
 	    	  }
@@ -153,8 +166,10 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
 
 		private String url;
         private final WeakReference<ContainerType> reference;
+        private Callback callback;
 
-        public DownloaderTask(ContainerType container) {
+        public DownloaderTask(Callback callback, ContainerType container) {
+            this.callback = callback;
             reference = new WeakReference<ContainerType>(container);
         }
         
@@ -172,9 +187,9 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
         @Override
         // Actual download method, run in the task thread
         protected FileType doInBackground(String... params) {
-             // params comes from the execute() call: params[0] is the url.
-        	 url = (String) params[0];
-			FileType f = downloadFile(reference.get(), params[0]);
+            // params comes from the execute() call: params[0] is the url.
+            url = (String) params[0];
+			FileType f = downloadFile(callback, reference.get(), params[0]);
 			return f;
         }
 
@@ -238,7 +253,7 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
 	}
 	
     //the actual download code
-    public FileType downloadFile(ContainerType container, String url) {
+    public FileType downloadFile(Callback callback, ContainerType container, String url) {
     	FileType fileType = null;
         if (url.startsWith(File.separator))
 			try {
