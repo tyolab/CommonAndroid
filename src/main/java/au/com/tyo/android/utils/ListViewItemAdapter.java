@@ -1,14 +1,15 @@
 package au.com.tyo.android.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import au.com.tyo.android.R;
 
 public class ListViewItemAdapter<ItemType> extends BaseAdapter {
@@ -48,10 +49,14 @@ public class ListViewItemAdapter<ItemType> extends BaseAdapter {
 		return items == null ? 0 : items.size();
 	}
 
+	public int size() { return getCount(); }
+
 	@Override
 	public ItemType getItem(int position) {
 		return this.items.get(position);
 	}
+
+	public ItemType get(int position) { return getItem(position); }
 
 	@Override
 	public long getItemId(int position) {
@@ -62,12 +67,18 @@ public class ListViewItemAdapter<ItemType> extends BaseAdapter {
 		this.items = obj;
 	}
 	
-	public void pushItem(ItemType item) {
+	public void add(ItemType item) {
 		items.add(0, item);
 	}
+
+	public void pushItem(ItemType item) { add(item); }
 	
 	public void removeItem(ItemType item) {
 		items.remove(item);
+	}
+
+	public void remove(ItemType item) {
+		removeItem(item);
 	}
 	
 	protected View inflate(ViewGroup parent) {
