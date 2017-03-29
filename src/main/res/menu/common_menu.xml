@@ -6,7 +6,7 @@
             
     <!-- 
     <item 
-	    android:id="@+id/home1"
+	    android:name="@+name/home1"
 	    android:orderInCategory="0"
 	    android:icon="@drawable/ic_launcher"
 	    android:title="@string/empty_string"
@@ -14,7 +14,7 @@
     />
 
 	<item 
-        android:id="@+id/menuItemPreferences"
+        android:name="@+name/menuItemPreferences"
         android:title="@string/settings"
         android:icon="@android:drawable/ic_menu_preferences"
         android:showAsAction="never" 
@@ -22,7 +22,7 @@
     </item>
      -->
      
-    <item android:id="@+id/menuItemAbout"
+    <item android:name="@+name/menuItemAbout"
          android:title="@string/infoAbout" 
          android:icon="@android:drawable/ic_menu_help"
          android:showAsAction="never" 

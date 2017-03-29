@@ -12,7 +12,7 @@
     >
 
     <ImageView
-        android:id="@+id/itl_image_view"
+        android:name="@+name/itl_image_view"
 	    android:layout_width="@dimen/image_list_cell_image_width"
 	    android:layout_height="@dimen/image_list_cell_image_height"
 	    android:layout_weight="0.3"
@@ -21,7 +21,7 @@
 		 />
     
     <TextView
-        android:id="@android:id/text1"
+        android:name="@android:name/text1"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="1.7"

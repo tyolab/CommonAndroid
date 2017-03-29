@@ -5,7 +5,7 @@
     android:orientation="horizontal" >
 
     <EditText
-        android:id="@+id/tv_find_on_page"
+        android:name="@+name/tv_find_on_page"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:padding="3dp"
@@ -33,7 +33,7 @@
             />
  		-->
         <ImageButton
-            android:id="@+id/iv_find_on_page_up"
+            android:name="@+name/iv_find_on_page_up"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="?attr/ic_action_up" 
@@ -42,7 +42,7 @@
             />
 
         <ImageButton
-            android:id="@+id/iv_find_on_page_down"
+            android:name="@+name/iv_find_on_page_down"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="?attr/ic_action_down" 

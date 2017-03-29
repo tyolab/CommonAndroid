@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/widget_frame"
+    android:name="@android:name/widget_frame"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:paddingBottom="5dp"
@@ -9,7 +9,7 @@
     android:paddingTop="5dp" >
 
     <TextView
-        android:id="@+id/seekBarPrefUnitsRight"
+        android:name="@+name/seekBarPrefUnitsRight"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
@@ -17,30 +17,30 @@
     </TextView>
 
     <TextView
-        android:id="@+id/seekBarPrefValue"
+        android:name="@+name/seekBarPrefValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/seekBarPrefUnitsRight"
+        android:layout_toLeftOf="@name/seekBarPrefUnitsRight"
         android:gravity="right" >
     </TextView>
 
     <TextView
-        android:id="@+id/seekBarPrefUnitsLeft"
+        android:name="@+name/seekBarPrefUnitsLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toLeftOf="@id/seekBarPrefValue" >
+        android:layout_toLeftOf="@name/seekBarPrefValue" >
     </TextView>
 
     <LinearLayout
-        android:id="@+id/seekBarPrefBarContainer"
+        android:name="@+name/seekBarPrefBarContainer"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/seekBarPrefUnitsRight"
+        android:layout_below="@+name/seekBarPrefUnitsRight"
         android:orientation="horizontal" >
 
         <SeekBar
-            android:id="@+id/seekBarPrefSeekBar"
+            android:name="@+name/seekBarPrefSeekBar"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content" />
     </LinearLayout>

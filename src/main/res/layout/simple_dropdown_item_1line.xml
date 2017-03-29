@@ -24,7 +24,7 @@
     android:textAppearance="?android:attr/textAppearanceSmallInverse"
  -->
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@android:id/text1"
+    android:name="@android:name/text1"
     style="?android:attr/dropDownItemStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
