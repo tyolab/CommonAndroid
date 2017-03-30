@@ -317,7 +317,7 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
 
 	public void writeFile(FileType fileType, String url) throws Exception {
 
-   	 	File f = urlToFile(url, false);
+   	 	File f = locationToFile(url, false);
    	 	
    	    SoftReference<FileType> ref = new SoftReference<FileType>(fileType);
    	 	

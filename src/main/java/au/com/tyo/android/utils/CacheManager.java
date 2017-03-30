@@ -12,6 +12,13 @@ import au.com.tyo.io.Cache;
 import au.com.tyo.io.FileUtils;
 
 public abstract class CacheManager<FileType> extends Cache<FileType> {
+
+	/**
+	 * External storage can't be granteed
+	 */
+	public enum CacheLocation {
+		SYSTEM_CACHE, SYSTEM_DATA, EXTERNAL_STORAGE
+	}
 	
 	private static final String LOG_TAG = "CacheManager";
 	
@@ -24,6 +31,8 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	protected File cacheDir;
 	
 	protected boolean cacheEnabled;
+
+	CacheLocation location;
 	
 	public CacheManager() {
 		this(null, "data");
@@ -32,10 +41,19 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	public CacheManager(Context context) {
 		this(context, "data");
 	}
-	
+
+	public CacheManager(Context context, CacheLocation location) {
+		this(context, "data", location);
+	}
+
 	public CacheManager(Context context, String subdir) {
+		this(context, subdir, CacheLocation.SYSTEM_CACHE);
+	}
+	
+	public CacheManager(Context context, String subdir, CacheLocation location) {
 		this.context = context;
 		this.subDirStr = subdir;
+		this.location = location;
 		
 		cacheDir = this.getCacheDirectory();
 
@@ -48,18 +66,32 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	}
 	
 	public File getCacheDirectory() {
-		if (context != null)
-			return getCacheDirectory(context);
+		if (context != null) {
+			switch (location) {
+				case SYSTEM_CACHE:
+					default:
+					return getCacheDirectory(context);
+				case SYSTEM_DATA:
+					return getDataDirectory(context, subDirStr);
+				case EXTERNAL_STORAGE:
+					return getCacheDirectoryFromExternalStorage(context, subDirStr);
+			}
+		}
+
 		return null;
 	}
 	
 	public File getCacheDirectory(Context refContext) {
 		return getCacheDirectory(refContext, subDirStr);
 	}
-	
-	//our caching functions
-	// Find the dir to save cached images
-	public static File getCacheDirectory(Context refContext, String subDirStr){
+
+	/**
+	 *
+	 * @param refContext
+	 * @param subDirStr
+	 * @return
+	 */
+	public static File getCacheDirectoryFromExternalStorage(Context refContext, String subDirStr) {
 		String sdState = "";
 		try {
 			android.os.Environment.getExternalStorageState();
@@ -68,22 +100,37 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 			Log.e(LOG_TAG, "Unable to get external storage state");
 		}
 		File cacheDir = null;
-    
 		if (sdState.equals(android.os.Environment.MEDIA_MOUNTED)) {
-			File sdDir = android.os.Environment.getExternalStorageDirectory();  
-			
-//			try {
-				cacheDir = new File(sdDir, "Android" + File.separator + "data" + File.separator + AndroidUtils.getPackageName(refContext) + File.separator+ subDirStr);
-//			} catch (NameNotFoundException e) {
-				if (!cacheDir.exists())
-					Log.e(LOG_TAG, "cannot access external sd card to create a package data directory");
-//			}
-		}
-		else
-			cacheDir = new File(refContext.getCacheDir(),  subDirStr);
+			File sdDir = android.os.Environment.getExternalStorageDirectory();
 
-		if(cacheDir != null && !cacheDir.exists())
-			cacheDir.mkdirs();
+			cacheDir = new File(sdDir, "Android" + File.separator + "data" + File.separator + AndroidUtils.getPackageName(refContext) + File.separator+ subDirStr);
+			if (!cacheDir.exists())
+				Log.e(LOG_TAG, "cannot access external sd card to create a package data directory");
+		}
+		return cacheDir;
+	}
+
+	/**
+	 * Caching directory
+	 * Find the dir to save cached images
+	 * @param refContext
+	 * @param subDirStr
+	 * @return
+	 */
+
+	public static File getCacheDirectory(Context refContext, String subDirStr){
+		File cacheDir = null;
+
+		cacheDir = new File(refContext.getCacheDir(),  subDirStr);
+
+		return cacheDir;
+	}
+
+	public static File getDataDirectory(Context refContext, String subDirStr){
+		File cacheDir = null;
+
+		cacheDir = new File(refContext.getFilesDir(),  subDirStr);
+
 		return cacheDir;
 	}
 	
@@ -111,7 +158,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	 * @param readingOrWriting - true for reading, false for writing
 	 * @return
 	 */
-	public File urlToFile(String url, boolean readingOrWriting) {
+	public File locationToFile(String url, boolean readingOrWriting) {
 	   	 String filename = urlHashCodeToString(url);
 	   	 File f = new File(getCacheDirectory(), filename);
 	   	 return f;
@@ -122,7 +169,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	}
 	
 	public FileType loadCache(String url) throws Exception {
-	   	 File f = urlToFile(url, true);
+	   	 File f = locationToFile(url, true);
 		  // Is the file in our memory cache?
 		 FileType file = null;
 		 

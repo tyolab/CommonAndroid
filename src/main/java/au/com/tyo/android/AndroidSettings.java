@@ -1,10 +1,7 @@
 package au.com.tyo.android;
 
-import java.io.File;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
-
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -18,8 +15,12 @@ import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.view.Window;
-import android.annotation.SuppressLint;
-import android.app.Activity;
+
+import java.io.File;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
+
 import au.com.tyo.CommonSettings;
 import au.com.tyo.Debug;
 import au.com.tyo.io.IO;
@@ -205,6 +206,22 @@ public class AndroidSettings extends CommonSettings implements Android {
 //		if (tokens != null)
 //			for (String str : tokens)
 //				searchHistoryArray.add(str);
+	}
+
+	public String getPreferenceString(String key) {
+		return prefs.getString(key, null);
+	}
+
+	public boolean getPreferenceBoolean(String key) {
+		return prefs.getBoolean(key, false);
+	}
+
+	public int getPreferenceInteger(String key) {
+		return prefs.getInt(key, -1);
+	}
+
+	public Set getPreferenceSet(String key) {
+        return prefs.getStringSet(key, null);
 	}
 
 	protected void onFirstTimeRun() {
