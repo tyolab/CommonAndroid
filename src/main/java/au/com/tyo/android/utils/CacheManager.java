@@ -11,6 +11,13 @@ import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.io.Cache;
 import au.com.tyo.io.FileUtils;
 
+/**
+ *
+ * Cache content from the cloud
+ *
+ * @param <FileType>
+ */
+
 public abstract class CacheManager<FileType> extends Cache<FileType> {
 
 	/**
@@ -133,19 +140,28 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 
 		return cacheDir;
 	}
-	
-//	public File createFile(String filename) {
-//		return new File(getCacheDirectory(), filename);
-//	}
-	
+
+	/**
+	 *
+	 * @return
+	 */
 	public boolean isCacheEnabled() {
 		return cacheEnabled;
 	}
 
+	/**
+	 *
+	 * @param cacheEnabled
+	 */
 	public void setCacheEnabled(boolean cacheEnabled) {
 		this.cacheEnabled = cacheEnabled;
 	}
 
+	/**
+	 *
+	 * @param url
+	 * @return
+	 */
 	public static String urlHashCodeToString(String url) {
 		if (url != null && url.length() > 0)
 			return String.valueOf(url.hashCode());
