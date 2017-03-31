@@ -180,12 +180,29 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	   	 return f;
 	}
 	
-	public FileType fileCheck(String url) throws Exception {
-		return loadCache(url);
+	public FileType fileCheck(String location) throws Exception {
+		return loadCache(location);
 	}
-	
-	public FileType loadCache(String url) throws Exception {
-	   	 File f = locationToFile(url, true);
+
+	/**
+	 *
+	 * @param location
+	 * @return
+	 * @throws Exception
+	 */
+	@Deprecated
+	public FileType loadCache(String location) throws Exception {
+		return load(location);
+	}
+
+	/**
+	 *
+	 * @param location
+	 * @return
+	 * @throws Exception
+	 */
+	public FileType load(String location) throws Exception {
+	   	 File f = locationToFile(location, true);
 		  // Is the file in our memory cache?
 		 FileType file = null;
 		 
