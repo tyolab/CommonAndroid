@@ -11,7 +11,7 @@
     >
 	
 	<ImageView
-	    android:name="@+name/popup_item_icon"
+	    android:id="@+id/popup_item_icon"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="center_vertical|center_horizontal|center"
@@ -19,7 +19,7 @@
 		/>
 		
 	<TextView
-	    android:name="@+name/popup_item_title"
+	    android:id="@+id/popup_item_title"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:layout_gravity="left"

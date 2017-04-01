@@ -11,7 +11,7 @@
     >
 
     <TextView
-        android:name="@+name/info_app_desc"
+        android:id="@+id/info_app_desc"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical|center_horizontal"
@@ -31,7 +31,7 @@
        android:textSize="14sp" />
        
     <TextView
-        android:name="@+name/info_credits"
+        android:id="@+id/info_credits"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:autoLink="all"
@@ -42,7 +42,7 @@
         android:textSize="15sp" />
       
 	<LinearLayout 
-	   android:name="@+name/acknowledge_view"
+	   android:id="@+id/acknowledge_view"
        android:layout_width="match_parent"
        android:layout_height="wrap_content"
        android:orientation="vertical" 
@@ -58,7 +58,7 @@
 	       android:textSize="14sp" />
 	    
 	   <TextView
-	       android:name="@+name/info_acknowledgement"
+	       android:id="@+id/info_acknowledgement"
 	       android:layout_width="match_parent"
 	       android:layout_height="wrap_content"
 	       android:autoLink="all"

@@ -22,7 +22,7 @@
      <!--
      <FrameLayout
   		android:layout_marginTop="10dip"
-        android:name="@+name/header2"
+        android:id="@+id/header2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/quickaction_slider_background"
@@ -31,7 +31,7 @@
         />
        -->
     <ScrollView
-        android:name="@+name/scroll"
+        android:id="@+id/scroll"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:minHeight="50dp"
@@ -41,7 +41,7 @@
         android:scrollbars="none">
 
         <LinearLayout
-            android:name="@+name/quickaction_tracks"
+            android:id="@+id/quickaction_tracks"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="-1dip"
@@ -58,7 +58,7 @@
 			 -->
 			 <!--  
 			<ListView
-              android:name="@+name/popup_list"
+              android:id="@+id/popup_list"
               android:layout_height="wrap_content"
               android:layout_width="match_parent">
          		</ListView>
@@ -74,10 +74,10 @@
     </ScrollView>
         <!-- 
     <FrameLayout
-        android:name="@+name/footer"
+        android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@name/scroll"
+        android:layout_below="@id/scroll"
         android:background="@drawable/quickaction_bottom_frame"
 		 />
 	 -->
