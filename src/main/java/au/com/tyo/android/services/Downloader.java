@@ -251,8 +251,10 @@ public abstract class Downloader<FileType, ContainerType> extends CacheManager<F
 	    }
 	    return true;
 	}
-	
-    //the actual download code
+
+	/**
+	 * The actual loading logic
+	 */
     public FileType downloadFile(Callback callback, ContainerType container, String url) {
     	FileType fileType = null;
         if (url.startsWith(File.separator))

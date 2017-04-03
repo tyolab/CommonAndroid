@@ -170,12 +170,12 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	
 	/**
 	 * 
-	 * @param url
+	 * @param location
 	 * @param readingOrWriting - true for reading, false for writing
 	 * @return
 	 */
-	public File locationToFile(String url, boolean readingOrWriting) {
-	   	 String filename = urlHashCodeToString(url);
+	public File locationToFile(String location, boolean readingOrWriting) {
+	   	 String filename = urlHashCodeToString(location);
 	   	 File f = new File(getCacheDirectory(), filename);
 	   	 return f;
 	}
