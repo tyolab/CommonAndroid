@@ -287,9 +287,25 @@ public class AndroidUtils {
 	    catch (Exception e) { }
 	    return null;
 	}
+
+    /**
+     * Get user's primary account on device
+     *
+     * @param context
+     * @return
+     */
+	public static String getUserPrimaryAccount(Context context) {
+        List list = getDeviceAccounts(context);
+
+        return null != list && list.size() > 0 ? (String) list.get(0) : null;
+    }
 	
 	/**
-	 * getting the account email addresses associated with the device 
+	 * getting the account email addresses associated with the device
+	 *
+	 * need permission:
+	 *
+	 * <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 	 * 
 	 * @param context
 	 * @return
