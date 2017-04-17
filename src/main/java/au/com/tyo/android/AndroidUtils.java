@@ -1,15 +1,5 @@
 package au.com.tyo.android;
 
-import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-import java.util.regex.Pattern;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
@@ -24,12 +14,22 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.os.StatFs;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.regex.Pattern;
 
 public class AndroidUtils {
 	
@@ -231,11 +231,58 @@ public class AndroidUtils {
 	    
 	    activity.startActivity(i);
 	}
-	
+
+	/**
+	 *
+	 * @param cls
+	 * @param context
+	 */
+	public static void startActivity (Class cls, Activity context) {
+		startActivity(cls, context, null, null, -1);
+	}
+
+	/**
+	 *
+	 * @param cls
+	 * @param context
+	 * @param bundle
+	 * @param extra
+	 * @param flags
+	 */
+	public static void startActivity (Class cls, Activity context, Bundle bundle, Parcelable extra, int flags) {
+		Intent intent = new Intent(context, cls);
+
+		if (flags > -1) {
+			intent.addFlags(flags);
+		}
+		else {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+		}
+
+		if (null != extra)
+			intent.putExtra(extra.toString(), extra);
+
+		if (null != bundle && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+				context.startActivity(intent, bundle);
+		else
+			context.startActivity(intent);
+	}
+
+	/**
+	 *
+	 * @param context
+	 * @param url
+	 */
 	public static void gotoMarket(Context context, String url) {
 		openLinkWithDefaultAction(context, url);
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 * @param url
+	 */
 	public static void openLinkWithDefaultAction(Context context, String url) {
 		Uri goUri = Uri.parse(url);
 
@@ -243,14 +290,23 @@ public class AndroidUtils {
 		goIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		context.startActivity(goIntent);
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 */
 	public static void openSystemFileBrowser(Context context) {
 	     Intent intent = new Intent();
 	     intent.setAction(Intent.ACTION_GET_CONTENT);
 	     intent.setType("file/*");
 	     context.startActivity(intent);	
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 * @return
+	 */
 	public static int getActionBarHeight(Context context) {
 		TypedValue tv = new TypedValue();
 		int actionBarHeight = 0;
@@ -260,7 +316,12 @@ public class AndroidUtils {
 		}
 		return actionBarHeight;
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 * @return
+	 */
 	public static boolean isAppDebuggable(Context context) {
 		return (0 != (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE));
 	}
@@ -322,20 +383,44 @@ public class AndroidUtils {
 
 		return list;
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 * @param resId
+	 * @return
+	 */
 	public static Uri getRawResourceUri(Context context, int resId) {
 		return Uri.parse("android.resource://" + context.getPackageName() + "/" + resId);
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 * @param resName
+	 * @return
+	 */
 	public static Uri getRawResourceUri(Context context, String resName) {
 		return Uri.parse("android.resource://" + context.getPackageName() + "/raw/" + resName);
 	}
 
+	/**
+	 *
+	 * @param context
+	 * @param px
+	 * @return
+	 */
 	public static float pxToDp(Context context, float px) {
 		float density = context.getResources().getDisplayMetrics().density;
 		return px / density;
 	}
 
+	/**
+	 *
+	 * @param context
+	 * @param dp
+	 * @return
+	 */
 	public static float dpToPx(Context context, float dp) {
 		float density = context.getResources().getDisplayMetrics().density;
 		return dp * density;
