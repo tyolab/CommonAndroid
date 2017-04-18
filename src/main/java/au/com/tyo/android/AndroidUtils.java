@@ -14,7 +14,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.os.StatFs;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -23,6 +22,7 @@ import android.util.Patterns;
 import android.util.TypedValue;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -249,7 +249,7 @@ public class AndroidUtils {
 	 * @param extra
 	 * @param flags
 	 */
-	public static void startActivity (Class cls, Activity context, Bundle bundle, Parcelable extra, int flags) {
+	public static void startActivity (Class cls, Activity context, Bundle bundle, Serializable extra, int flags) {
 		Intent intent = new Intent(context, cls);
 
 		if (flags > -1) {
@@ -261,7 +261,7 @@ public class AndroidUtils {
 		}
 
 		if (null != extra)
-			intent.putExtra(extra.toString(), extra);
+			intent.putExtra(Constants.ACTIVITY_EXTRA, extra);
 
 		if (null != bundle && Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
 				context.startActivity(intent, bundle);
