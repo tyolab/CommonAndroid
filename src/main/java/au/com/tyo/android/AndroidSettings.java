@@ -14,6 +14,7 @@ import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
+import android.util.Log;
 import android.view.Window;
 
 import java.io.File;
@@ -26,6 +27,8 @@ import au.com.tyo.Debug;
 import au.com.tyo.io.IO;
 
 public class AndroidSettings extends CommonSettings implements Android {
+
+    private static final String LOG_TAG = AndroidSettings.class.getSimpleName();
 
 	public static final int API_VERSION = android.os.Build.VERSION.SDK_INT; 
 	
@@ -46,9 +49,11 @@ public class AndroidSettings extends CommonSettings implements Android {
 	public static final int NETWORK_TYPE_MOBILE = 2;
 	
 	public static final int NETWORK_TYPE_OTHERS = 4;
-	
-	private static AndroidSettings instance;
-	
+
+    private static AndroidSettings instance;
+
+	private final AndroidDisplay.Display display;
+
 	protected Context context;
 	
 	protected boolean hasVoiceRecognitionService = false;
@@ -89,6 +94,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 	public AndroidSettings(Context context) {
 		super();
 		this.context = context;
+		this.display = AndroidDisplay.differentDensityAndScreenSize(context);
 		
 		externalStorage = new ExternalStorage(context);
 		externalStorage.updateExternalStorageState();
@@ -139,6 +145,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 		this.dataStoragePath = externalStorage.isAvailable() ? externalStorage.getDir().getAbsolutePath() : context.getCacheDir().getAbsolutePath(); /// + "/Android/data/" + AndroidUtils.getPackageName(context) + "/";
 		
 		Debug.build = AndroidUtils.isAppDebuggable(context);
+		Log.d(LOG_TAG, "App runs on display (" + display.display + ", " + display.dpi + ")");
 	}
 	
 	public Context getContext() {

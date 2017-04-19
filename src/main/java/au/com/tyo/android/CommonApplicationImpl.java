@@ -136,7 +136,7 @@ public abstract class CommonApplicationImpl implements CommonController {
 	
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						backKeyCount = 0;
+						backKeyCount++;
 					}
 					
 				});
