@@ -115,6 +115,11 @@ public abstract class CommonApplicationImpl implements CommonController {
         	if (hasNoModifiers) 
         		event.startTracking();
         	break;
+
+        case  KeyEvent.KEYCODE_F12:
+        case  KeyEvent.KEYCODE_I:
+            showInfo(false);
+            break;
 		}
 		return false;
 	}

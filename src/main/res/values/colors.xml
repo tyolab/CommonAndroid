@@ -16,10 +16,11 @@
     -->
     
     <!-- DRAWABLE COLOR -->
-     <drawable name="red">#ff0000</drawable>
-	 <drawable name="blue">#0000ff</drawable>
-	 <drawable name="green">#00ff00</drawable>
-	 <drawable name="brown">#2F1700</drawable>
+    <drawable name="red">#ff0000</drawable>
+    <drawable name="blue">#0000ff</drawable>
+	<drawable name="green">#00ff00</drawable>
+	<drawable name="brown">#2F1700</drawable>
+    <drawable name="black">#ff000000</drawable>
     
     
     <!--  COLOR COLOR -->
