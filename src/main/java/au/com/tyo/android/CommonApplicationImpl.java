@@ -112,9 +112,13 @@ public abstract class CommonApplicationImpl implements CommonController {
         	break;
 			
         case KeyEvent.KEYCODE_BACK:
-        	if (hasNoModifiers) 
-        		event.startTracking();
-        	break;
+//			if (getCurrentActivity().getApplicationInfo().targetSdkVersion
+//					>= Build.VERSION_CODES.ECLAIR) {
+//				event.startTracking();
+//			} else {
+				onBackKeyPressed();
+//			}
+        	return true;
 
         case  KeyEvent.KEYCODE_F12:
         case  KeyEvent.KEYCODE_I:
@@ -123,7 +127,7 @@ public abstract class CommonApplicationImpl implements CommonController {
 		}
 		return false;
 	}
-	
+
 	protected void onBackKeyPressed() {
 		quit();
 	}
@@ -222,13 +226,13 @@ public abstract class CommonApplicationImpl implements CommonController {
     			activity.recreate();
     		else {
 				Intent intent = activity.getIntent();
-    			activity.finish();
+				intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 				activity.startActivity(intent);
+    			AndroidUtils.finishActivity(activity);
     		}
     	}
     	else {
-//    		activity.moveTaskToBack(true);
-    		activity.finish();
+			AndroidUtils.finishActivity(activity);
     	}
 	}
 	
@@ -297,6 +301,7 @@ public abstract class CommonApplicationImpl implements CommonController {
 	@Override
 	public void setCurrentActivity(Activity activity) {
 		this.currentActivity = activity;
+        this.context = activity;
 	}
 	
 	@Override

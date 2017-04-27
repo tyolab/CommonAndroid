@@ -425,4 +425,19 @@ public class AndroidUtils {
 		float density = context.getResources().getDisplayMetrics().density;
 		return dp * density;
 	}
+
+	public static void finishActivity(Activity activity) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			activity.finishAndRemoveTask();
+		}
+		else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			activity.finishAffinity();
+		}
+		else {
+			activity.finish();
+		}
+
+		// not to do that
+		// System.exit(0);
+	}
 }
