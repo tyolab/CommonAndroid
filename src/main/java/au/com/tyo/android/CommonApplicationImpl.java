@@ -17,18 +17,18 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 
+/**
+ * Use pattern for the class names:
+ *
+ *
+ *
+ */
 public abstract class CommonApplicationImpl implements CommonController {
 	
 	private static final String LOG_TAG = "CommonApplicationImpl";
 	
 	/* Meta Infomration */
 	protected static Object instance;
-	
-	protected Class preferenceActivityClass;
-
-	protected Class mainActivityClass;
-	
-	protected Class splashScreenClass;
 	
 	/* General Stuff */
 	
@@ -48,19 +48,27 @@ public abstract class CommonApplicationImpl implements CommonController {
 	
 	/* App Information */
 	protected String appName = "";
+	protected String packageName;
 
 	protected String version = "0.9.9"; // that is the number to show something wrong
 	
-	public CommonApplicationImpl() {
+	private CommonApplicationImpl() {
 		notificationManager = null;
 	}
 	
 	public CommonApplicationImpl(Context context) {
 		this.context = context;
-		
-		 notificationManager = (NotificationManager) context.getSystemService(Application.NOTIFICATION_SERVICE);
+		this.packageName = context.getPackageName();
+
+		detectMVCClasses();
+
+		notificationManager = (NotificationManager) context.getSystemService(Application.NOTIFICATION_SERVICE);
 	}
-	
+
+	private void detectMVCClasses() {
+
+	}
+
 	public static Object getInstance() {
 		return instance;
 	}

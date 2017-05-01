@@ -13,11 +13,54 @@ import java.lang.reflect.InvocationTargetException;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
+ *
+ *
+ *     Class will be package + "Convention" Name;
+ *
+ *     e.g.
+ *
+ *     package: com.example.app
+ *     Setting class will be com.example.app.AppSettings;
+ *
  */
 
 
 public class CommonInitializer {
 
+	public static final String SETTINGS = "AppSettings";
+
+	public static final String APP = "App";
+
+	public static final String CONTROLLER = "Controller";
+
+	public static final String APP_UI = "AppUi";
+
+	public static final String UI = "UI";
+
+	public static final String APP_ACTIVITY_MAIN = "ActivityApp";
+
+    public static final String APP_ACTIVITY_PREFERENCE = "ActivitySettings";
+
+	/**
+	 *
+	 */
+	public Class preferenceActivityClass;
+
+	/**
+	 *
+	 */
+	public Class mainActivityClass;
+
+	/**
+	 *
+	 */
+	public Class splashScreenClass;
+
+	/**
+	 *
+	 */
+	public Class settingsClass;
+	
 	/**
 	 * The class of controller / not the controller interface
 	 */
@@ -42,7 +85,59 @@ public class CommonInitializer {
 
 	//public static Class clsData; // normally we don't have this
 
-	/**
+    public static void detectDefaultClasses(String packageName) {
+        String[] classNames = createDefaultClassNames(packageName);
+
+        for (String clsName : classNames) {
+            Class cls = null;
+
+            try {
+                cls = Class.forName(packageName + "." + clsName);
+            }
+            catch (Exception ex) {}
+
+            if (null != cls)
+                switch (clsName) {
+                    case APP:
+                        clsController = cls;
+                    break;
+                    case CONTROLLER:
+                        clsControllerInterface = cls;
+                        break;
+                    case APP:
+
+                        break;
+                    case APP:
+
+                        break;
+                    case APP:
+
+                        break;
+                    case APP:
+
+                        break;
+                    case APP:
+
+                        break;
+                }
+        }
+    }
+
+    private static String[] createDefaultClassNames(String packageName) {
+        String[] names = new String[] {
+                CONTROLLER,
+                APP,
+                UI,
+                APP_UI,
+                SETTINGS,
+                APP_ACTIVITY_MAIN,
+                APP_ACTIVITY_PREFERENCE
+        };
+
+        return names;
+    }
+
+    /**
 	 * @param theClass
 	 */
 	public static Object initializeInstance(Class<?> theClass) {
