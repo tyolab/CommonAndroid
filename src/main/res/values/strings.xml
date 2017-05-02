@@ -63,4 +63,5 @@
     <string name="welcome">Welcome</string>
     <string name="congratulations">Congratulations</string>
     <string name="about">About</string>
+    <string name="tyodroid_app_package" />
 </resources>

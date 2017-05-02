@@ -60,7 +60,10 @@ public abstract class CommonApplicationImpl implements CommonController {
 		this.context = context;
 		this.packageName = context.getPackageName();
 
-		CommonInitializer.detectDefaultClasses(packageName);
+		String appPackage = context.getResources().getString(R.string.tyodroid_app_package);
+        if (null == appPackage || appPackage.length() == 0)
+            appPackage = CommonInitializer.appPackage;
+		CommonInitializer.detectDefaultClasses(appPackage == null ? packageName : appPackage);
 
 		notificationManager = (NotificationManager) context.getSystemService(Application.NOTIFICATION_SERVICE);
 	}
@@ -289,8 +292,6 @@ public abstract class CommonApplicationImpl implements CommonController {
 	
 	public void startActivity(Class cls) {
 		if (null != context)
-//		if (context == null)
-//			context = this.getApplicationContext();
 			startActivity(context, cls);
 		else
 			Log.e(LOG_TAG, "trying to start a new activity without context");

@@ -27,6 +27,8 @@ import java.lang.reflect.InvocationTargetException;
 
 public class CommonInitializer {
 
+    public static String appPackage = null;
+
 	public static final String SETTINGS = "AppSettings";
 
 	public static final String APP = "App";
