@@ -44,22 +44,22 @@ public class CommonInitializer {
 	/**
 	 *
 	 */
-	public Class preferenceActivityClass;
+	public static Class preferenceActivityClass;
 
 	/**
 	 *
 	 */
-	public Class mainActivityClass;
+	public static Class mainActivityClass;
 
 	/**
 	 *
 	 */
-	public Class splashScreenClass;
+	public static Class splashScreenClass;
 
 	/**
 	 *
 	 */
-	public Class settingsClass;
+	public static Class settingsClass;
 	
 	/**
 	 * The class of controller / not the controller interface
@@ -77,6 +77,11 @@ public class CommonInitializer {
 	 * let CommonApp class to deal with empty ui class
 	 */
 	public static Class clsUi = null; // UIBase.class;
+
+    /**
+     * UI interface
+     */
+    public static Class clsUiInterface = null;
 
 	/**
 	 * The class of main activity
@@ -104,20 +109,20 @@ public class CommonInitializer {
                     case CONTROLLER:
                         clsControllerInterface = cls;
                         break;
-                    case APP:
-
+                    case APP_UI:
+                        clsUi = cls;
                         break;
-                    case APP:
-
+                    case UI:
+                        clsUiInterface = cls;
                         break;
-                    case APP:
-
+                    case APP_ACTIVITY_MAIN:
+                        mainActivityClass = cls;
                         break;
-                    case APP:
-
+                    case APP_ACTIVITY_PREFERENCE:
+                        preferenceActivityClass = cls;
                         break;
-                    case APP:
-
+                    case SETTINGS:
+                        settingsClass = cls;
                         break;
                 }
         }
@@ -218,4 +223,39 @@ public class CommonInitializer {
 	public static Object initializeController(Context context, boolean initializeMain, boolean initializeBackground) {
 		return initializeInstance(clsController, context, initializeMain, initializeBackground);
 	}
+
+	public static Object newInstanceWithContext(Class cls, Context context) {
+        Object instance = null;
+        try {
+            if (null != context) {
+                Constructor ctor = cls.getConstructor(Context.class);
+                instance = ctor.newInstance(new Object[]{context});
+            }
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        } finally {
+            if (instance == null)
+                try {
+                    instance = cls.newInstance();
+                } catch (InstantiationException e) {
+                } catch (IllegalAccessException e) {
+                }
+        }
+        return instance;
+    }
+
+    public static Object newSettings(Context context) {
+        if (null == settingsClass)
+            return null;
+
+        return newInstanceWithContext(settingsClass, context);
+    }
 }

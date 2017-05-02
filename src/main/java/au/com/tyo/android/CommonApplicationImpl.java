@@ -60,13 +60,9 @@ public abstract class CommonApplicationImpl implements CommonController {
 		this.context = context;
 		this.packageName = context.getPackageName();
 
-		detectMVCClasses();
+		CommonInitializer.detectDefaultClasses(packageName);
 
 		notificationManager = (NotificationManager) context.getSystemService(Application.NOTIFICATION_SERVICE);
-	}
-
-	private void detectMVCClasses() {
-
 	}
 
 	public static Object getInstance() {
@@ -246,30 +242,30 @@ public abstract class CommonApplicationImpl implements CommonController {
 	
 	@Override
 	public Class getMainActivityClass() {
-		return mainActivityClass;
+		return CommonInitializer.mainActivityClass;
 	}
 
 	@Override
 	public void setMainActivityClass(Class cls) {
-		mainActivityClass = cls;
+		CommonInitializer.mainActivityClass = cls;
 	}
 	
 	@Override
 	public  Class getPreferenceActivityClass() {
-		return preferenceActivityClass;
+		return CommonInitializer.preferenceActivityClass;
 	}
 
 	public void setPreferenceActivityClass(Class cls) {
-		preferenceActivityClass = cls;
+		CommonInitializer.preferenceActivityClass = cls;
 	}
 
 	@Override
 	public Class getSplashScreenClass() {
-		return splashScreenClass;
+		return CommonInitializer.splashScreenClass;
 	}
 
 	public void setSplashScreenClass(Class splashScreenClass) {
-		this.splashScreenClass = splashScreenClass;
+		CommonInitializer.splashScreenClass = splashScreenClass;
 	}	
 
 	@Override
