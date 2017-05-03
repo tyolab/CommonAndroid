@@ -48,7 +48,6 @@ public abstract class CommonApplicationImpl implements CommonController {
 	
 	/* App Information */
 	protected String appName = "";
-	protected String packageName;
 
 	protected String version = "0.9.9"; // that is the number to show something wrong
 	
@@ -58,12 +57,9 @@ public abstract class CommonApplicationImpl implements CommonController {
 	
 	public CommonApplicationImpl(Context context) {
 		this.context = context;
-		this.packageName = context.getPackageName();
 
-		String appPackage = context.getResources().getString(R.string.tyodroid_app_package);
-        if (null == appPackage || appPackage.length() == 0)
-            appPackage = CommonInitializer.appPackage;
-		CommonInitializer.detectDefaultClasses(appPackage == null ? packageName : appPackage);
+		if (CommonInitializer.clsUi == null)
+			CommonInitializer.detectDefaultClasses(context);
 
 		notificationManager = (NotificationManager) context.getSystemService(Application.NOTIFICATION_SERVICE);
 	}

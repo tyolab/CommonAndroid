@@ -35,7 +35,7 @@ public class CommonInitializer {
 
 	public static final String CONTROLLER = "Controller";
 
-	public static final String APP_UI = "AppUi";
+	public static final String APP_UI = "AppUI";
 
 	public static final String UI = "UI";
 
@@ -48,9 +48,9 @@ public class CommonInitializer {
 	 */
 	public static Class preferenceActivityClass;
 
-	/**
-	 *
-	 */
+    /**
+     * The class of main activity
+     */
 	public static Class mainActivityClass;
 
 	/**
@@ -86,12 +86,23 @@ public class CommonInitializer {
     public static Class clsUiInterface = null;
 
 	/**
-	 * The class of main activity
+	 *
 	 */
-	public static Class clsActivityMain = null;
+	public static Class clsData; // normally we don't have this
 
-	//public static Class clsData; // normally we don't have this
+	public static void detectDefaultClasses(Context context) {
+		String packageName = context.getPackageName();
 
+		String appPackage = context.getResources().getString(R.string.tyodroid_app_package);
+		if (null == appPackage || appPackage.length() == 0)
+			appPackage = CommonInitializer.appPackage;
+		CommonInitializer.detectDefaultClasses(appPackage == null ? packageName : appPackage);
+	}
+
+	/**
+	 *
+	 * @param packageName
+	 */
     public static void detectDefaultClasses(String packageName) {
         String[] classNames = createDefaultClassNames(packageName);
 
@@ -223,7 +234,10 @@ public class CommonInitializer {
 	}
 
 	public static Object initializeController(Context context, boolean initializeMain, boolean initializeBackground) {
-		return initializeInstance(clsController, context, initializeMain, initializeBackground);
+        if (clsController == null)
+            detectDefaultClasses(context);
+
+		return clsController == null ? null : initializeInstance(clsController, context, initializeMain, initializeBackground);
 	}
 
 	public static Object newInstanceWithContext(Class cls, Context context) {
