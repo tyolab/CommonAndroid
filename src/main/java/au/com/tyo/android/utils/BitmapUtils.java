@@ -19,10 +19,13 @@ package au.com.tyo.android.utils;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.util.Log;
+import android.view.View;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -104,5 +107,70 @@ public class BitmapUtils {
 		paint.setColorFilter(f);
 		c.drawBitmap(bmpOriginal, 0, 0, paint);
 		return bmpGrayscale;
+	}
+
+	/**
+	 * Convert View to BITMAP
+	 *
+	 * solutions were found here:
+	 * http://stackoverflow.com/questions/2801116/converting-a-view-to-bitmap-without-displaying-it-in-android
+	 *
+	 */
+	private static Bitmap getViewBitmapFromCache(View v) {
+		v.clearFocus();
+		v.setPressed(false);
+
+		boolean willNotCache = v.willNotCacheDrawing();
+		v.setWillNotCacheDrawing(false);
+
+		// Reset the drawing cache background color to fully transparent
+		// for the duration of this operation
+		int color = v.getDrawingCacheBackgroundColor();
+		v.setDrawingCacheBackgroundColor(0);
+
+		if (color != 0) {
+			v.destroyDrawingCache();
+		}
+		v.buildDrawingCache();
+		Bitmap cacheBitmap = v.getDrawingCache();
+		if (cacheBitmap == null) {
+			Log.e(LOG_TAG, "failed getViewBitmap(" + v + ")", new RuntimeException());
+			return null;
+		}
+
+		Bitmap bitmap = Bitmap.createBitmap(cacheBitmap);
+
+		// Restore the view
+		v.destroyDrawingCache();
+		v.setWillNotCacheDrawing(willNotCache);
+		v.setDrawingCacheBackgroundColor(color);
+
+		return bitmap;
+	}
+
+	/**
+	 * Alternatively,
+	 * http://stackoverflow.com/questions/5536066/convert-view-to-bitmap-on-android
+	 *
+	 * @param view
+	 * @return
+	 */
+	public static Bitmap getViewBitmap(View view) {
+		//Define a bitmap with the same size as the view
+		Bitmap returnedBitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.ARGB_8888);
+		//Bind a canvas to it
+		Canvas canvas = new Canvas(returnedBitmap);
+		//Get the view's background
+		Drawable bgDrawable =view.getBackground();
+		if (bgDrawable!=null)
+			//has background drawable, then draw it on the canvas
+			bgDrawable.draw(canvas);
+		else
+			//does not have background drawable, then draw white background on the canvas
+			canvas.drawColor(Color.WHITE);
+		// draw the view on the canvas
+		view.draw(canvas);
+		//return the bitmap
+		return returnedBitmap;
 	}
 }
