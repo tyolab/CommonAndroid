@@ -5,7 +5,7 @@ import android.content.res.Configuration;
 import android.util.DisplayMetrics;
 
 /**
- * Created by monfee on 19/4/17.
+ * Created by Eric Tang (eric.tang@tyo.com.au) on 19/4/17.
  *
  * from
  *

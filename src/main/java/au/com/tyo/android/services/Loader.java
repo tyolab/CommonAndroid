@@ -25,7 +25,7 @@ import au.com.tyo.android.utils.CacheManager;
 import au.com.tyo.io.IO;
 
 /**
- * Created by monfee on 3/4/17.
+ * Created by Eric Tang (eric.tang@tyo.com.au) on 3/4/17.
  */
 
 public class Loader<FileType> extends CacheManager<FileType> {
