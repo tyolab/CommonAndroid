@@ -126,7 +126,6 @@ public class HttpAndroid extends HttpConnection {
         Preconditions.checkArgument(true);
         if (null == requestMethod)
             requestMethod = HttpMethods.GET;
-
         Preconditions.checkArgument(requestMethod.equals(HttpMethods.GET));
         final HttpRequest httpRequest = httpRequestFactory.buildRequest(requestMethod, new GenericUrl(url), httpContent);
         new MethodOverride().intercept(httpRequest);
