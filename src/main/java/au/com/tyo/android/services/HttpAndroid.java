@@ -124,6 +124,9 @@ public class HttpAndroid extends HttpConnection {
     /** Create a request suitable for use against this service. */
     private HttpRequest buildHttpRequest(String url) throws IOException {
         Preconditions.checkArgument(true);
+        if (null == requestMethod)
+            requestMethod = HttpMethods.GET;
+
         Preconditions.checkArgument(requestMethod.equals(HttpMethods.GET));
         final HttpRequest httpRequest = httpRequestFactory.buildRequest(requestMethod, new GenericUrl(url), httpContent);
         new MethodOverride().intercept(httpRequest);
