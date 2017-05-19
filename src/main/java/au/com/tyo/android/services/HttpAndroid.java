@@ -15,11 +15,17 @@ import com.google.api.client.http.HttpResponse;
 import com.google.api.client.http.HttpResponseException;
 import com.google.api.client.http.HttpResponseInterceptor;
 import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.UrlEncodedContent;
+import com.google.api.client.http.json.JsonHttpContent;
+import com.google.api.client.json.jackson2.JacksonFactory;
 import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import au.com.tyo.services.HttpConnection;
+
+;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 16/5/17.
@@ -88,11 +94,6 @@ public class HttpAndroid extends HttpConnection {
     }
 
     @Override
-    public String post(String url, Settings settings) throws Exception {
-        return null;
-    }
-
-    @Override
     public String post(Settings settings, int postMethod) throws Exception {
         return null;
     }
@@ -121,17 +122,33 @@ public class HttpAndroid extends HttpConnection {
         return new HttpResponseException(response);
     }
 
-    /** Create a request suitable for use against this service. */
+    /**
+     *
+     * @param url
+     * @return
+     */
     private HttpRequest buildHttpRequest(String url) throws IOException {
+        return buildHttpRequest(HttpMethods.GET, url, null);
+    }
+
+    /**
+     *
+     * @param requestMethod
+     * @param url
+     * @param content
+     * @return
+     * @throws IOException
+     */
+    private HttpRequest buildHttpRequest(String requestMethod, String url, HttpContent content) throws IOException {
         Preconditions.checkArgument(true);
         if (null == requestMethod)
             requestMethod = HttpMethods.GET;
         Preconditions.checkArgument(requestMethod.equals(HttpMethods.GET));
-        final HttpRequest httpRequest = httpRequestFactory.buildRequest(requestMethod, new GenericUrl(url), httpContent);
+        final HttpRequest httpRequest = httpRequestFactory.buildRequest(requestMethod, new GenericUrl(url), content);
         new MethodOverride().intercept(httpRequest);
 
         // custom methods may use POST with no content but require a Content-Length header
-        if (httpContent == null && (requestMethod.equals(HttpMethods.POST)
+        if (content == null && (requestMethod.equals(HttpMethods.POST)
                 || requestMethod.equals(HttpMethods.PUT) || requestMethod.equals(HttpMethods.PATCH))) {
             httpRequest.setContent(new EmptyContent());
         }
@@ -158,5 +175,45 @@ public class HttpAndroid extends HttpConnection {
         HttpRequest request = buildHttpRequest(url);
         HttpResponse response = request.execute();
         return httpInputStreamToText(response.getContent());
+    }
+
+    /**
+     * post urlencoded content
+     *
+     * @param url
+     * @param settings
+     * @return
+     * @throws Exception
+     */
+    @Override
+    public InputStream post(String url, Settings settings) throws Exception {
+        UrlEncodedContent content = new UrlEncodedContent(settings.paramsToMap());
+        return post(url, content);
+    }
+
+    /**
+     *
+     * @param url
+     * @param json
+     * @return
+     * @throws IOException
+     */
+    @Override
+    public InputStream postJSON(String url, Object json) throws IOException {
+        JsonHttpContent content = new JsonHttpContent(new JacksonFactory(), json);
+
+
+        // not needed
+//        final HttpHeaders httpHeaders = new HttpHeaders();
+//        httpHeaders.setContentType("application/json");
+//        request.setHeaders(httpHeaders);
+
+        return post(url, content);
+    }
+
+    private InputStream post(String url, HttpContent content) throws IOException {
+        HttpRequest request = buildHttpRequest(HttpMethods.POST, url, content);
+        HttpResponse response = request.execute();
+        return response.getContent();
     }
 }
