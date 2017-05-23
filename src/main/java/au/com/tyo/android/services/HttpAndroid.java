@@ -8,7 +8,6 @@ import com.google.api.client.http.GenericUrl;
 import com.google.api.client.http.HttpContent;
 import com.google.api.client.http.HttpHeaders;
 import com.google.api.client.http.HttpMethods;
-import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestFactory;
 import com.google.api.client.http.HttpRequestInitializer;
 import com.google.api.client.http.HttpResponse;
@@ -67,7 +66,7 @@ public class HttpAndroid extends HttpConnection {
     private HttpRequestFactory httpRequestFactory;
 
     public static class DisableTimeout implements HttpRequestInitializer {
-        public void initialize(HttpRequest request) {
+        public void initialize(com.google.api.client.http.HttpRequest request) {
             request.setConnectTimeout(0);
             request.setReadTimeout(0);
         }
@@ -76,7 +75,7 @@ public class HttpAndroid extends HttpConnection {
     public static HttpRequestFactory createRequestFactory(HttpTransport transport) {
         final DisableTimeout disableTimeout = new DisableTimeout();
         return transport.createRequestFactory(new HttpRequestInitializer() {
-            public void initialize(HttpRequest request) {
+            public void initialize(com.google.api.client.http.HttpRequest request) {
                 disableTimeout.initialize(request);
             }
         });
@@ -89,12 +88,12 @@ public class HttpAndroid extends HttpConnection {
     }
 
     @Override
-    public String upload(String url, Settings settings) throws Exception {
-        return null;
+    public void upload(String url, HttpRequest settings) throws Exception {
+
     }
 
     @Override
-    public String post(Settings settings, int postMethod) throws Exception {
+    public InputStream post(HttpRequest settings, int postMethod) throws Exception {
         return null;
     }
 
@@ -127,7 +126,7 @@ public class HttpAndroid extends HttpConnection {
      * @param url
      * @return
      */
-    private HttpRequest buildHttpRequest(String url) throws IOException {
+    private com.google.api.client.http.HttpRequest buildHttpRequest(String url) throws IOException {
         return buildHttpRequest(HttpMethods.GET, url, null);
     }
 
@@ -139,12 +138,12 @@ public class HttpAndroid extends HttpConnection {
      * @return
      * @throws IOException
      */
-    private HttpRequest buildHttpRequest(String requestMethod, String url, HttpContent content) throws IOException {
+    private com.google.api.client.http.HttpRequest buildHttpRequest(String requestMethod, String url, HttpContent content) throws IOException {
         Preconditions.checkArgument(true);
         if (null == requestMethod)
             requestMethod = HttpMethods.GET;
         Preconditions.checkArgument(requestMethod.equals(HttpMethods.GET));
-        final HttpRequest httpRequest = httpRequestFactory.buildRequest(requestMethod, new GenericUrl(url), content);
+        final com.google.api.client.http.HttpRequest httpRequest = httpRequestFactory.buildRequest(requestMethod, new GenericUrl(url), content);
         new MethodOverride().intercept(httpRequest);
 
         // custom methods may use POST with no content but require a Content-Length header
@@ -172,7 +171,7 @@ public class HttpAndroid extends HttpConnection {
     }
 
     private String connect(String url) throws IOException {
-        HttpRequest request = buildHttpRequest(url);
+        com.google.api.client.http.HttpRequest request = buildHttpRequest(url);
         HttpResponse response = request.execute();
         return httpInputStreamToText(response.getContent());
     }
@@ -180,15 +179,14 @@ public class HttpAndroid extends HttpConnection {
     /**
      * post urlencoded content
      *
-     * @param url
      * @param settings
      * @return
      * @throws Exception
      */
     @Override
-    public InputStream post(String url, Settings settings) throws Exception {
+    public InputStream post(HttpRequest settings) throws Exception {
         UrlEncodedContent content = new UrlEncodedContent(settings.paramsToMap());
-        return post(url, content);
+        return post(settings.getUrl(), content);
     }
 
     /**
@@ -212,7 +210,7 @@ public class HttpAndroid extends HttpConnection {
     }
 
     private InputStream post(String url, HttpContent content) throws IOException {
-        HttpRequest request = buildHttpRequest(HttpMethods.POST, url, content);
+        com.google.api.client.http.HttpRequest request = buildHttpRequest(HttpMethods.POST, url, content);
         HttpResponse response = request.execute();
         return response.getContent();
     }
