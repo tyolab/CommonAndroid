@@ -16,8 +16,8 @@ import com.google.api.client.http.HttpResponseInterceptor;
 import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.http.json.JsonHttpContent;
+import com.google.api.client.json.JsonFactory;
 import com.google.api.client.json.jackson2.JacksonFactory;
-import com.google.api.client.util.Preconditions;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -38,6 +38,8 @@ import au.com.tyo.services.HttpConnection;
  */
 
 public class HttpAndroid extends HttpConnection {
+
+    private static JsonFactory JSON_FACTORY = new JacksonFactory();
 
     /** HTTP method. */
     private String requestMethod;
@@ -61,7 +63,7 @@ public class HttpAndroid extends HttpConnection {
     private String lastStatusMessage;
 
     /** Whether to disable GZip compression of HTTP content. */
-    private boolean disableGZipContent;
+    // private boolean disableGZipContent;
 
     private HttpRequestFactory httpRequestFactory;
 
@@ -139,10 +141,12 @@ public class HttpAndroid extends HttpConnection {
      * @throws IOException
      */
     private com.google.api.client.http.HttpRequest buildHttpRequest(String requestMethod, String url, HttpContent content) throws IOException {
-        Preconditions.checkArgument(true);
+        return buildHttpRequest(requestMethod, url, content, false);
+    }
+
+    private com.google.api.client.http.HttpRequest buildHttpRequest(String requestMethod, String url, HttpContent content, boolean disableGZipContent) throws IOException {
         if (null == requestMethod)
             requestMethod = HttpMethods.GET;
-        Preconditions.checkArgument(requestMethod.equals(HttpMethods.GET));
         final com.google.api.client.http.HttpRequest httpRequest = httpRequestFactory.buildRequest(requestMethod, new GenericUrl(url), content);
         new MethodOverride().intercept(httpRequest);
 
@@ -171,8 +175,10 @@ public class HttpAndroid extends HttpConnection {
     }
 
     private String connect(String url) throws IOException {
+        setInUsed(true);
         com.google.api.client.http.HttpRequest request = buildHttpRequest(url);
         HttpResponse response = request.execute();
+        setInUsed(false);
         return httpInputStreamToText(response.getContent());
     }
 
@@ -198,7 +204,7 @@ public class HttpAndroid extends HttpConnection {
      */
     @Override
     public InputStream postJSON(String url, Object json) throws IOException {
-        JsonHttpContent content = new JsonHttpContent(new JacksonFactory(), json);
+        JsonHttpContent content = new JsonHttpContent(JSON_FACTORY, json);
 
 
         // not needed
@@ -210,8 +216,10 @@ public class HttpAndroid extends HttpConnection {
     }
 
     private InputStream post(String url, HttpContent content) throws IOException {
-        com.google.api.client.http.HttpRequest request = buildHttpRequest(HttpMethods.POST, url, content);
+        setInUsed(true);
+        com.google.api.client.http.HttpRequest request = buildHttpRequest(HttpMethods.POST, url, content, true);
         HttpResponse response = request.execute();
+        setInUsed(false);
         return response.getContent();
     }
 }

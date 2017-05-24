@@ -11,6 +11,9 @@ import android.content.Context;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
+import au.com.tyo.android.services.HttpAndroid;
+import au.com.tyo.services.HttpPool;
+
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
  *
@@ -26,6 +29,8 @@ import java.lang.reflect.InvocationTargetException;
 
 
 public class CommonInitializer {
+
+    private static final String LOG_TAG = CommonInitializer.class.getSimpleName();
 
     public static String appPackage = null;
 
@@ -90,6 +95,20 @@ public class CommonInitializer {
 	 */
 	public static Class clsData; // normally we don't have this
 
+	/**
+	 * Anything that needs to be initialised before use can be put here
+	 */
+	static {
+        String errorMessage = "Can't use HttpAndroid for http connection";
+		try {
+			HttpPool.initialize(HttpAndroid.class);
+		} catch (IllegalAccessException e) {
+			CommonAppLog.error(LOG_TAG, e, errorMessage);
+		} catch (InstantiationException e) {
+            CommonAppLog.error(LOG_TAG, e, errorMessage);
+		}
+	}
+
 	public static void detectDefaultClasses(Context context) {
 		String packageName = context.getPackageName();
 
@@ -117,25 +136,32 @@ public class CommonInitializer {
             if (null != cls)
                 switch (clsName) {
                     case APP:
-                        clsController = cls;
+                    	if (null != clsController)
+                        	clsController = cls;
                     break;
                     case CONTROLLER:
-                        clsControllerInterface = cls;
+                    	if (null != clsControllerInterface)
+                        	clsControllerInterface = cls;
                         break;
                     case APP_UI:
-                        clsUi = cls;
+						if (null != clsUi)
+                        	clsUi = cls;
                         break;
                     case UI:
-                        clsUiInterface = cls;
+						if (null != clsUiInterface)
+                        	clsUiInterface = cls;
                         break;
                     case APP_ACTIVITY_MAIN:
-                        mainActivityClass = cls;
+						if (null != mainActivityClass)
+                        	mainActivityClass = cls;
                         break;
                     case APP_ACTIVITY_PREFERENCE:
-                        preferenceActivityClass = cls;
+						if (null != preferenceActivityClass)
+                        	preferenceActivityClass = cls;
                         break;
                     case SETTINGS:
-                        settingsClass = cls;
+						if (null != settingsClass)
+                        	settingsClass = cls;
                         break;
                 }
         }

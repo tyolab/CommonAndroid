@@ -10,7 +10,15 @@ android {
     }
 
     buildTypes {
+        debug{
+            // debug build
+            resValue "bool", "tyo_debug_build", "true"
+        }
+
         release {
+            // release build
+            resValue "bool", "tyo_debug_build", "false"
+
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }

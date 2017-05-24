@@ -144,8 +144,8 @@ public class AndroidSettings extends CommonSettings implements Android {
 //		notificationBarHeight = calculateNotificationBarHeight(context);
 		this.dataStoragePath = externalStorage.isAvailable() ? externalStorage.getDir().getAbsolutePath() : context.getCacheDir().getAbsolutePath(); /// + "/Android/data/" + AndroidUtils.getPackageName(context) + "/";
 		
-		Debug.build = AndroidUtils.isAppDebuggable(context);
-		Log.d(LOG_TAG, "App runs on display (" + display.display + ", " + display.dpi + ")");
+		Debug.build = AndroidUtils.isAppDebuggable(context); // || context.getResources().getBoolean(R.bool.tyo_debug_build);
+		Log.i(LOG_TAG, "App (" + (Debug.build ? "debug" : "release") + ") runs on display (" + display.display + ", " + display.dpi + ")");
 	}
 	
 	public Context getContext() {
