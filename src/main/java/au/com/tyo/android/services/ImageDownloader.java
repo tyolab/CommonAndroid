@@ -13,9 +13,9 @@ public class ImageDownloader extends Downloader<Bitmap, ImageView> {
 	
 	private static final String LOG_TAG = "ImageDownloader";
 
-	private int quality = 100;
+	private int quality = 80;
 
-	private int sampleSize = 1;
+	private int sampleSize = 2;
 
 	public int getSampleSize() {
 		return sampleSize;
