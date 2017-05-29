@@ -7,6 +7,7 @@ package au.com.tyo.android;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -103,9 +104,9 @@ public class CommonInitializer {
 		try {
 			HttpPool.initialize(HttpAndroid.class);
 		} catch (IllegalAccessException e) {
-			CommonAppLog.error(LOG_TAG, e, errorMessage);
+			Log.e(LOG_TAG, errorMessage);
 		} catch (InstantiationException e) {
-            CommonAppLog.error(LOG_TAG, e, errorMessage);
+            Log.e(LOG_TAG, errorMessage);
 		}
 	}
 
