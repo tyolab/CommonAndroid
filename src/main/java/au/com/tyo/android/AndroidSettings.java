@@ -8,8 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Rect;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.preference.Preference;
 import android.preference.PreferenceManager;
 import android.speech.RecognizerIntent;
@@ -41,14 +39,6 @@ public class AndroidSettings extends CommonSettings implements Android {
 	public static final String PREF_DATA_STORAGE_PATH = "pref_data_storage_path";
 	
 	public static final String PREF_SEARCH_HISTORY = "pref_search_history";
-	
-	public static final int NETWORK_TYPE_NONE = 0;
-	
-	public static final int NETWORK_TYPE_WIFI = 1;
-	
-	public static final int NETWORK_TYPE_MOBILE = 2;
-	
-	public static final int NETWORK_TYPE_OTHERS = 4;
 
     private static AndroidSettings instance;
 
@@ -103,7 +93,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 		
 		setIsTablet(isTablet(context));
 		
-		setNetworkStatus(NETWORK_TYPE_NONE);
+		setNetworkStatus(NetworkMonitor.NETWORK_TYPE_NONE);
 		
 		market = new AndroidMarket(context);
 		
@@ -292,8 +282,8 @@ public class AndroidSettings extends CommonSettings implements Android {
 	}
 	
 	public boolean checkNetworkState() {
-		this.networkStatus = checkNetworkState(context); 
-		return networkStatus > NETWORK_TYPE_NONE;
+		this.networkStatus = NetworkMonitor.checkNetworkState(context);
+		return networkStatus > NetworkMonitor.NETWORK_TYPE_NONE;
 	}
 
 	public SharedPreferences getPreferences() {
@@ -398,45 +388,10 @@ public class AndroidSettings extends CommonSettings implements Android {
 	public void setNetworkStatus(int networkStatus) {
 		this.networkStatus = networkStatus;
 	}
-
-	public static int checkNetworkState(Context context) {
-		ConnectivityManager conMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
-		
-		int result = NETWORK_TYPE_NONE;
-		NetworkInfo wifiNetwork = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-	    if (wifiNetwork != null && (wifiNetwork.isConnected() || wifiNetwork.isConnectedOrConnecting())) {
-	      result = NETWORK_TYPE_WIFI;
-	    }
-	    else {
-		    NetworkInfo mobileNetwork = conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
-		    if (mobileNetwork != null && (mobileNetwork.isConnected() || mobileNetwork.isConnectedOrConnecting())) {
-		      result = NETWORK_TYPE_MOBILE;
-		    }
-		    else {
-			    NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
-			    if (activeNetwork != null && (activeNetwork.isConnected() || activeNetwork.isConnectedOrConnecting())) {
-			      result = NETWORK_TYPE_OTHERS;
-			    }
-		    }
-	    }
-//	    conMgr.getActiveNetworkInfo() != null && conMgr.getActiveNetworkInfo().isConnected()
-//		Application.getInstance().setNetworkConnected(result);
-//		if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.CONNECTED 
-//		    ||  conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.CONNECTING  ) {
-//		    //notify user you are online
-//			Application.getInstance().setNetworkConnected(true);
-//		}
-//		else if ( conMgr.getNetworkInfo(0).getState() == NetworkInfo.State.DISCONNECTED 
-//		    ||  conMgr.getNetworkInfo(1).getState() == NetworkInfo.State.DISCONNECTED) {
-//		    //notify user you are not online
-//			Application.getInstance().setNetworkConnected(false);
-//		}
-		return result;
-	}
 	
 	public static boolean hasInternet(Context context) {
-		int networkStatus = AndroidSettings.checkNetworkState(context); 
-		return networkStatus > NETWORK_TYPE_NONE;
+		int networkStatus = NetworkMonitor.checkNetworkState(context);
+		return networkStatus > NetworkMonitor.NETWORK_TYPE_NONE;
 	}
 	
 	
