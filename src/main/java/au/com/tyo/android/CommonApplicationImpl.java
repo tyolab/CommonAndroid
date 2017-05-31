@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
+import android.widget.TextView;
 
 /**
  * Use pattern for the class names:
@@ -50,8 +51,10 @@ public abstract class CommonApplicationImpl implements CommonController {
 	protected String appName = "";
 
 	protected String version = "0.9.9"; // that is the number to show something wrong
-	
-	private CommonApplicationImpl() {
+	private String acknowledgementTitle = null;
+    private String acknowledgementInfo = null;
+
+    private CommonApplicationImpl() {
 		notificationManager = null;
 	}
 	
@@ -125,7 +128,7 @@ public abstract class CommonApplicationImpl implements CommonController {
 
         case  KeyEvent.KEYCODE_F12:
         case  KeyEvent.KEYCODE_I:
-            showInfo(false);
+            showInfo();
             break;
 		}
 		return false;
@@ -373,8 +376,19 @@ public abstract class CommonApplicationImpl implements CommonController {
     	// Inflate the about message contents
 	    View messageView = ((Activity) context).getLayoutInflater().inflate(R.layout.info_dialog, null, false);
 	    View acknowledgement = messageView.findViewById(R.id.acknowledge_view);
-	    if (showAcknowledgement)
-	    	acknowledgement.setVisibility(View.VISIBLE);
+	    if (showAcknowledgement) {
+			acknowledgement.setVisibility(View.VISIBLE);
+
+			if (null != acknowledgementTitle) {
+				TextView tv = (TextView) acknowledgement.findViewById(R.id.tv_acknowledgement_title);
+				tv.setText(acknowledgementTitle);
+			}
+
+            if (null != acknowledgementInfo) {
+                TextView tv = (TextView) acknowledgement.findViewById(R.id.info_acknowledgement);
+                tv.setText(acknowledgementInfo);
+            }
+		}
 
 	    
 	    String appDesc = getAppNameWithVersion();
@@ -424,4 +438,11 @@ public abstract class CommonApplicationImpl implements CommonController {
 		return true;
 	}
 
+    public void setAcknowledgementTitle(String acknowledgementTitle) {
+        this.acknowledgementTitle = acknowledgementTitle;
+    }
+
+    public void setAcknowledgementInfo(String acknowledgementInfo) {
+        this.acknowledgementInfo = acknowledgementInfo;
+    }
 }

@@ -39,6 +39,8 @@ import au.com.tyo.services.HttpConnection;
 
 public class HttpAndroid extends HttpConnection {
 
+    private static final String LOG_TAG = "HttpAndroid";
+
     private static JsonFactory JSON_FACTORY = new JacksonFactory();
 
     /** HTTP method. */
@@ -211,8 +213,8 @@ public class HttpAndroid extends HttpConnection {
 //        final HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.setContentType("application/json");
 //        request.setHeaders(httpHeaders);
-
-        return post(url, content);
+        InputStream returnedStream = post(url, content);
+        return returnedStream;
     }
 
     private InputStream post(String url, HttpContent content) throws IOException {

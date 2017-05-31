@@ -40,8 +40,8 @@ dependencies {
     }
 
     // Dependencies for the REST API example
-    compile 'com.google.api-client:google-api-client:1.22.0'
-    compile 'com.google.api-client:google-api-client-android:1.22.0'
+    compile 'com.google.api-client:google-api-client:1.22.0' exclude module: 'httpclient'
+    compile 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
 }
 
 repositories {

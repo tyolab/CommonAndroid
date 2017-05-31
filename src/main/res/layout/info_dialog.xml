@@ -54,6 +54,7 @@
 	       android:layout_height="wrap_content"
 	       android:gravity="center_vertical|center_horizontal"
 	       android:text="@string/app_acknowledgement_title"
+		   android:id="@+id/tv_acknowledgement_title"
 	       android:textColor="@color/green"
 	       android:textSize="14sp" />
 	    
