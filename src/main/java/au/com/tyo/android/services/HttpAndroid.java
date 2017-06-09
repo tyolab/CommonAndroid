@@ -17,7 +17,9 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.UrlEncodedContent;
 import com.google.api.client.http.json.JsonHttpContent;
 import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.JsonObjectParser;
 import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.ObjectParser;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -69,6 +71,8 @@ public class HttpAndroid extends HttpConnection {
 
     private HttpRequestFactory httpRequestFactory;
 
+    private ObjectParser responseParser;
+
     public static class DisableTimeout implements HttpRequestInitializer {
         public void initialize(com.google.api.client.http.HttpRequest request) {
             request.setConnectTimeout(0);
@@ -89,11 +93,12 @@ public class HttpAndroid extends HttpConnection {
 
     public HttpAndroid() {
         httpRequestFactory = createRequestFactory(AndroidHttp.newCompatibleTransport());
+        responseParser = new JsonObjectParser(JSON_FACTORY);
     }
 
     @Override
-    public void upload(String url, HttpRequest settings) throws Exception {
-
+    public InputStream upload(String url, HttpRequest settings) throws Exception {
+        return null;
     }
 
     @Override
@@ -223,5 +228,10 @@ public class HttpAndroid extends HttpConnection {
         HttpResponse response = request.execute();
         setInUsed(false);
         return response.getContent();
+    }
+
+    @Override
+    public String uploadWithResult(String url, HttpRequest settings) throws Exception {
+        return httpInputStreamToText(upload(url, settings));
     }
 }
