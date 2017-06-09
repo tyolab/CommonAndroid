@@ -137,31 +137,31 @@ public class CommonInitializer {
             if (null != cls)
                 switch (clsName) {
                     case APP:
-                    	if (null != clsController)
+                    	if (null == clsController)
                         	clsController = cls;
                     break;
                     case CONTROLLER:
-                    	if (null != clsControllerInterface)
+                    	if (null == clsControllerInterface)
                         	clsControllerInterface = cls;
                         break;
                     case APP_UI:
-						if (null != clsUi)
+						if (null == clsUi)
                         	clsUi = cls;
                         break;
                     case UI:
-						if (null != clsUiInterface)
+						if (null == clsUiInterface)
                         	clsUiInterface = cls;
                         break;
                     case APP_ACTIVITY_MAIN:
-						if (null != mainActivityClass)
+						if (null == mainActivityClass)
                         	mainActivityClass = cls;
                         break;
                     case APP_ACTIVITY_PREFERENCE:
-						if (null != preferenceActivityClass)
+						if (null == preferenceActivityClass)
                         	preferenceActivityClass = cls;
                         break;
                     case SETTINGS:
-						if (null != settingsClass)
+						if (null == settingsClass)
                         	settingsClass = cls;
                         break;
                 }

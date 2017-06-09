@@ -135,15 +135,16 @@ public abstract class CommonApplicationImpl implements CommonController {
 	}
 
 	protected void onBackKeyPressed() {
-		quit();
+		showConfirmQuitDialog();
 	}
 	
-	protected void quit() {
+	protected void showConfirmQuitDialog() {
 		Dialog dialog = DialogFactory.createExitPromtDialog(context, this.getAppName(), 
 				new DialogInterface.OnClickListener() {
 	
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						backKeyCount = 0;
 						quitOrRestart(false);
 					}
 					
@@ -151,7 +152,7 @@ public abstract class CommonApplicationImpl implements CommonController {
 	
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						backKeyCount++;
+						backKeyCount = 0;
 					}
 					
 				});

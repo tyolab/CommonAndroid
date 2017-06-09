@@ -25,6 +25,8 @@ public interface CommonController extends Observer {
 	void setContext(Context context);
 	
 	void quitOrRestart(boolean restart);
+
+	void restart();
 	
 	void sendMessage(int msgId);
 	

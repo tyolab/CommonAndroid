@@ -33,11 +33,8 @@ public class ListViewItemAdapter<ItemType> extends BaseAdapter {
 	public ListViewItemAdapter(int resId, List<ItemType> items) {
 		super();
 		this.resId = resId;
-		
-		this.items = new ArrayList<ItemType>();
-		
-		if (items != null) 
-			this.items.addAll(items);
+
+		setItems(items);
 	}
 	
 	public List<ItemType> getItems() {
@@ -64,10 +61,16 @@ public class ListViewItemAdapter<ItemType> extends BaseAdapter {
 	}
 
 	public void setItems(List<ItemType> obj) {
-		this.items = obj;
+        if (null == obj)
+            return;
+
+		this.items = new ArrayList();
+        this.items.addAll(obj);
 	}
 	
 	public void add(ItemType item) {
+		if (items == null)
+			items = new ArrayList();
 		items.add(0, item);
 	}
 
@@ -102,7 +105,9 @@ public class ListViewItemAdapter<ItemType> extends BaseAdapter {
 	}
 	
 	public void clear() {
-		items.clear();
-		this.notifyDataSetChanged();
+        if (null != items) {
+            items.clear();
+            this.notifyDataSetChanged();
+        }
 	}
 }

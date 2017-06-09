@@ -83,7 +83,7 @@ public abstract class MarketPurchase {
                   return;
               }
 
-              // Have we been disposed of in the meantime? If so, quit.
+              // Have we been disposed of in the meantime? If so, showConfirmQuitDialog.
               if (getHelper() == null) return;
 
               // IAB is fully set up. Now, let's get an inventory of stuff we own.
@@ -104,7 +104,7 @@ public abstract class MarketPurchase {
 	            
 	            purcahseInventory = inventory;
 	
-	            // Have we been disposed of in the meantime? If so, quit.
+	            // Have we been disposed of in the meantime? If so, showConfirmQuitDialog.
 	            if (getHelper() == null) return;
 	
 	            // Is it a failure?
@@ -157,7 +157,7 @@ public abstract class MarketPurchase {
 	        public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
 	            Log.d(LOG_TAG, "Transaction finished: " + result + ", transaction: " + purchase);
 	
-	            // if we were disposed of in the meantime, quit.
+	            // if we were disposed of in the meantime, showConfirmQuitDialog.
 	            if (getHelper() == null) return;
 	
 	            if (result.isFailure()) {
@@ -212,7 +212,7 @@ public abstract class MarketPurchase {
 	        public void onConsumeFinished(Purchase purchase, IabResult result) {
 	            Log.d(LOG_TAG, "Consumption finished. Transaction: " + purchase + ", result: " + result);
 	
-	            // if we were disposed of in the meantime, quit.
+	            // if we were disposed of in the meantime, showConfirmQuitDialog.
 	            if (getHelper() == null) return;
 	
 	            // We know this is the "gas" sku because it's the only one we consume,
