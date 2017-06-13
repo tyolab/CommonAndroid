@@ -102,7 +102,8 @@ public class CommonInitializer {
 	static {
         String errorMessage = "Can't use HttpAndroid for http connection";
 		try {
-			HttpPool.initialize(HttpAndroid.class);
+			HttpPool.setHttpConnectionClass(HttpAndroid.class);
+			HttpPool.initialize();
 		} catch (IllegalAccessException e) {
 			Log.e(LOG_TAG, errorMessage);
 		} catch (InstantiationException e) {

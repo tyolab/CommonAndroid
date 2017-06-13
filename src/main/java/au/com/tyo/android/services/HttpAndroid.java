@@ -151,6 +151,15 @@ public class HttpAndroid extends HttpConnection {
         return buildHttpRequest(requestMethod, url, content, false);
     }
 
+    /**
+     *
+     * @param requestMethod
+     * @param url
+     * @param content
+     * @param disableGZipContent
+     * @return
+     * @throws IOException
+     */
     private com.google.api.client.http.HttpRequest buildHttpRequest(String requestMethod, String url, HttpContent content, boolean disableGZipContent) throws IOException {
         if (null == requestMethod)
             requestMethod = HttpMethods.GET;
@@ -181,6 +190,12 @@ public class HttpAndroid extends HttpConnection {
         return httpRequest;
     }
 
+    /**
+     *
+     * @param url
+     * @return
+     * @throws IOException
+     */
     private String connect(String url) throws IOException {
         setInUsed(true);
         com.google.api.client.http.HttpRequest request = buildHttpRequest(url);
