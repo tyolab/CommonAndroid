@@ -187,6 +187,8 @@ public class HttpAndroid extends HttpConnection {
                 }
             }
         });
+        httpRequest.getHeaders().setUserAgent(BROWSER_USER_AGENT_MOBILE);
+        httpRequest.setSuppressUserAgentSuffix(true);
         return httpRequest;
     }
 
