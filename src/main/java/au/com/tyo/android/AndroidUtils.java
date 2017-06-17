@@ -10,6 +10,8 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.location.Address;
+import android.location.Geocoder;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -22,6 +24,7 @@ import android.util.Patterns;
 import android.util.TypedValue;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -439,5 +442,23 @@ public class AndroidUtils {
 
 		// not to do that
 		// System.exit(0);
+	}
+
+	/**
+	 *
+	 * @param context
+	 * @param lat
+	 * @param lng
+	 * @return
+	 * @throws IOException
+	 */
+	public static List<Address> getUserAddresses(Context context, int lat, int lng) throws IOException {
+		Geocoder gcd = new Geocoder(context, Locale.getDefault());
+		List<Address> addresses = gcd.getFromLocation(lat, lng, 5);
+		return addresses;
+	}
+
+	public static Address getUserFirstAddress(Context context, int lat, int lng) throws IOException {
+		return getUserAddresses(context, lat, lng).get(0);
 	}
 }
