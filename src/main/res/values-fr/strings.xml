@@ -41,14 +41,14 @@
     <string name="clear_cache_prompt">Etes-vous sûr que vous voulez effacer toute l\'histoire?</string>
     <string name="accessibility">Accessibilité</string>
     <string name="font_size">Taille de la police</string>
-    <string name="adjust_font_size">Ajuster la taille du texte la page</string>
+    <string name="adjust_font_size">Ajuster la taille du texte la request</string>
     <string name="network">Réseau</string>
     <string name="external_storage_directories">La liste des mémoires externes disponibles</string>
     <string name="please_choose_an_external_storage_for_data">S\'il vous plaît sélectionner le dossier de stockage de données</string>
     <string name="online_mode">mode en ligne</string>
-    <string name="find_on_page">Rechercher sur la page</string>
-    <string name="expand_all">Développez la page</string>
-    <string name="collapse_all">page Réduire</string>
-    <string name="expand_or_collapse">Développer / Réduire la page</string>
+    <string name="find_on_page">Rechercher sur la request</string>
+    <string name="expand_all">Développez la request</string>
+    <string name="collapse_all">request Réduire</string>
+    <string name="expand_or_collapse">Développer / Réduire la request</string>
     <string name="not_available">pas disponible</string>
 </resources>

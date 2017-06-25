@@ -41,7 +41,7 @@
     <string name="clear_cache_prompt">Are you sure that you want to clear all history?</string>
     <string name="accessibility">Accessibility</string>
     <string name="font_size">Font Size</string>
-    <string name="adjust_font_size">Adjust page font size</string>
+    <string name="adjust_font_size">Adjust request font size</string>
     <string name="network">Network</string>
     <string name="unpack_data_error">Unable to unpack necessary data</string>
     <string name="external_storage_directories">The list of available external storages</string>
@@ -54,9 +54,9 @@
     <string name="online_mode">Online Mode</string>
     <string name="login">Login</string>
     <string name="find_on_page">Find  on Page</string>
-    <string name="collapse_all">Collapse page</string>
-    <string name="expand_all">Expand page</string>
-    <string name="expand_or_collapse">Expand/Collapse page</string>
+    <string name="collapse_all">Collapse request</string>
+    <string name="expand_all">Expand request</string>
+    <string name="expand_or_collapse">Expand/Collapse request</string>
     <string name="not_available">N/A</string>
     <string name="infoAbout">About</string>
     <string name="all">All</string>
