@@ -111,6 +111,10 @@ public class HttpAndroid extends HttpConnection {
         return connect(url);
     }
 
+    public InputStream getAsInputStream(String url) throws Exception {
+        return connectForInputStream(url);
+    }
+
     @Override
     public void setHeaders(Object[] objects) {
 
@@ -196,14 +200,18 @@ public class HttpAndroid extends HttpConnection {
      *
      * @param url
      * @return
-     * @throws IOException
+     * @throws Exception
      */
-    private String connect(String url) throws IOException {
+    private String connect(String url) throws Exception {
+        return httpInputStreamToText(connectForInputStream(url));
+    }
+
+    private InputStream connectForInputStream(String url) throws Exception {
         setInUsed(true);
         com.google.api.client.http.HttpRequest request = buildHttpRequest(url);
         HttpResponse response = request.execute();
         setInUsed(false);
-        return httpInputStreamToText(response.getContent());
+        return response.getContent();
     }
 
     /**
@@ -230,7 +238,6 @@ public class HttpAndroid extends HttpConnection {
     public InputStream postJSON(String url, Object json) throws IOException {
         JsonHttpContent content = new JsonHttpContent(JSON_FACTORY, json);
 
-
         // not needed
 //        final HttpHeaders httpHeaders = new HttpHeaders();
 //        httpHeaders.setContentType("application/json");
@@ -239,6 +246,13 @@ public class HttpAndroid extends HttpConnection {
         return returnedStream;
     }
 
+    /**
+     *
+     * @param url
+     * @param content
+     * @return
+     * @throws IOException
+     */
     private InputStream post(String url, HttpContent content) throws IOException {
         setInUsed(true);
         com.google.api.client.http.HttpRequest request = buildHttpRequest(HttpMethods.POST, url, content, true);
@@ -247,6 +261,13 @@ public class HttpAndroid extends HttpConnection {
         return response.getContent();
     }
 
+    /**
+     *
+     * @param url
+     * @param settings
+     * @return
+     * @throws Exception
+     */
     @Override
     public String uploadWithResult(String url, HttpRequest settings) throws Exception {
         return httpInputStreamToText(upload(url, settings));
