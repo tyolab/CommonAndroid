@@ -23,8 +23,12 @@ import com.google.api.client.util.ObjectParser;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.text.ParseException;
+import java.util.Date;
 
 import au.com.tyo.services.HttpConnection;
+import au.com.tyo.utils.DateUtils;
 
 ;
 
@@ -147,6 +151,16 @@ public class HttpAndroid extends HttpConnection {
      *
      * @param requestMethod
      * @param url
+     * @return
+     */
+    private com.google.api.client.http.HttpRequest buildHttpRequest(String requestMethod, String url) throws IOException {
+        return buildHttpRequest(requestMethod, url, null);
+    }
+
+    /**
+     *
+     * @param requestMethod
+     * @param url
      * @param content
      * @return
      * @throws IOException
@@ -206,12 +220,27 @@ public class HttpAndroid extends HttpConnection {
         return httpInputStreamToText(connectForInputStream(url));
     }
 
-    private InputStream connectForInputStream(String url) throws Exception {
+    @Override
+    protected InputStream connectForInputStream(String url) throws Exception {
         setInUsed(true);
         com.google.api.client.http.HttpRequest request = buildHttpRequest(url);
         HttpResponse response = request.execute();
         setInUsed(false);
+        response.getHeaders().getLastModified();
         return response.getContent();
+    }
+
+    @Override
+    public long getLastModifiedDate(String url) throws MalformedURLException, IOException {
+        com.google.api.client.http.HttpRequest request = buildHttpRequest(HttpMethods.HEAD, url);
+        HttpResponse response = request.execute();
+        Date date = new Date();
+        try {
+            date = DateUtils.parseDate(response.getHeaders().getLastModified());
+        } catch (ParseException e) {
+            return 0;
+        }
+        return date.getTime();
     }
 
     /**
