@@ -24,7 +24,6 @@ import com.google.api.client.util.ObjectParser;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.text.ParseException;
 import java.util.Date;
 
 import au.com.tyo.services.HttpConnection;
@@ -234,13 +233,16 @@ public class HttpAndroid extends HttpConnection {
     public long getLastModifiedDate(String url) throws MalformedURLException, IOException {
         com.google.api.client.http.HttpRequest request = buildHttpRequest(HttpMethods.HEAD, url);
         HttpResponse response = request.execute();
-        Date date = new Date();
+        Date date;
+        long lastModifiedDate = 0;
         try {
-            date = DateUtils.parseDate(response.getHeaders().getLastModified());
-        } catch (ParseException e) {
-            return 0;
+            if (response.getHeaders() != null && response.getHeaders().getLastModified() != null) {
+                date = DateUtils.parseDate(response.getHeaders().getLastModified());
+                lastModifiedDate = date.getTime();
+            }
+        } catch (Exception e) {
         }
-        return date.getTime();
+        return lastModifiedDate;
     }
 
     /**
