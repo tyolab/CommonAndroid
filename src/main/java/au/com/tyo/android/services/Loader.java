@@ -32,10 +32,10 @@ public class Loader<FileType> extends CacheManager<FileType> {
 
     private static final String LOG_TAG = "Loader";
 
-    private DownloaderTask task;
+    private LoaderTask task;
 
     public interface Caller {
-        void onDownloadFinished(Object file);
+        void onFinished(Object file);
     }
 
     public Loader(Context context, String subdir){
@@ -56,7 +56,7 @@ public class Loader<FileType> extends CacheManager<FileType> {
 
             if(fileType == null){
                 if (asynchronously) {
-                    task = new DownloaderTask(caller);
+                    task = new LoaderTask(caller);
                     task.execute(location);
                 }
                 else {
@@ -69,13 +69,13 @@ public class Loader<FileType> extends CacheManager<FileType> {
         return fileType;
     }
 
-    public class DownloaderTask extends AsyncTask<String, Void, FileType> {
+    public class LoaderTask extends AsyncTask<String, Void, FileType> {
 
         private String location;
         private final WeakReference<Caller> reference;
         private Caller caller;
 
-        public DownloaderTask(Caller caller) {
+        public LoaderTask(Caller caller) {
             this.caller = caller;
             reference = new WeakReference<Caller>(caller);
         }
@@ -92,7 +92,7 @@ public class Loader<FileType> extends CacheManager<FileType> {
         }
 
         /**
-         * Actual download method, run in the task thread
+         * Actual fetch method, run in the task thread
          *
          */
         @Override
@@ -112,7 +112,7 @@ public class Loader<FileType> extends CacheManager<FileType> {
             }
 
             if (caller != null && file != null)
-                caller.onDownloadFinished(file);
+                caller.onFinished(file);
 
             if (isCancelled()) {
                 Log.i(LOG_TAG, "Downloader task got cancelled");
@@ -122,7 +122,7 @@ public class Loader<FileType> extends CacheManager<FileType> {
     }
 
     /**
-     * cancel a download (internal only)
+     * cancel a fetch (internal only)
      *
      * @param url
      * @param caller

@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-public class ImageDownloader extends Downloader<Bitmap, ImageView> {
+public class ImageDownloader extends ResourceFetcher<Bitmap, ImageView> {
 	
 	private static final String LOG_TAG = "ImageDownloader";
 

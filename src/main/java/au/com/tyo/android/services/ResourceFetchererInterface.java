@@ -1,5 +1,7 @@
 package au.com.tyo.android.services;
 
-public interface DownloaderInterface<FileType, ContainerType> {
+public interface ResourceFetchererInterface<FileType, ContainerType> {
+
 	void handleResult(ContainerType container, FileType file);
+
 }
