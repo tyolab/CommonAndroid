@@ -1,20 +1,8 @@
 /*
- * Copyright (C) 2015 TYONLINE TECHNOLOGY PTY. LTD.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (C) 2017 TYONLINE TECHNOLOGY PTY. LTD. (TYO Lab)
  */
 
-package au.com.tyo.android.utils;
+package au.com.tyo.android.images.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -23,7 +11,9 @@ import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.PictureDrawable;
 import android.util.Log;
 import android.view.View;
 
@@ -37,6 +27,41 @@ public class BitmapUtils {
 	
 	private static final String LOG_TAG = "BitmapUtils";
 
+    /**
+     *
+     * @param drawable
+     * @return
+     */
+	public static Bitmap drawableToBitmap(Drawable drawable) {
+        Bitmap bitmap = null;
+        if (drawable instanceof PictureDrawable) {
+            bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(bitmap);
+            canvas.drawPicture(((PictureDrawable) drawable).getPicture());
+        }
+        else if (drawable instanceof BitmapDrawable && (bitmap = ((BitmapDrawable) drawable).getBitmap()) != null) {
+            //
+        }
+
+        if (bitmap == null) {
+            if (drawable.getIntrinsicWidth() <= 0 || drawable.getIntrinsicHeight() <= 0) {
+                bitmap = Bitmap.createBitmap(1, 1, Bitmap.Config.ARGB_8888); // Single color bitmap will be created of 1x1 pixel
+            } else {
+                bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+            }
+
+            Canvas canvas = new Canvas(bitmap);
+            drawable.setBounds(0, 0, canvas.getWidth(), canvas.getHeight());
+            drawable.draw(canvas);
+        }
+        return bitmap;
+	}
+
+    /**
+     *
+     * @param urlStr
+     * @return
+     */
 	public static Bitmap getBitmapFromURL(String urlStr) {
 		Bitmap bitmap = null;
 	    try {
@@ -53,18 +78,33 @@ public class BitmapUtils {
 	    }
         return bitmap;
 	}
-	
+
+    /**
+     *
+     * @param bitmap
+     * @return
+     */
 	public static byte[] bitmapToBytes(Bitmap bitmap) {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		byte[] bytes = stream.toByteArray();
 		return bytes;
 	}
-	
+
+    /**
+     *
+     * @param bytes
+     * @return
+     */
 	public static Bitmap bytesToBitmap(byte[] bytes) {
 		return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 	}
-	
+
+    /**
+     *
+     * @param stream
+     * @return
+     */
 	public static Bitmap inputStreamToBitmap(InputStream stream) {
 		return BitmapFactory.decodeStream(stream);
 	}

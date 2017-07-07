@@ -71,7 +71,11 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		else
 			cacheEnabled = false;
 	}
-	
+
+	public Context getContext() {
+		return context;
+	}
+
 	public File getCacheDirectory() {
 		if (context != null) {
 			switch (location) {

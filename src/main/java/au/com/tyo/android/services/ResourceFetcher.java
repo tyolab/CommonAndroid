@@ -293,7 +293,7 @@ public abstract class ResourceFetcher<FileType, ContainerType> extends CacheMana
             if (entity != null) {
                 try {
                     inputStream = entity.getContent(); 
-                    fileType = processInputStream(inputStream);
+                    fileType = processInputStream(inputStream, url);
                 } finally {
                     if (inputStream != null) {
                         inputStream.close();  
@@ -313,7 +313,7 @@ public abstract class ResourceFetcher<FileType, ContainerType> extends CacheMana
         return fileType;
     }
 
-	protected abstract FileType processInputStream(InputStream inputStream);
+	protected abstract FileType processInputStream(InputStream inputStream, String url);
 
 	public void writeFile(FileType fileType, String url) throws Exception {
 
