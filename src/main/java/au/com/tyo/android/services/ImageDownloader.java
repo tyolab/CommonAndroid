@@ -3,16 +3,17 @@ package au.com.tyo.android.services;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
+import android.graphics.Canvas;
+import android.util.Log;
 import android.widget.ImageView;
+
+import com.caverock.androidsvg.SVG;
+import com.caverock.androidsvg.SVGParseException;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 
-import au.com.tyo.android.images.svg.SVG;
-import au.com.tyo.android.images.svg.SVGBuilder;
-import au.com.tyo.android.images.utils.BitmapUtils;
 import au.com.tyo.data.ContentTypes;
 
 public class ImageDownloader extends ResourceFetcher<Bitmap, ImageView> {
@@ -69,12 +70,20 @@ public class ImageDownloader extends ResourceFetcher<Bitmap, ImageView> {
     @Override
     protected Bitmap processInputStream(InputStream inputStream, String url) {
         if (ContentTypes.isSVG(url)) {
-            SVG svg = new SVGBuilder()
-                    .readFromInputStream(inputStream)
-                    .build();
+            SVG svg = null;
+            Bitmap bitmap = null;
+            try {
+                svg = SVG.getFromInputStream(inputStream);
+                bitmap = Bitmap.createBitmap((int) svg.getDocumentWidth(), (int) svg.getDocumentHeight(), Bitmap.Config.ARGB_8888);
 
-            Drawable drawable = svg.getDrawable();
-            return BitmapUtils.drawableToBitmap(drawable);
+                Canvas canvas = new Canvas(bitmap);
+                canvas.drawPicture(svg.renderToPicture());
+
+            } catch (SVGParseException e) {
+                Log.e(LOG_TAG, "Can't create svg file");
+            }
+
+            return bitmap;
         }
 
         final BitmapFactory.Options options = new BitmapFactory.Options();

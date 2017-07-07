@@ -16,7 +16,7 @@ public class ParserHelper {
 	private static final Field STRING_CHARS;
 	static {
 		try {
-			STRING_CHARS = String.class.getDeclaredField("value");
+			STRING_CHARS = new String().getClass().getDeclaredField("value");
 			STRING_CHARS.setAccessible(true);
 		} catch (Exception e) {
 			throw new RuntimeException(e);

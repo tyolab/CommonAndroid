@@ -49,6 +49,10 @@ dependencies {
 
     // Android support
     compile 'com.android.support:appcompat-v7:25.2.0'
+
+    // svg image library
+    // https://mvnrepository.com/artifact/com.caverock/androidsvg
+    compile group: 'com.caverock', name: 'androidsvg', version: '1.2.1'
 }
 
 repositories {
