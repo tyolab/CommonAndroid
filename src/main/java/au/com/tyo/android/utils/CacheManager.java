@@ -5,7 +5,10 @@ import android.util.Log;
 
 import java.io.File;
 import java.lang.ref.SoftReference;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Map;
+import java.util.TimeZone;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.io.Cache;
@@ -62,7 +65,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		this.subDirStr = subdir;
 		this.location = location;
 		
-		cacheDir = this.getCacheDirectory();
+		cacheDir = this.getCacheDirectoryFromLocation();
 
 		if (cacheDir != null && !cacheDir.exists())
 			cacheDir.mkdirs();
@@ -76,12 +79,16 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		return context;
 	}
 
-	public File getCacheDirectory() {
+    public File getCacheDir() {
+        return cacheDir;
+    }
+
+    public File getCacheDirectoryFromLocation() {
 		if (context != null) {
 			switch (location) {
 				case SYSTEM_CACHE:
 					default:
-					return getCacheDirectory(context);
+					return getCacheDirectoryFromLocation(context);
 				case SYSTEM_DATA:
 					return getDataDirectory(context, subDirStr);
 				case EXTERNAL_STORAGE:
@@ -92,8 +99,8 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		return null;
 	}
 	
-	public File getCacheDirectory(Context refContext) {
-		return getCacheDirectory(refContext, subDirStr);
+	public File getCacheDirectoryFromLocation(Context refContext) {
+		return getCacheDirectoryFromLocation(refContext, subDirStr);
 	}
 
 	/**
@@ -129,7 +136,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	 * @return
 	 */
 
-	public static File getCacheDirectory(Context refContext, String subDirStr){
+	public static File getCacheDirectoryFromLocation(Context refContext, String subDirStr){
 		File cacheDir = null;
 
 		cacheDir = new File(refContext.getCacheDir(),  subDirStr);
@@ -137,6 +144,12 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		return cacheDir;
 	}
 
+    /**
+     * 
+     * @param refContext
+     * @param subDirStr
+     * @return
+     */
 	public static File getDataDirectory(Context refContext, String subDirStr){
 		File cacheDir = null;
 
@@ -180,7 +193,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	 */
 	public File locationToFile(String location, boolean readingOrWriting) {
 	   	 String filename = urlHashCodeToString(location);
-	   	 File f = new File(getCacheDirectory(), filename);
+	   	 File f = new File(getCacheDirectoryFromLocation(), filename);
 	   	 return f;
 	}
 	
@@ -233,10 +246,20 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	 */
 	public void cleanup() {
 		try {
-			FileUtils.delete(getCacheDirectory());
+			FileUtils.delete(getCacheDirectoryFromLocation());
 		}
 		catch (Exception ex) {
 			Log.e(LOG_TAG, "failed to clean up cache with error " + null != ex.getMessage() ? ex.getMessage() : "unknown");
 		}
+	}
+
+	public static String createTimestapFileName(String format) {
+		SimpleDateFormat df = new SimpleDateFormat(format);
+		df.setTimeZone(TimeZone.getTimeZone("UTC"));
+		return df.format(new Date());
+	}
+
+	public static String createTimestampFileName() {
+		return createTimestapFileName("yyyyMMddHHmmss");
 	}
 }

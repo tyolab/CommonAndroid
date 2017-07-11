@@ -85,9 +85,14 @@ public class BitmapUtils {
      * @return
      */
 	public static byte[] bitmapToBytes(Bitmap bitmap) {
-		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		ByteArrayOutputStream stream = bitmapToByteArrayOutputStream(bitmap);
 		byte[] bytes = stream.toByteArray();
+        try {
+            stream.close();
+        }
+        catch (Exception ex) {
+
+        }
 		return bytes;
 	}
 
@@ -156,7 +161,7 @@ public class BitmapUtils {
 	 * http://stackoverflow.com/questions/2801116/converting-a-view-to-bitmap-without-displaying-it-in-android
 	 *
 	 */
-	private static Bitmap getViewBitmapFromCache(View v) {
+	public static Bitmap getViewBitmapFromCache(View v) {
 		v.clearFocus();
 		v.setPressed(false);
 
@@ -201,7 +206,7 @@ public class BitmapUtils {
 		//Bind a canvas to it
 		Canvas canvas = new Canvas(returnedBitmap);
 		//Get the view's background
-		Drawable bgDrawable =view.getBackground();
+		Drawable bgDrawable = view.getBackground();
 		if (bgDrawable!=null)
 			//has background drawable, then draw it on the canvas
 			bgDrawable.draw(canvas);
@@ -212,5 +217,11 @@ public class BitmapUtils {
 		view.draw(canvas);
 		//return the bitmap
 		return returnedBitmap;
+	}
+
+	public static ByteArrayOutputStream bitmapToByteArrayOutputStream(Bitmap bitmap) {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		return stream;
 	}
 }
