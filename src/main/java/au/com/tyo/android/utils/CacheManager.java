@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.TimeZone;
+import java.util.concurrent.TimeUnit;
 
 import au.com.tyo.android.AndroidUtils;
 import au.com.tyo.io.Cache;
@@ -22,6 +23,8 @@ import au.com.tyo.io.FileUtils;
  */
 
 public abstract class CacheManager<FileType> extends Cache<FileType> {
+
+    public static final long DEFAULT_CACHE_LIFE_SPAN = TimeUnit.DAYS.toHours(28);
 
 	/**
 	 * External storage can't be granteed
@@ -42,7 +45,12 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	
 	protected boolean cacheEnabled;
 
-	CacheLocation location;
+	protected CacheLocation location;
+
+	/**
+	 * The lifespan of cache
+	 */
+	private long cacheSpan;
 	
 	public CacheManager() {
 		this(null, "data");
@@ -73,6 +81,15 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 			cacheEnabled = true;
 		else
 			cacheEnabled = false;
+        cacheSpan = DEFAULT_CACHE_LIFE_SPAN;
+	}
+
+	public long getCacheSpan() {
+		return cacheSpan;
+	}
+
+	public void setCacheSpan(long cacheSpan) {
+		this.cacheSpan = cacheSpan;
 	}
 
 	public Context getContext() {
@@ -219,26 +236,36 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	 * @throws Exception
 	 */
 	public FileType load(String location) throws Exception {
-	   	 File f = locationToFile(location, true);
-		  // Is the file in our memory cache?
-		 FileType file = null;
-		 
-		 SoftReference<FileType> fileRef = (SoftReference<FileType>) fileCache.get(f.getPath());
-		 
-	   	  if(fileRef == null){
-	   		  
-	   		  file = read(f);
-			  fileRef = new SoftReference<FileType>(file);
-			  
-			  if(file != null){
-				  fileCache.put(f.getPath(), fileRef);
-			  }
-		  
-		  }
-	   	  
-	   	  file = fileRef.get();
+        File f = locationToFile(location, true);
 
-		 return file;
+        if (f.exists()) {
+            long lastModified = f.lastModified();
+            long now = new Date().getTime();
+            if ((now - lastModified) > cacheSpan) {
+                f.delete();
+                return null;
+            }
+        }
+
+        // Is the file in our memory cache?
+        FileType file = null;
+
+        SoftReference<FileType> fileRef = (SoftReference<FileType>) fileCache.get(f.getPath());
+
+        if(fileRef == null){
+
+          file = read(f);
+          fileRef = new SoftReference<FileType>(file);
+
+          if(file != null){
+              fileCache.put(f.getPath(), fileRef);
+          }
+
+        }
+
+        file = fileRef.get();
+
+        return file;
 	}
 
 	/**
