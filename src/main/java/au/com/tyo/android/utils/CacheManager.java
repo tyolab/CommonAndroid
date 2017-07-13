@@ -24,7 +24,7 @@ import au.com.tyo.io.FileUtils;
 
 public abstract class CacheManager<FileType> extends Cache<FileType> {
 
-    public static final long DEFAULT_CACHE_LIFE_SPAN = TimeUnit.DAYS.toHours(28);
+    public static final long DEFAULT_CACHE_LIFE_SPAN = TimeUnit.DAYS.toMillis(28);
 
 	/**
 	 * External storage can't be granteed
@@ -241,7 +241,8 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
         if (f.exists()) {
             long lastModified = f.lastModified();
             long now = new Date().getTime();
-            if ((now - lastModified) > cacheSpan) {
+			long gap = (now - lastModified);
+            if (cacheSpan > -1 && gap > cacheSpan) {
                 f.delete();
                 return null;
             }
