@@ -224,4 +224,15 @@ public class BitmapUtils {
 		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
 		return stream;
 	}
+
+	public static Bitmap scaleBitmap(Bitmap bitmap, float scale) {
+		int width = Math.round(bitmap.getWidth() * scale);
+		int height = Math.round(bitmap.getHeight() * scale);
+		Bitmap target = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(target);
+		canvas.scale(scale, scale);
+		Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG | Paint.DITHER_FLAG);
+		canvas.drawBitmap(bitmap, 0, 0, paint);
+		return target;
+	}
 }
