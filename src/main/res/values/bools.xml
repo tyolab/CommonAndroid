@@ -2,11 +2,11 @@
 <resources>
       <bool name="isTablet">false</bool>
       
-      <bool name="showAd">true</bool>
+      <bool name="showAd">false</bool>
       
       <bool name="showAd4GooglePlayStoreApp">false</bool>
             
-      <bool name="showDonation">true</bool>
+      <bool name="showDonation">false</bool>
       
       <bool name="showAcknowledgement">false</bool>
 

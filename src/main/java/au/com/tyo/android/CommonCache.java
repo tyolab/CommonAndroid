@@ -22,6 +22,10 @@ public class CommonCache extends CacheManager<File> {
 
     public static final String LOG_TAG = "CommonCache";
 
+    public CommonCache(Context context) {
+        super(context, "cache");
+    }
+
     public CommonCache(Context context, String subdir) {
         super(context, subdir);
     }
@@ -40,5 +44,29 @@ public class CommonCache extends CacheManager<File> {
         return file;
     }
 
+    private File createFile(String fileName) {
+        String fullName = getCacheDir() + File.separator + fileName;
+        File file = new File(fullName);
+        return file;
+    }
 
+    public Object read(String fileName) throws Exception {
+        File file = createFile(fileName);
+        return IO.readObject(file);
+    }
+
+    public void write(String fileName, Object object) throws Exception {
+        File file = createFile(fileName);
+        IO.writeObject(object, file);
+    }
+
+    public boolean exists(String fileName) {
+        File file = createFile(fileName);
+        return file.exists() && file.length() > 0;
+    }
+
+    public void delete(String fileName) {
+        File file = createFile(fileName);
+        file.delete();
+    }
 }

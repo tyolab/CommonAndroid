@@ -51,8 +51,8 @@ public abstract class CommonApplicationImpl implements CommonController {
 	protected String appName = "";
 
 	protected String version = "0.9.9"; // that is the number to show something wrong
-	private String acknowledgementTitle = null;
-    private String acknowledgementInfo = null;
+	protected String acknowledgementTitle = null;
+	protected String acknowledgementInfo = null;
 
     private CommonApplicationImpl() {
 		notificationManager = null;
@@ -373,41 +373,7 @@ public abstract class CommonApplicationImpl implements CommonController {
 		showInfo(false);
 	}
 	
-	protected void showInfo(boolean showAcknowledgement) {
-    	// Inflate the about message contents
-	    View messageView = ((Activity) context).getLayoutInflater().inflate(R.layout.info_dialog, null, false);
-	    View acknowledgement = messageView.findViewById(R.id.acknowledge_view);
-	    if (showAcknowledgement) {
-			acknowledgement.setVisibility(View.VISIBLE);
-
-			if (null != acknowledgementTitle) {
-				TextView tv = (TextView) acknowledgement.findViewById(R.id.tv_acknowledgement_title);
-				tv.setText(acknowledgementTitle);
-			}
-
-            if (null != acknowledgementInfo) {
-                TextView tv = (TextView) acknowledgement.findViewById(R.id.info_acknowledgement);
-                tv.setText(acknowledgementInfo);
-            }
-		}
-
-	    
-	    String appDesc = getAppNameWithVersion();
-	    
-	    // When linking text, force to always use default color. This works
-	    // around a pressed color state bug.
-//	    TextView textView = (TextView) messageView.findViewById(R.id.info_credits);
-//	    int defaultColor = textView.getTextColors().getDefaultColor();
-//	    textView.setTextColor(defaultColor);
-
-	    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-	    builder.setIcon(logoResId);
-	    builder.setTitle(appDesc);
-	    builder.setView(messageView);
-	    Dialog dialog = builder.create();
-	    showDialog(dialog);
-//	    builder.show();	
-	}
+	protected abstract void showInfo(boolean showAcknowledgement);
 	
 	protected void showDialog(Dialog dialog) {
 		if(dialog != null && !((Activity) context).isFinishing())

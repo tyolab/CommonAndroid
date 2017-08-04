@@ -1,10 +1,12 @@
-package au.com.tyo.android.utils;
+package au.com.tyo.android.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -12,32 +14,38 @@ import java.util.List;
 
 import au.com.tyo.android.R;
 
-public class ListViewItemAdapter<ItemType> extends BaseAdapter {
+public class ListViewItemAdapter extends BaseAdapter {
 
-	protected List<ItemType> items;
+    /**
+     * for identification of a list when you have lots of them
+     * particularly when you let controller to handle the on click listener
+     */
+    private int listId;
+
+	protected List items;
 	
 	private int resId;
 	
 	public ListViewItemAdapter(){
-		this(R.layout.simple_dropdown_item_1line, null);
+		this(null);
 	}
 	
 	public ListViewItemAdapter(int resId){
 		this(resId, null);
 	}
 	
-	public ListViewItemAdapter(List<ItemType> items) {
-		this(R.layout.simple_dropdown_item_1line, items);
+	public ListViewItemAdapter(List items) {
+		this(R.layout.image_text_list_cell, items);
 	}
 	
-	public ListViewItemAdapter(int resId, List<ItemType> items) {
+	public ListViewItemAdapter(int resId, List items) {
 		super();
 		this.resId = resId;
-
+        this.listId = -1;
 		setItems(items);
 	}
 	
-	public List<ItemType> getItems() {
+	public List getItems() {
 		return items;
 	}
 
@@ -49,18 +57,18 @@ public class ListViewItemAdapter<ItemType> extends BaseAdapter {
 	public int size() { return getCount(); }
 
 	@Override
-	public ItemType getItem(int position) {
+	public Object getItem(int position) {
 		return this.items.get(position);
 	}
 
-	public ItemType get(int position) { return getItem(position); }
+	public Object get(int position) { return getItem(position); }
 
 	@Override
 	public long getItemId(int position) {
 		return position;
 	}
 
-	public void setItems(List<ItemType> obj) {
+	public void setItems(List obj) {
         if (null == obj)
             return;
 
@@ -68,19 +76,19 @@ public class ListViewItemAdapter<ItemType> extends BaseAdapter {
         this.items.addAll(obj);
 	}
 	
-	public void add(ItemType item) {
+	public void add(Object item) {
 		if (items == null)
 			items = new ArrayList();
 		items.add(0, item);
 	}
 
-	public void pushItem(ItemType item) { add(item); }
+	public void pushItem(Object item) { add(item); }
 	
-	public void removeItem(ItemType item) {
+	public void removeItem(Object item) {
 		items.remove(item);
 	}
 
-	public void remove(ItemType item) {
+	public void remove(Object item) {
 		removeItem(item);
 	}
 	
@@ -91,15 +99,11 @@ public class ListViewItemAdapter<ItemType> extends BaseAdapter {
 	}
 	
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ItemType item = items.get(position);
-		
-        if (convertView == null) 
-        	convertView = inflate(parent);
-        	
-        TextView tvTitle = (TextView) convertView.findViewById(android.R.id.text1);
-        if (null != tvTitle)
-        	tvTitle.setText(item.toString());
+	public View getView(int position, View view, ViewGroup parent) {
+		Object obj = items.get(position);
+        View convertView = null;
+
+
         
         return convertView;
 	}

@@ -28,7 +28,7 @@ android {
 }
 
 dependencies {
-    compile project(':CommonUtils')
+    compile project(":CommonUtils")
 
     // Amazon
     compile files('libs/amazon-ads-5.8.1.1.jar')
@@ -48,7 +48,7 @@ dependencies {
     compile 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
 
     // Android support
-    compile 'com.android.support:appcompat-v7:25.2.0'
+    compile 'com.android.support:appcompat-v7:25.3.1'
 
     // svg image library
     // https://mvnrepository.com/artifact/com.caverock/androidsvg

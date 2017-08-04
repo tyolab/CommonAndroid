@@ -10,6 +10,7 @@ import android.net.NetworkInfo;
 import android.util.Log;
 
 import au.com.tyo.services.Internet;
+import au.com.tyo.utils.StringUtils;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -187,7 +188,7 @@ public class NetworkMonitor implements Runnable {
 		try {
 			return Internet.checkAvailability();
 		} catch (Exception e) {
-			Log.e(LOG_TAG, "oops, something wrong when connecting to the Internet.");
+			Log.e(LOG_TAG, "oops, something wrong when connecting to the Internet: " + StringUtils.exceptionStackTraceToString(e));
 		}
 		return false;
 	}

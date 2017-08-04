@@ -10,6 +10,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
@@ -22,10 +23,13 @@ import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -429,6 +433,10 @@ public class AndroidUtils {
 		return dp * density;
 	}
 
+	/**
+	 *
+	 * @param activity
+	 */
 	public static void finishActivity(Activity activity) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			activity.finishAndRemoveTask();
@@ -458,7 +466,88 @@ public class AndroidUtils {
 		return addresses;
 	}
 
+	/**
+	 *
+	 * @param context
+	 * @param lat
+	 * @param lng
+	 * @return
+	 * @throws IOException
+	 */
 	public static Address getUserFirstAddress(Context context, int lat, int lng) throws IOException {
 		return getUserAddresses(context, lat, lng).get(0);
+	}
+
+	/**
+	 *
+	 * @param activity
+	 */
+	public static void hideSoftKeyboard(Activity activity) {
+        hideSoftKeyboard(activity.getCurrentFocus());
+}
+
+    /**
+     *
+     * @param view
+     */
+    public static void hideSoftKeyboard(View view) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) view.getContext().getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        inputMethodManager.hideSoftInputFromWindow(
+                view.getWindowToken(), 0);
+    }
+
+	/**
+	 *
+	 * @param context
+	 * @return
+	 * @throws NameNotFoundException
+	 */
+    public static int getPredefinedApplicationThemeId(Context context) throws NameNotFoundException {
+		PackageInfo packageInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+		int themeResId = packageInfo.applicationInfo.theme;
+		return themeResId;
+    }
+
+	/**
+	 *
+	 * @param context
+	 * @param theme
+	 * @return
+	 */
+	public static int getApplicationThemeId(Context context, Resources.Theme theme) {
+		int themeId = -1;
+
+		try {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+				Field fThemeImpl = theme.getClass().getDeclaredField("mThemeImpl");
+				if (!fThemeImpl.isAccessible()) fThemeImpl.setAccessible(true);
+				Object mThemeImpl = fThemeImpl.get(theme);
+				Field fThemeResId = mThemeImpl.getClass().getDeclaredField("mThemeResId");
+				if (!fThemeResId.isAccessible()) fThemeResId.setAccessible(true);
+				themeId = fThemeResId.getInt(mThemeImpl);
+			} else {
+				Field fThemeResId = theme.getClass().getDeclaredField("mThemeResId");
+				if (!fThemeResId.isAccessible()) fThemeResId.setAccessible(true);
+				themeId = fThemeResId.getInt(theme);
+			}
+		} catch (Exception ex) {
+		}
+		return themeId;
+	}
+
+	/**
+	 *
+	 * @param context
+	 * @param theme
+	 * @param themeId
+	 * @return
+	 */
+	public static String getApplicationThemeName(Context context, Resources.Theme theme, int themeId) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			return theme.getResources().getResourceEntryName(themeId);
+		}
+		return context.getResources().getResourceEntryName(themeId);
 	}
 }
