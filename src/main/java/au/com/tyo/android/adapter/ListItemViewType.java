@@ -8,10 +8,8 @@ import android.view.ViewGroup;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 3/8/17.
  */
 
-public interface ListItemViewType {
+public interface ListItemViewType extends ListItem {
 
     int getViewType();
-
-    View getView(View convertView, ViewGroup parent, Object obj);
 
 }

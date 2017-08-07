@@ -11,16 +11,21 @@ import au.com.tyo.android.R;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 3/8/17.
  */
 
-public class ListHeaderFactory extends InflaterFactory implements ListItemViewType {
+public class ListHeaderFactory extends InflaterFactory {
 
     public ListHeaderFactory(Context context) {
         super(context);
     }
 
-    @Override
-    public int getViewType() {
-        return ListWithHeadersAdatper.ItemType.HEADER.ordinal();
-    }
+    /**
+
+     define this in the listitem implementation
+        @Override
+        public int getViewType() {
+            return ListWithHeadersAdatper.ItemType.HEADER.ordinal();
+        }
+
+     */
 
     @Override
     public View getView(View convertView, ViewGroup parent, Object obj) {

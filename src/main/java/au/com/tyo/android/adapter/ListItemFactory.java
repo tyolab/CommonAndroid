@@ -13,7 +13,7 @@ import au.com.tyo.android.R;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 3/8/17.
  */
 
-public class ListItemFactory extends InflaterFactory implements ListItemViewType {
+public class ListItemFactory extends InflaterFactory {
 
     private int resId;
 
@@ -36,10 +36,16 @@ public class ListItemFactory extends InflaterFactory implements ListItemViewType
         this.listener = listener;
     }
 
-    @Override
-    public int getViewType() {
-        return ListWithHeadersAdatper.ItemType.ITEM.ordinal();
-    }
+    /**
+
+     define this in the listitem implementation
+
+        @Override
+        public int getViewType() {
+            return ListWithHeadersAdatper.ItemType.ITEM.ordinal();
+        }
+
+     */
 
     @Override
     public View getView(View convertView, ViewGroup parent, Object obj) {

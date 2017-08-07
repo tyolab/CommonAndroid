@@ -19,9 +19,9 @@ import java.util.List;
 
 public class ListWithHeadersAdatper extends ArrayAdapter<ListItemViewType> {
 
-    private ListHeaderFactory headerFactory;
+    protected ListHeaderFactory headerFactory;
 
-    private ListItemFactory itemFactory;
+    protected ListItemFactory itemFactory;
 
     public enum ItemType {
         ITEM, HEADER
@@ -29,35 +29,35 @@ public class ListWithHeadersAdatper extends ArrayAdapter<ListItemViewType> {
 
     public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource) {
         super(context, resource);
-        init(context);
+        onCreate(context);
     }
 
     public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId) {
         super(context, resource, textViewResourceId);
-        init(context);
+        onCreate(context);
     }
 
     public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource, @NonNull ListItemViewType[] objects) {
         super(context, resource, objects);
-        init(context);
+        onCreate(context);
     }
 
     public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull ListItemViewType[] objects) {
         super(context, resource, textViewResourceId, objects);
-        init(context);
+        onCreate(context);
     }
 
     public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource, @NonNull List<ListItemViewType> objects) {
         super(context, resource, objects);
-        init(context);
+        onCreate(context);
     }
 
     public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull List<ListItemViewType> objects) {
         super(context, resource, textViewResourceId, objects);
-        init(context);
+        onCreate(context);
     }
 
-    private void init(Context context) {
+    protected void onCreate(Context context) {
         headerFactory = new ListHeaderFactory(context);
         itemFactory = new ListItemFactory(context);
     }
