@@ -76,31 +76,21 @@ public class ListWithHeadersAdatper extends ArrayAdapter<ListItemViewType> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder holder = null;
+
         ItemType itemType = ItemType.values()[getItemViewType(position)];
         Object obj = getItem(position);
 
-        if (convertView == null) {
-
-            holder = new ViewHolder();
-            switch (itemType) {
-                case ITEM:
-                    convertView = itemFactory.getView(convertView, parent, obj);
-                    break;
-                case HEADER:
-                    convertView = headerFactory.getView(convertView, parent, obj);
-                    break;
-            }
-            holder.view = convertView;
-            convertView.setTag(holder);
-        }
-        else {
-            holder = (ViewHolder) convertView.getTag();
+        InflaterFactory.ViewHolder holder = null;
+        switch (itemType) {
+            case ITEM:
+                holder = itemFactory.getViewHolder(convertView, parent, obj);
+                break;
+            case HEADER:
+                holder = headerFactory.getViewHolder(convertView, parent, obj);
+                break;
         }
         return holder.view;
     }
 
-    public static class ViewHolder {
-        public  View view;
-    }
+
 }

@@ -28,7 +28,7 @@ public class ListHeaderFactory extends InflaterFactory {
      */
 
     @Override
-    public View getView(View convertView, ViewGroup parent, Object obj) {
+    public View getView(View convertView, ViewGroup parent) {
 
         View view;
         if (convertView == null) {
@@ -37,10 +37,12 @@ public class ListHeaderFactory extends InflaterFactory {
             view = convertView;
         }
 
-        TextView text = (TextView) view.findViewById(android.R.id.text1);
-        text.setText(obj.toString());
-
         return view;
     }
 
+    @Override
+    public void bindData(View view, Object obj) {
+        TextView text = (TextView) view.findViewById(android.R.id.text1);
+        text.setText(obj.toString());
+    }
 }

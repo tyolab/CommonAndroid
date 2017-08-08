@@ -25,6 +25,8 @@ public class ListViewItemAdapter extends BaseAdapter {
 	protected List items;
 	
 	private int resId;
+
+	private ListItemFactory itemFactory;
 	
 	public ListViewItemAdapter(){
 		this(null);
@@ -43,8 +45,14 @@ public class ListViewItemAdapter extends BaseAdapter {
 		this.resId = resId;
         this.listId = -1;
 		setItems(items);
+
+		init();
 	}
-	
+
+	private void init() {
+
+	}
+
 	public List getItems() {
 		return items;
 	}
@@ -99,13 +107,13 @@ public class ListViewItemAdapter extends BaseAdapter {
 	}
 	
 	@Override
-	public View getView(int position, View view, ViewGroup parent) {
+	public View getView(int position, View convertView, ViewGroup parent) {
 		Object obj = items.get(position);
-        View convertView = null;
 
+		if (null == itemFactory)
+			itemFactory = new ListItemFactory(parent.getContext());
 
-        
-        return convertView;
+        return itemFactory.getViewHolder(convertView, parent, obj).view;
 	}
 	
 	public void clear() {

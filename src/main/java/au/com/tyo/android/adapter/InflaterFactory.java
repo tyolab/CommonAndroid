@@ -17,5 +17,30 @@ public abstract class InflaterFactory {
         inflater = LayoutInflater.from(context);
     }
 
-    public abstract View getView(View convertView, ViewGroup parent, Object obj);
+    public abstract View getView(View convertView, ViewGroup parent);
+
+    public ViewHolder getViewHolder(View convertView, ViewGroup parent, Object obj) {
+
+        ViewHolder holder = null;
+
+        if (convertView == null) {
+            holder = new ViewHolder();
+            convertView = getView(convertView, parent);
+            holder.view = convertView;
+            convertView.setTag(holder);
+        }
+        else {
+            holder = (ViewHolder) convertView.getTag();
+        }
+
+        bindData(holder.view, obj);
+
+        return holder;
+    }
+
+    public abstract void bindData(View view, Object obj);
+
+    public static class ViewHolder {
+        public  View view;
+    }
 }

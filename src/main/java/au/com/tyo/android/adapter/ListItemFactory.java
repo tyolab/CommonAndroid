@@ -48,7 +48,7 @@ public class ListItemFactory extends InflaterFactory {
      */
 
     @Override
-    public View getView(View convertView, ViewGroup parent, Object obj) {
+    public View getView(View convertView, ViewGroup parent) {
 
         View view;
         if (null == convertView)
@@ -56,6 +56,11 @@ public class ListItemFactory extends InflaterFactory {
         else
             view = convertView;
 
+        return view;
+    }
+
+    @Override
+    public void bindData(View view, Object obj) {
         TextView tvTitle = (TextView) view.findViewById(android.R.id.text1);
 
         if (obj instanceof ListItem){
@@ -84,7 +89,5 @@ public class ListItemFactory extends InflaterFactory {
         else {
             tvTitle.setText(obj.toString());
         }
-
-        return view;
     }
 }
