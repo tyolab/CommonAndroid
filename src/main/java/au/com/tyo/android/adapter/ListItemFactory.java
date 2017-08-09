@@ -3,7 +3,6 @@ package au.com.tyo.android.adapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -73,11 +72,10 @@ public class ListItemFactory extends InflaterFactory {
             if (null != imgView && null != item.getImageViewDrawable())
                 imgView.setImageDrawable(item.getImageViewDrawable());
 
-            ImageButton imgButton = (ImageButton) view.findViewById(R.id.itl_image_button);
-            if (imgButton != null) {
-                //
+            View imgButton = (View) view.findViewById(R.id.itl_image_button);
+            //
+            if (imgButton != null && null != listener)
                 imgButton.setOnClickListener(listener);
-            }
 
             CharSequence text2 = item.getText2();
 
