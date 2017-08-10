@@ -95,4 +95,7 @@
 	<dimen name="dialog_horizontal_margin">16dp</dimen>
     <dimen name="dialog_vertical_margin">16dp</dimen>
     <dimen name="image_text_list_text2_height">0dp</dimen>
+    <dimen name="list_header_padding_left">12dp</dimen>
+    <dimen name="list_header_padding_top">3dp</dimen>
+    <dimen name="list_header_padding_bottom">3dp</dimen>
 </resources>

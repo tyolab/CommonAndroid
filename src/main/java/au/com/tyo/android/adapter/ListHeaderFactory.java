@@ -1,6 +1,7 @@
 package au.com.tyo.android.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -12,6 +13,49 @@ import au.com.tyo.android.R;
  */
 
 public class ListHeaderFactory extends InflaterFactory {
+
+    public static class SectionHeader implements ListItemViewType {
+
+        private String title;
+
+        public SectionHeader(String title) {
+            this.title = title;
+        }
+
+        public String getTitle() {
+            return title;
+        }
+
+        @Override
+        public Drawable getImageViewDrawable() {
+            return null;
+        }
+
+        @Override
+        public CharSequence getText1() {
+            return title;
+        }
+
+        @Override
+        public CharSequence getImageButtonDrawable() {
+            return null;
+        }
+
+        @Override
+        public View.OnClickListener getImageButtonOnClickListener() {
+            return null;
+        }
+
+        @Override
+        public CharSequence getText2() {
+            return null;
+        }
+
+        @Override
+        public int getViewType() {
+            return ListWithHeadersAdatper.ItemType.HEADER.ordinal();
+        }
+    }
 
     public ListHeaderFactory(Context context) {
         super(context);

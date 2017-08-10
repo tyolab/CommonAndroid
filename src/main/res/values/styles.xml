@@ -62,4 +62,12 @@
 		<item name="@android:windowExitAnimation">@anim/shrink_from_top</item>
 	</style>
 
+	<style name="TextAppearanceListHeaderText">
+		<item name="android:textSize">12sp</item>
+		<item name="android:textColor">@color/black</item>
+	</style>
+
+    <style name="TextAppearanceListHeaderText.Common">
+	</style>
+
 </resources>
