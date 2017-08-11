@@ -17,7 +17,7 @@ import java.util.List;
  * Credits: https://stackoverflow.com/questions/13590627/android-listview-headers
  */
 
-public class ListWithHeadersAdatper extends ArrayAdapter<ListItemViewType> {
+public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
     protected ListHeaderFactory headerFactory;
 
@@ -27,32 +27,32 @@ public class ListWithHeadersAdatper extends ArrayAdapter<ListItemViewType> {
         ITEM, HEADER
     }
 
-    public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource) {
+    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource) {
         super(context, resource);
         onCreate(context);
     }
 
-    public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId) {
+    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId) {
         super(context, resource, textViewResourceId);
         onCreate(context);
     }
 
-    public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource, @NonNull ListItemViewType[] objects) {
+    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ListItemViewType[] objects) {
         super(context, resource, objects);
         onCreate(context);
     }
 
-    public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull ListItemViewType[] objects) {
+    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull ListItemViewType[] objects) {
         super(context, resource, textViewResourceId, objects);
         onCreate(context);
     }
 
-    public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource, @NonNull List<ListItemViewType> objects) {
+    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ListItemViewType> objects) {
         super(context, resource, objects);
         onCreate(context);
     }
 
-    public ListWithHeadersAdatper(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull List<ListItemViewType> objects) {
+    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull List<ListItemViewType> objects) {
         super(context, resource, textViewResourceId, objects);
         onCreate(context);
     }

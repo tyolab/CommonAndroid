@@ -11,7 +11,7 @@ public interface ListItem {
 
     Drawable getImageViewDrawable();
     CharSequence getText1();
-    CharSequence getImageButtonDrawable();
+    Drawable getImageButtonDrawable();
     View.OnClickListener getImageButtonOnClickListener();
     CharSequence getText2();
 

@@ -37,7 +37,7 @@ public class ListHeaderFactory extends InflaterFactory {
         }
 
         @Override
-        public CharSequence getImageButtonDrawable() {
+        public Drawable getImageButtonDrawable() {
             return null;
         }
 
@@ -53,12 +53,27 @@ public class ListHeaderFactory extends InflaterFactory {
 
         @Override
         public int getViewType() {
-            return ListWithHeadersAdatper.ItemType.HEADER.ordinal();
+            return ListWithHeadersAdapter.ItemType.HEADER.ordinal();
         }
     }
 
+    private int resId;
+
     public ListHeaderFactory(Context context) {
+        this(context, R.layout.list_header);
+    }
+
+    public ListHeaderFactory(Context context, int resource) {
         super(context);
+        this.resId = resource;
+    }
+
+    public int getResId() {
+        return resId;
+    }
+
+    public void setResId(int resId) {
+        this.resId = resId;
     }
 
     /**
@@ -76,7 +91,7 @@ public class ListHeaderFactory extends InflaterFactory {
 
         View view;
         if (convertView == null) {
-            view = (View) inflater.inflate(R.layout.list_header, null);
+            view = inflater.inflate(resId, null);
         } else {
             view = convertView;
         }
