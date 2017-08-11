@@ -18,12 +18,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
+import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Patterns;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 
 import java.io.File;
@@ -41,8 +44,14 @@ import java.util.regex.Pattern;
 public class AndroidUtils {
 	
 	public static final String LOG_TAG = "AndroidUtils";
-	
-	public static boolean doesPackageExist(String targetPackage, Context context){
+
+	/**
+	 *
+	 * @param targetPackage
+	 * @param context
+	 * @return
+	 */
+	public static boolean packageExists(String targetPackage, Context context){
 		List<ApplicationInfo> packages;
 		PackageManager pm;
 		pm = context.getPackageManager();  
@@ -54,6 +63,12 @@ public class AndroidUtils {
 		return false;
 	}
 
+	/**
+	 *
+	 * @param targetPackage
+	 * @param context
+	 * @return
+	 */
 	public static boolean doesPackageExist2(String targetPackage, Context context){
 		PackageManager pm = context. getPackageManager();
 		try {
@@ -64,11 +79,19 @@ public class AndroidUtils {
 		 }  
 		 return true;
 	}
-	
+
+	/**
+	 *
+	 * @return
+	 */
 	public static int getAndroidVersion() {
 		return android.os.Build.VERSION.SDK_INT; 
 	}
-	
+
+	/**
+	 *
+	 * @param activity
+	 */
 	public static void exit(Activity activity) {
 		Intent intent = new Intent();
 		intent.setAction(Intent.ACTION_MAIN);
@@ -76,7 +99,12 @@ public class AndroidUtils {
 		activity.startActivity(intent); 
 		activity.finish();   
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 * @return
+	 */
 	public static int getPackageVersionCode(Context context) {
 		PackageInfo pInfo = null;
 		try {
@@ -86,7 +114,12 @@ public class AndroidUtils {
 		}
 		return pInfo == null ? 1 : pInfo.versionCode;
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 * @return
+	 */
 	public static String getPackageVersionName(Context context) {
 		PackageInfo pInfo = null;
 		try {
@@ -95,8 +128,13 @@ public class AndroidUtils {
 			Log.e(LOG_TAG, "couldn't get package version");
 		}
 		return pInfo == null ? "" : pInfo.versionName;
-	}	
+	}
 
+	/**
+	 *
+	 * @param context
+	 * @return
+	 */
 	public static String getPackageName(Context context) {
 		PackageInfo pInfo = null;
 		try {
@@ -185,7 +223,12 @@ public class AndroidUtils {
 	    }
 	    return rv.toArray(new String[rv.size()]);
 	}
-	
+
+	/**
+	 *
+	 * @param path
+	 * @return
+	 */
 	public static double getStorageSizeInGigabytes(String path) {
 		StatFs stat = new StatFs(path);
 		double sdAvailSize =Double.valueOf(stat.getBlockCount())
@@ -194,7 +237,12 @@ public class AndroidUtils {
 		double gigaAvailable = sdAvailSize / 1073741824;
 		return gigaAvailable;
 	}
-	
+
+	/**
+	 *
+	 * @param path
+	 * @return
+	 */
 	public static double getStorageAvailableSizeInGigabytes(String path) {
 		StatFs stat = new StatFs(path);
 		double sdAvailSize =Double.valueOf(stat.getAvailableBlocks())
@@ -203,16 +251,34 @@ public class AndroidUtils {
 		double gigaAvailable = sdAvailSize / 1073741824;
 		return gigaAvailable;
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 */
 	public static void hideAppIcon(Activity context) {
 		PackageManager p = context.getPackageManager();
 		p.setComponentEnabledSetting(context.getComponentName(), PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);
 	}
-	
+
+	/**
+	 *
+	 * @param activity
+	 * @param packageName
+	 * @throws NameNotFoundException
+	 */
 	public static void startApp(Context activity, String packageName) throws NameNotFoundException {
 		startApp(activity, packageName, 0, null);
 	}
-	
+
+	/**
+	 *
+	 * @param activity
+	 * @param packageName
+	 * @param flags
+	 * @param extras
+	 * @throws NameNotFoundException
+	 */
 	public static void startApp(Context activity, String packageName, int flags, Bundle extras) throws NameNotFoundException {
 		Intent i;
 		PackageManager manager = activity.getPackageManager();
@@ -549,5 +615,22 @@ public class AndroidUtils {
 			return theme.getResources().getResourceEntryName(themeId);
 		}
 		return context.getResources().getResourceEntryName(themeId);
+	}
+
+	/**
+	 *
+	 * @param activity
+	 * @param colorResId
+	 */
+	public static void setStatusBarColor(Activity activity, int colorResId) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			Window window = activity.getWindow();
+
+			window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+			window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+
+			window.setStatusBarColor(ContextCompat.getColor(activity, colorResId));
+		}
 	}
 }

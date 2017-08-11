@@ -111,7 +111,7 @@ public class ListViewItemAdapter extends BaseAdapter {
 		Object obj = items.get(position);
 
 		if (null == itemFactory)
-			itemFactory = new ListItemFactory(parent.getContext());
+			itemFactory = new ListItemFactory(parent.getContext(), resId);
 
         return itemFactory.getViewHolder(convertView, parent, obj).view;
 	}
