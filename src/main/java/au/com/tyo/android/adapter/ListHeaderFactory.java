@@ -55,6 +55,11 @@ public class ListHeaderFactory extends InflaterFactory {
         public int getViewType() {
             return ListWithHeadersAdapter.ItemType.HEADER.ordinal();
         }
+
+        @Override
+        public String toString() {
+            return getTitle();
+        }
     }
 
     private int resId;
