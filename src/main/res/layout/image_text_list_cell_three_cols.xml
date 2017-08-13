@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:paddingBottom="6dp"
+    android:minHeight="@dimen/image_text_list_height_min"
+    android:paddingLeft="@dimen/image_text_list_padding_left"
+    android:paddingRight="@dimen/image_text_list_padding_right" 
+   	android:gravity="left|center_vertical"
+    >
+
+	<RelativeLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+
+		<ImageView
+			android:id="@+id/itl_image_view"
+			android:layout_width="@dimen/image_list_cell_image_width"
+			android:layout_height="@dimen/image_list_cell_image_height"
+			android:gravity="left|center_vertical"
+			android:scaleType="centerCrop"
+			android:layout_alignParentLeft="true"
+			android:layout_gravity="center"
+			 />
+
+		<ImageButton
+			android:id="@+id/itl_image_button"
+			android:layout_width="@dimen/image_list_cell_image_width"
+			android:layout_height="@dimen/image_list_cell_image_height"
+			android:layout_alignParentRight="true"
+			android:layout_gravity="center"
+			/>
+
+		<TextView
+			android:id="@android:id/text1"
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:paddingLeft="8dp"
+			android:gravity="left|center_vertical"
+			android:layout_toLeftOf="@id/itl_image_button"
+			android:layout_toRightOf="@id/itl_image_view"
+			android:textAppearance="?android:attr/textAppearanceSmallInverse"
+			android:lines="1"
+			/>
+	</RelativeLayout>
+
+</LinearLayout>

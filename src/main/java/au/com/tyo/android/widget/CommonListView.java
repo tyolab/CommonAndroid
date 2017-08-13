@@ -19,6 +19,8 @@ import android.widget.RelativeLayout;
 import au.com.tyo.android.R;
 
 public class CommonListView extends RelativeLayout implements OnScrollListener {
+
+    private int listViewResId;
 	
 	protected ListView list;
 	
@@ -45,9 +47,14 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 	private void init(Context context) {
 //		createListView();
 		lastItemVisibleListener = null;
+        listViewResId = R.layout.list_view;
 	}
-	
-	public static interface onLastItemVisibleListener {
+
+    public void setListViewResId(int listViewResId) {
+        this.listViewResId = listViewResId;
+    }
+
+    public static interface onLastItemVisibleListener {
 		
 		public void onLastItemVisible();
 		
@@ -56,8 +63,9 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
-		
-		setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
+
+        findListView(R.id.list_view);
+		// setDescendantFocusability(ViewGroup.FOCUS_AFTER_DESCENDANTS);
 	}
 	
 	public void setOnLastItemVisibleListener(onLastItemVisibleListener listener) {
@@ -74,21 +82,23 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 	}
 
 	public void createListView() {
-		createListView(R.layout.common_list_view);
+		createListView(listViewResId);
 	}
 	
 	public void createListView(int listViewResId) {
-
 		list = createListView(this.getContext(), this, listViewResId);
 		list.requestFocus();
 		list.setOnScrollListener(this);
 	}
+
+    public void findListView() {
+        findListView(R.id.list_view);
+    }
 	
-	public boolean lookForListView(int resId) {
+	public void findListView(int resId) {
 		list = (ListView) findViewById(resId);
 		if (null != list)
 			list.setOnScrollListener(this);
-		return list != null;
 	}
 	
 	public static ListView createListView(Context context, ViewGroup parent, int resId) {
@@ -155,6 +165,10 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 	}
 	
 	public ListView getListView() {
+        if (null == list) {
+            createListView();
+            findListView();
+        }
 		return list;
 	}
 	
