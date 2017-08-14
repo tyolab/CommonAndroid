@@ -97,6 +97,8 @@ public class ListHeaderFactory extends InflaterFactory {
         View view;
         if (convertView == null) {
             view = inflater.inflate(resId, null);
+            view.setEnabled(false);
+            view.setOnClickListener(null);
         } else {
             view = convertView;
         }

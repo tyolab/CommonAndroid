@@ -72,10 +72,13 @@ public class ListItemFactory extends InflaterFactory {
             if (null != imgView && null != item.getImageViewDrawable())
                 imgView.setImageDrawable(item.getImageViewDrawable());
 
-            View imgButton = (View) view.findViewById(R.id.itl_image_button);
+            ImageView imgButton = (ImageView) view.findViewById(R.id.itl_image_button);
             //
-            if (imgButton != null && null != listener)
-                imgButton.setOnClickListener(listener);
+            if (imgButton != null) {
+                if (null != listener)
+                    imgButton.setOnClickListener(listener);
+                imgButton.setImageDrawable(item.getImageButtonDrawable());
+            }
 
             CharSequence text2 = item.getText2();
 
