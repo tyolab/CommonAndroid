@@ -77,7 +77,9 @@ public class ListItemFactory extends InflaterFactory {
             if (imgButton != null) {
                 if (null != listener)
                     imgButton.setOnClickListener(listener);
-                imgButton.setImageDrawable(item.getImageButtonDrawable());
+
+                if (null != item.getImageButtonDrawable())
+                    imgButton.setImageDrawable(item.getImageButtonDrawable());
             }
 
             CharSequence text2 = item.getText2();
