@@ -19,26 +19,36 @@ public abstract class InflaterFactory {
 
     public abstract View getView(View convertView, ViewGroup parent);
 
+    protected ViewHolder newViewHolderInstance(){
+        return new ViewHolder();
+    }
+
+    protected ViewHolder createViewHolder(View convertView, ViewGroup parent) {
+        ViewHolder holder = null;
+        holder = newViewHolderInstance();
+        convertView = getView(convertView, parent);
+        holder.view = convertView;
+        convertView.setTag(holder);
+        return holder;
+    }
+
     public ViewHolder getViewHolder(View convertView, ViewGroup parent, Object obj) {
 
         ViewHolder holder = null;
 
         if (convertView == null) {
-            holder = new ViewHolder();
-            convertView = getView(convertView, parent);
-            holder.view = convertView;
-            convertView.setTag(holder);
+            holder = createViewHolder(convertView, parent);
         }
         else {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        bindData(holder.view, obj);
+        bindData(holder, obj);
 
         return holder;
     }
 
-    public abstract void bindData(View view, Object obj);
+    public abstract void bindData(ViewHolder view, Object obj);
 
     public static class ViewHolder {
         public  View view;

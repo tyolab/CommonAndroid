@@ -59,7 +59,8 @@ public class ListItemFactory extends InflaterFactory {
     }
 
     @Override
-    public void bindData(View view, Object obj) {
+    public void bindData(ViewHolder holder, Object obj) {
+        View view = holder.view;
         TextView tvTitle = (TextView) view.findViewById(android.R.id.text1);
 
         if (obj instanceof ListItem){

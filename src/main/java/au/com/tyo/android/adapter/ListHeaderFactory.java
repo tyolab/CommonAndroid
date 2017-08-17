@@ -107,8 +107,8 @@ public class ListHeaderFactory extends InflaterFactory {
     }
 
     @Override
-    public void bindData(View view, Object obj) {
-        TextView text = (TextView) view.findViewById(android.R.id.text1);
+    public void bindData(ViewHolder holder, Object obj) {
+        TextView text = (TextView) holder.view.findViewById(android.R.id.text1);
         text.setText(obj.toString());
     }
 }
