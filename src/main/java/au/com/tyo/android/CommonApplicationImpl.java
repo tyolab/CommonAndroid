@@ -398,12 +398,6 @@ public abstract class CommonApplicationImpl implements CommonController {
 	public String getVersion() {
 		return version;
 	}
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		currentActivity.getMenuInflater().inflate(R.menu.common_menu, menu);
-		return true;
-	}
 
     public void setAcknowledgementTitle(String acknowledgementTitle) {
         this.acknowledgementTitle = acknowledgementTitle;

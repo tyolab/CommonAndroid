@@ -68,8 +68,6 @@ public interface CommonController extends Observer {
 
 	String getVersion();
 
-	boolean onCreateOptionsMenu(Menu menu);
-
 	void onActivityResult(int requestCode, int resultCode, Intent data);
 
 	void onPostCreate(Bundle savedInstanceState);
