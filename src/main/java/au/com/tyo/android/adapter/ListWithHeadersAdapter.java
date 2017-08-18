@@ -29,37 +29,37 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
     public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource) {
         super(context, resource);
-        onCreate(context);
+        onCreate(context, resource);
     }
 
     public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId) {
         super(context, resource, textViewResourceId);
-        onCreate(context);
+        onCreate(context, resource);
     }
 
     public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ListItemViewType[] objects) {
         super(context, resource, objects);
-        onCreate(context);
+        onCreate(context, resource);
     }
 
     public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull ListItemViewType[] objects) {
         super(context, resource, textViewResourceId, objects);
-        onCreate(context);
+        onCreate(context, resource);
     }
 
     public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ListItemViewType> objects) {
         super(context, resource, objects);
-        onCreate(context);
+        onCreate(context, resource);
     }
 
     public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull List<ListItemViewType> objects) {
         super(context, resource, textViewResourceId, objects);
-        onCreate(context);
+        onCreate(context, resource);
     }
 
-    protected void onCreate(Context context) {
+    protected void onCreate(Context context, int resource) {
         headerFactory = new ListHeaderFactory(context);
-        itemFactory = new ListItemFactory(context);
+        itemFactory = new ListItemFactory(context, resource);
     }
 
     @Override
@@ -92,5 +92,14 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
         return holder.view;
     }
 
+    @Override
+    public boolean areAllItemsEnabled() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled(int position) {
+        return true;
+    }
 
 }
