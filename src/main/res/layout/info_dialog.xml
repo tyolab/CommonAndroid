@@ -7,7 +7,8 @@
     android:paddingLeft="@dimen/dialog_horizontal_margin"
     android:paddingRight="@dimen/dialog_horizontal_margin"
     android:paddingTop="@dimen/dialog_vertical_margin" 
-    android:gravity="center_horizontal"  
+    android:gravity="center_horizontal"
+	style="?dialogStyle"
     >
 
     <TextView
