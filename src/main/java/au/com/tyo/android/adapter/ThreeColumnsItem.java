@@ -15,6 +15,8 @@ public class ThreeColumnsItem implements ListItem, ListItemViewType {
 
     private String middleText;
 
+    private String rightMostText;
+
     public ThreeColumnsItem(Drawable leftMostDrawable, Drawable rightMostDrawable, String middleText) {
         this.leftMostDrawable = leftMostDrawable;
         this.rightMostDrawable = rightMostDrawable;
@@ -27,6 +29,10 @@ public class ThreeColumnsItem implements ListItem, ListItemViewType {
 
     public void setRightMostDrawable(Drawable rightMostDrawable) {
         this.rightMostDrawable = rightMostDrawable;
+    }
+
+    public void setRightMostText(String rightMostText) {
+        this.rightMostText = rightMostText;
     }
 
     public void setMiddleText(String middleText) {
@@ -55,7 +61,7 @@ public class ThreeColumnsItem implements ListItem, ListItemViewType {
 
     @Override
     public CharSequence getText2() {
-        return null;
+        return rightMostText;
     }
 
     @Override
