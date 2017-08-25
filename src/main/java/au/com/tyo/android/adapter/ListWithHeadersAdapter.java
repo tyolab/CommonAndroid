@@ -65,7 +65,6 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
     @Override
     public int getViewTypeCount() {
         return ItemType.values().length;
-
     }
 
     @Override

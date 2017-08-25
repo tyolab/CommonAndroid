@@ -9,6 +9,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
@@ -27,6 +29,8 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 	private int lastVisible;
 	
 	private onLastItemVisibleListener lastItemVisibleListener;
+
+	private boolean disallowParentTouch;
 	
 	public CommonListView(Context context) {
 		super(context);
@@ -48,9 +52,18 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 //		createListView();
 		lastItemVisibleListener = null;
         listViewResId = R.layout.list_view;
+		disallowParentTouch = false;
 	}
 
-    public void setListViewResId(int listViewResId) {
+	public boolean isDisallowParentTouch() {
+		return disallowParentTouch;
+	}
+
+	public void setDisallowParentTouch(boolean disallowParentTouch) {
+		this.disallowParentTouch = disallowParentTouch;
+	}
+
+	public void setListViewResId(int listViewResId) {
         this.listViewResId = listViewResId;
     }
 
@@ -167,7 +180,7 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 	public ListView getListView() {
         if (null == list) {
             createListView();
-            findListView();
+            // findListView();
         }
 		return list;
 	}
@@ -177,4 +190,33 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 			list.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 	}
 
+	@Override
+	public boolean onInterceptTouchEvent(MotionEvent ev) {
+		return disallowParentTouch;
+	}
+
+    /**** Method for Setting the Height of the ListView dynamically.
+     **** Hack to fix the issue of not showing all the items of the ListView
+     **** when placed inside a ScrollView  ****/
+    public static void setListViewHeightBasedOnChildren(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null)
+            return;
+
+        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
+        int totalHeight = 0;
+        View view = null;
+        int count = listAdapter.getCount();
+        for (int i = 0; i < count; i++) {
+            view = listAdapter.getView(i, view, listView);
+            if (i == 0)
+                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
+
+            view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+            totalHeight += view.getMeasuredHeight();
+        }
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+    }
 }
