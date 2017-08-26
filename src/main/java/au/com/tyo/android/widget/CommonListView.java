@@ -18,6 +18,9 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import au.com.tyo.android.R;
 
 public class CommonListView extends RelativeLayout implements OnScrollListener {
@@ -122,7 +125,6 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
         return list;
 	}
 
-	
 	public static boolean doesItemsFitInScreen(ListView list) {
 		if (list.getChildCount() == 0)
 			return true;
@@ -195,28 +197,48 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 		return disallowParentTouch;
 	}
 
-    /**** Method for Setting the Height of the ListView dynamically.
-     **** Hack to fix the issue of not showing all the items of the ListView
-     **** when placed inside a ScrollView  ****/
-    public static void setListViewHeightBasedOnChildren(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null)
+	/**
+	 * It is not a perfect solution particularly when list has different items
+     *
+     * assuming the item with same class name has the same height
+	 *
+	 * @param listView
+	 */
+	public static void setHeightAsChildren(ListView listView) {
+        ListAdapter adapter = listView.getAdapter();
+        if (adapter == null)
             return;
 
         int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
         int totalHeight = 0;
         View view = null;
-        int count = listAdapter.getCount();
+        int count = adapter.getCount();
+        Map<String, View> viewMap = new HashMap<>();
+        View contertView = null;
         for (int i = 0; i < count; i++) {
-            view = listAdapter.getView(i, view, listView);
-            if (i == 0)
-                view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
+            Object item = adapter.getItem(i);
 
-            view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+            String clsName = item.getClass().getName();
+
+            contertView = viewMap.get(clsName);
+            if (contertView == null) {
+                view = adapter.getView(i, null, listView);
+
+                /*
+                if (i == 0)
+                    view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth, LayoutParams.WRAP_CONTENT));
+
+                 */
+
+                view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+                viewMap.put(clsName, view);
+            }
+            else
+                view = contertView;
             totalHeight += view.getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
         listView.setLayoutParams(params);
     }
 }

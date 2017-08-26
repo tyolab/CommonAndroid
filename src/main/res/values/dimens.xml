@@ -98,4 +98,7 @@
     <dimen name="list_header_padding_left">12dp</dimen>
     <dimen name="list_header_padding_top">3dp</dimen>
     <dimen name="list_header_padding_bottom">3dp</dimen>
+
+    <dimen name="default_list_view_header_height">36dp</dimen>
+    <dimen name="default_list_view_item_height">64dp</dimen>
 </resources>

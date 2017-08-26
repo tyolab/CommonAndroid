@@ -1,6 +1,7 @@
 package au.com.tyo.android.adapter;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -66,8 +67,9 @@ public class ListItemFactory extends InflaterFactory {
         if (obj instanceof ListItem){
             ListItem item = (ListItem) obj;
 
-            if (null != tvTitle)
+            if (null != tvTitle) {
                 tvTitle.setText(item.getText1());
+            }
 
             ImageView imgView = (ImageView) view.findViewById(R.id.itl_image_view);
             if (null != imgView && null != item.getImageViewDrawable())

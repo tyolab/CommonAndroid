@@ -65,7 +65,7 @@ public class ListHeaderFactory extends InflaterFactory {
     private int resId;
 
     public ListHeaderFactory(Context context) {
-        this(context, R.layout.list_header);
+        this(context, R.layout.list_item_header);
     }
 
     public ListHeaderFactory(Context context, int resource) {
