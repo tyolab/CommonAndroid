@@ -7,7 +7,7 @@ import android.view.View;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 11/8/17.
  */
 
-public class ThreeColumnsItem implements ListItem, ListItemViewType {
+public class ThreeColumnsItem implements ListItem {
 
     private Drawable leftMostDrawable;
 

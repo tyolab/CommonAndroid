@@ -7,7 +7,7 @@ import android.view.View;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 3/8/17.
  */
 
-public interface ListItem {
+public interface ListItem extends ListItemViewType {
 
     Drawable getImageViewDrawable();
     CharSequence getText1();

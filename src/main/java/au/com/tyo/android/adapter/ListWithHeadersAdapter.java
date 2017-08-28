@@ -19,12 +19,14 @@ import java.util.List;
 
 public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
-    protected ListHeaderFactory headerFactory;
+    protected ListSectionHeaderFactory sectionHeaderFactory;
 
     protected ListItemFactory itemFactory;
 
+    protected ListFooterFactory footerFactory;
+
     public enum ItemType {
-        ITEM, HEADER
+        ITEM, SECTION_HEADER, FOOTER, HEADER /* better not to implement header here */
     }
 
     public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource) {
@@ -57,9 +59,22 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
         onCreate(context, resource);
     }
 
+    public ListFooterFactory getFooterFactory() {
+        return footerFactory;
+    }
+
+    public void setFooterFactory(ListFooterFactory footerFactory) {
+        this.footerFactory = footerFactory;
+    }
+
     protected void onCreate(Context context, int resource) {
-        headerFactory = new ListHeaderFactory(context);
+        sectionHeaderFactory = new ListSectionHeaderFactory(context);
         itemFactory = new ListItemFactory(context, resource);
+    }
+
+    @Override
+    public int getCount() {
+        return super.getCount() + (null != footerFactory ? 1 : 0);
     }
 
     @Override
@@ -72,22 +87,40 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
         return getItem(position).getViewType();
     }
 
+    public void addFooter(int resource) {
+        addFooter(resource, new ListFooterFactory.Footer());
+    }
+
+    public void addFooter(int resource, ListFooterFactory.Footer footer) {
+        footerFactory = new ListFooterFactory(getContext(), resource);
+        add(footer);
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-
-        ItemType itemType = ItemType.values()[getItemViewType(position)];
-        Object obj = getItem(position);
-
         InflaterFactory.ViewHolder holder = null;
+        InflaterFactory factory = null;
+        Object obj = null;
+        ItemType itemType = ItemType.values()[getItemViewType(position)];
+        obj = getItem(position);
+
         switch (itemType) {
             case ITEM:
-                holder = itemFactory.getViewHolder(convertView, parent, obj);
+                factory = itemFactory;
                 break;
-            case HEADER:
-                holder = headerFactory.getViewHolder(convertView, parent, obj);
+            case SECTION_HEADER:
+                factory = sectionHeaderFactory;
                 break;
+            case FOOTER:
+                if (null == footerFactory)
+                    throw new IllegalArgumentException("A footer factory should be implemented");
+                factory = footerFactory;
+            default:
+                throw new IllegalArgumentException("Unknown item type.");
         }
+
+        holder = factory.getViewHolder(convertView, parent, obj);
         return holder.view;
     }
 

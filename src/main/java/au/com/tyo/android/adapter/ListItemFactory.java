@@ -15,8 +15,6 @@ import au.com.tyo.android.R;
 
 public class ListItemFactory extends InflaterFactory {
 
-    private int resId;
-
     private View.OnClickListener listener;
 
     public ListItemFactory(Context context) {
@@ -24,8 +22,7 @@ public class ListItemFactory extends InflaterFactory {
     }
 
     public ListItemFactory(Context context, int resId) {
-        super(context);
-        this.resId = resId;
+        super(context, resId);
     }
 
     public View.OnClickListener getListener() {
@@ -46,18 +43,6 @@ public class ListItemFactory extends InflaterFactory {
         }
 
      */
-
-    @Override
-    public View getView(View convertView, ViewGroup parent) {
-
-        View view;
-        if (null == convertView)
-            view = inflater.inflate(resId, parent, false);
-        else
-            view = convertView;
-
-        return view;
-    }
 
     @Override
     public void bindData(ViewHolder holder, Object obj) {

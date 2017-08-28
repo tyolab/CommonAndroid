@@ -12,9 +12,9 @@ import au.com.tyo.android.R;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 3/8/17.
  */
 
-public class ListHeaderFactory extends InflaterFactory {
+public class ListSectionHeaderFactory extends InflaterFactory {
 
-    public static class SectionHeader implements ListItemViewType {
+    public static class SectionHeader implements ListItem {
 
         private String title;
 
@@ -53,7 +53,7 @@ public class ListHeaderFactory extends InflaterFactory {
 
         @Override
         public int getViewType() {
-            return ListWithHeadersAdapter.ItemType.HEADER.ordinal();
+            return ListWithHeadersAdapter.ItemType.SECTION_HEADER.ordinal();
         }
 
         @Override
@@ -62,23 +62,20 @@ public class ListHeaderFactory extends InflaterFactory {
         }
     }
 
-    private int resId;
-
-    public ListHeaderFactory(Context context) {
-        this(context, R.layout.list_item_header);
+    public ListSectionHeaderFactory(Context context) {
+        super(context, R.layout.list_item_header);
     }
 
-    public ListHeaderFactory(Context context, int resource) {
-        super(context);
-        this.resId = resource;
+    public ListSectionHeaderFactory(Context context, int resource) {
+        super(context, resource);
     }
 
-    public int getResId() {
-        return resId;
-    }
-
-    public void setResId(int resId) {
-        this.resId = resId;
+    @Override
+    public View getView(View convertView, ViewGroup parent) {
+        View view = super.getView(convertView, parent);
+        view.setEnabled(false);
+        view.setOnClickListener(null);
+        return view;
     }
 
     /**
@@ -86,25 +83,12 @@ public class ListHeaderFactory extends InflaterFactory {
      define this in the listitem implementation
         @Override
         public int getViewType() {
-            return ListWithHeadersAdatper.ItemType.HEADER.ordinal();
+            return ListWithHeadersAdatper.ItemType.SECTION_HEADER.ordinal();
         }
 
      */
 
-    @Override
-    public View getView(View convertView, ViewGroup parent) {
 
-        View view;
-        if (convertView == null) {
-            view = inflater.inflate(resId, null);
-            view.setEnabled(false);
-            view.setOnClickListener(null);
-        } else {
-            view = convertView;
-        }
-
-        return view;
-    }
 
     @Override
     public void bindData(ViewHolder holder, Object obj) {

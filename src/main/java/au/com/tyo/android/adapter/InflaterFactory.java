@@ -13,11 +13,32 @@ public abstract class InflaterFactory {
 
     protected LayoutInflater inflater;
 
-    public InflaterFactory(Context context) {
+    private int resId;
+
+    public InflaterFactory(Context context, int resource) {
         inflater = LayoutInflater.from(context);
+        resId = resource;
     }
 
-    public abstract View getView(View convertView, ViewGroup parent);
+    public int getResId() {
+        return resId;
+    }
+
+    public void setResId(int resId) {
+        this.resId = resId;
+    }
+
+    public View getView(View convertView, ViewGroup parent) {
+
+        View view;
+        if (convertView == null) {
+            view = inflater.inflate(getResId(), parent, false);
+        } else {
+            view = convertView;
+        }
+
+        return view;
+    }
 
     protected ViewHolder newViewHolderInstance(){
         return new ViewHolder();
@@ -48,7 +69,7 @@ public abstract class InflaterFactory {
         return holder;
     }
 
-    public abstract void bindData(ViewHolder view, Object obj);
+    public abstract void bindData(ViewHolder holder, Object obj);
 
     public static class ViewHolder {
         public  View view;
