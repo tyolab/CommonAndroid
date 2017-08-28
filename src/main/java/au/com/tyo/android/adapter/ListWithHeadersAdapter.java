@@ -65,16 +65,16 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
     public void setFooterFactory(ListFooterFactory footerFactory) {
         this.footerFactory = footerFactory;
+
+        Object obj = getItem(getCount() - 1);
+        if (!(obj instanceof ListFooterFactory.Footer)) {
+            add(new ListFooterFactory.Footer());
+        }
     }
 
     protected void onCreate(Context context, int resource) {
         sectionHeaderFactory = new ListSectionHeaderFactory(context);
         itemFactory = new ListItemFactory(context, resource);
-    }
-
-    @Override
-    public int getCount() {
-        return super.getCount() + (null != footerFactory ? 1 : 0);
     }
 
     @Override
@@ -88,12 +88,7 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
     }
 
     public void addFooter(int resource) {
-        addFooter(resource, new ListFooterFactory.Footer());
-    }
-
-    public void addFooter(int resource, ListFooterFactory.Footer footer) {
-        footerFactory = new ListFooterFactory(getContext(), resource);
-        add(footer);
+        setFooterFactory(new ListFooterFactory(getContext(), resource));
     }
 
     @NonNull
@@ -116,6 +111,7 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
                 if (null == footerFactory)
                     throw new IllegalArgumentException("A footer factory should be implemented");
                 factory = footerFactory;
+                break;
             default:
                 throw new IllegalArgumentException("Unknown item type.");
         }

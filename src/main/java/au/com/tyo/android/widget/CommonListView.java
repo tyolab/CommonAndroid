@@ -209,7 +209,7 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
         if (adapter == null)
             return;
 
-        int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
+        // int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(), MeasureSpec.UNSPECIFIED);
         int totalHeight = 0;
         View view = null;
         int count = adapter.getCount();
@@ -222,6 +222,8 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 
             contertView = viewMap.get(clsName);
             if (contertView == null) {
+
+				// view is inflated here, the view should have an actual height
                 view = adapter.getView(i, null, listView);
 
                 /*
@@ -230,12 +232,15 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 
                  */
 
-                view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+                // view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
                 viewMap.put(clsName, view);
             }
             else
                 view = contertView;
-            totalHeight += view.getMeasuredHeight();
+
+            // the difference between getMeasuredHeight and getHeight
+            // 1. should, 2. actual
+            totalHeight += view.getHeight(); // getMeasuredHeight();
         }
         ViewGroup.LayoutParams params = listView.getLayoutParams();
         params.height = totalHeight + (listView.getDividerHeight() * (adapter.getCount() - 1));
