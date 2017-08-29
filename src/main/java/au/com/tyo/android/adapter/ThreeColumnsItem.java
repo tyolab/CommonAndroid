@@ -17,6 +17,8 @@ public class ThreeColumnsItem implements ListItem {
 
     private String rightMostText;
 
+    private String altText;
+
     public ThreeColumnsItem(Drawable leftMostDrawable, Drawable rightMostDrawable, String middleText) {
         this.leftMostDrawable = leftMostDrawable;
         this.rightMostDrawable = rightMostDrawable;
@@ -37,6 +39,10 @@ public class ThreeColumnsItem implements ListItem {
 
     public void setMiddleText(String middleText) {
         this.middleText = middleText;
+    }
+
+    public void setAltText(String altText) {
+        this.altText = altText;
     }
 
     @Override
@@ -67,5 +73,10 @@ public class ThreeColumnsItem implements ListItem {
     @Override
     public int getViewType() {
         return ListWithHeadersAdapter.ItemType.ITEM.ordinal();
+    }
+
+    @Override
+    public CharSequence getAltText() {
+        return altText;
     }
 }

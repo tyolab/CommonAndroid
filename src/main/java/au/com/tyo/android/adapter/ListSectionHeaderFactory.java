@@ -60,6 +60,11 @@ public class ListSectionHeaderFactory extends InflaterFactory {
         public String toString() {
             return getTitle();
         }
+
+        @Override
+        public CharSequence getAltText() {
+            return null;
+        }
     }
 
     public ListSectionHeaderFactory(Context context) {

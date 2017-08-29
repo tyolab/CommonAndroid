@@ -12,17 +12,17 @@ import android.graphics.drawable.ShapeDrawable;
 
 public class ColorUtils extends au.com.tyo.utils.ColorUtils {
 
-    public static void setDrawableColor(Drawable background, int color) {
-        if (background instanceof ShapeDrawable) {
-            ShapeDrawable shapeDrawable = (ShapeDrawable) background;
+    public static void setDrawableColor(Drawable drawable, int color) {
+        if (drawable instanceof ShapeDrawable) {
+            ShapeDrawable shapeDrawable = (ShapeDrawable) drawable;
             shapeDrawable.getPaint().setColor(color);
         }
-        else if (background instanceof GradientDrawable) {
-            GradientDrawable gradientDrawable = (GradientDrawable) background;
+        else if (drawable instanceof GradientDrawable) {
+            GradientDrawable gradientDrawable = (GradientDrawable) drawable;
             gradientDrawable.setColor(color);
         }
-        else if (background instanceof ColorDrawable) {
-            ColorDrawable colorDrawable = (ColorDrawable) background;
+        else if (drawable instanceof ColorDrawable) {
+            ColorDrawable colorDrawable = (ColorDrawable) drawable;
             colorDrawable.setColor(color);
         }
     }

@@ -624,11 +624,15 @@ public class AndroidUtils {
 	 * @param activity
 	 * @param colorResId
 	 */
-	public static void setStatusBarColor(Activity activity, int colorResId) {
-		setStatusBarColor(activity, colorResId, 0);
+	public static void setStatusBarColorWithResourceId(Activity activity, int colorResId) {
+		setStatusBarColorWithResourceId(activity, colorResId, 0);
 	}
 
-	public static void setStatusBarColor(Activity activity, int colorResId, int actionBarHeight) {
+	public static void setStatusBarColorWithResourceId(Activity activity, int colorResId, int actionBarHeight) {
+		setStatusBarColor(activity, ContextCompat.getColor(activity, colorResId), actionBarHeight);
+	}
+
+	public static void setStatusBarColor(Activity activity, int color, int actionBarHeight) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Window window = activity.getWindow();
 
@@ -636,7 +640,7 @@ public class AndroidUtils {
 
 			window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
 
-			window.setStatusBarColor(ContextCompat.getColor(activity, colorResId));
+			window.setStatusBarColor(color);
 		}
 		else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			Window w = activity.getWindow();
@@ -653,7 +657,7 @@ public class AndroidUtils {
 			FrameLayout frameLayout = (FrameLayout) w.getDecorView().findViewById(android.R.id.content);
 			ViewGroup parent = ((ViewGroup) w.getDecorView());
 			parent.addView(view);
-			view.setBackgroundColor(activity.getResources().getColor(colorResId));
+			view.setBackgroundColor(color);
 		}
 	}
 
