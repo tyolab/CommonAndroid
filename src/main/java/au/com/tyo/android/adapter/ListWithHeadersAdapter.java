@@ -72,6 +72,11 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
         }
     }
 
+    /**
+     *
+     * @param context
+     * @param resource
+     */
     protected void onCreate(Context context, int resource) {
         sectionHeaderFactory = new ListSectionHeaderFactory(context);
         itemFactory = new ListItemFactory(context, resource);

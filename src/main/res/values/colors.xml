@@ -24,8 +24,8 @@
     
     
     <!--  COLOR COLOR -->
-    <color name="white">#ffffffff</color>
-    <color name="black">#ff000000</color>
+    <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
     <color name="dark_green">#0e8519</color>
     
     <color name="popup_bg_color">#D9D9D9</color>

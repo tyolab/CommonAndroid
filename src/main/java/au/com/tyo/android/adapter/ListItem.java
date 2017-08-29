@@ -11,6 +11,7 @@ public interface ListItem extends ListItemViewType {
 
     Drawable getImageViewDrawable();
     CharSequence getText1();
+    CharSequence getAltText();
     Drawable getImageButtonDrawable();
     View.OnClickListener getImageButtonOnClickListener();
     CharSequence getText2();
