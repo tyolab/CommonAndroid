@@ -628,10 +628,31 @@ public class AndroidUtils {
 		setStatusBarColorWithResourceId(activity, colorResId, 0);
 	}
 
+	/**
+	 *
+	 * @param activity
+	 * @param colorResId
+	 * @param actionBarHeight
+	 */
 	public static void setStatusBarColorWithResourceId(Activity activity, int colorResId, int actionBarHeight) {
 		setStatusBarColor(activity, ContextCompat.getColor(activity, colorResId), actionBarHeight);
 	}
 
+	/**
+	 *
+	 * @param activity
+	 * @param color
+	 */
+	public static void setStatusBarColor(Activity activity, int color) {
+		setStatusBarColor(activity, color, 0);
+	}
+
+	/**
+	 *
+	 * @param activity
+	 * @param color
+	 * @param actionBarHeight
+	 */
 	public static void setStatusBarColor(Activity activity, int color, int actionBarHeight) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			Window window = activity.getWindow();
