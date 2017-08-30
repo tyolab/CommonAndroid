@@ -14,6 +14,8 @@ import au.com.tyo.android.R;
 
 public class ListSectionHeaderFactory extends InflaterFactory {
 
+    private int backgroundColor = -1;
+
     public static class SectionHeader implements ListItem {
 
         private String title;
@@ -75,6 +77,14 @@ public class ListSectionHeaderFactory extends InflaterFactory {
         super(context, resource);
     }
 
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
+
     @Override
     public View getView(View convertView, ViewGroup parent) {
         View view = super.getView(convertView, parent);
@@ -94,9 +104,11 @@ public class ListSectionHeaderFactory extends InflaterFactory {
      */
 
 
-
     @Override
     public void bindData(ViewHolder holder, Object obj) {
+        if (backgroundColor > -1) {
+            holder.view.setBackgroundColor(backgroundColor);
+        }
         TextView text = (TextView) holder.view.findViewById(android.R.id.text1);
         text.setText(obj.toString());
     }

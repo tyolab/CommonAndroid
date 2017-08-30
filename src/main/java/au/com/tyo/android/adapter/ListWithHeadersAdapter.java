@@ -19,14 +19,96 @@ import java.util.List;
 
 public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
+    public static final int ITEM_TYPE_ITEM = 0;
+
+    public static final int ITEM_TYPE_SECTION_HEADER = 1;
+
+    public static final int ITEM_TYPE_HEADER = 2;
+
+    public static final int ITEM_TYPE_FOOTER = 4;
+
+    public static final int ITEM_TYPE_CUSTOM1 = 100;
+
+    public static final int ITEM_TYPE_CUSTOM6 = 600;
+
+    public static final int ITEM_TYPE_CUSTOM2 = 200;
+
+    public static final int ITEM_TYPE_CUSTOM3 = 300;
+
+    public static final int ITEM_TYPE_CUSTOM4 = 400;
+
+    public static final int ITEM_TYPE_CUSTOM5 = 500;
+
     protected ListSectionHeaderFactory sectionHeaderFactory;
 
     protected ListItemFactory itemFactory;
 
     protected ListFooterFactory footerFactory;
 
-    public enum ItemType {
-        ITEM, SECTION_HEADER, FOOTER, HEADER /* better not to implement header here */
+    public interface ItemValue<T> {
+        T valueOf();
+    }
+
+    public enum ItemType implements ItemValue<Integer> {
+        ITEM {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_ITEM;
+            }
+        }, SECTION_HEADER {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_SECTION_HEADER;
+            }
+        }, FOOTER {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_FOOTER;
+            }
+        }, HEADER {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_HEADER;
+            }
+        } /* better not to implement header here */
+        ,
+        CUSTOM1 {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_CUSTOM1;
+            }
+        },
+        CUSTOM2 {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_CUSTOM2;
+            }
+        },
+        CUSTOM3 {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_CUSTOM3;
+            }
+        },
+        CUSTOM4 {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_CUSTOM4;
+            }
+        },
+        CUSTOM5 {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_CUSTOM5;
+            }
+        },
+        CUSTOM6 {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_CUSTOM6;
+            }
+        }
+
     }
 
     public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource) {
@@ -57,6 +139,22 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
     public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull List<ListItemViewType> objects) {
         super(context, resource, textViewResourceId, objects);
         onCreate(context, resource);
+    }
+
+    public ListSectionHeaderFactory getSectionHeaderFactory() {
+        return sectionHeaderFactory;
+    }
+
+    public void setSectionHeaderFactory(ListSectionHeaderFactory sectionHeaderFactory) {
+        this.sectionHeaderFactory = sectionHeaderFactory;
+    }
+
+    public ListItemFactory getItemFactory() {
+        return itemFactory;
+    }
+
+    public void setItemFactory(ListItemFactory itemFactory) {
+        this.itemFactory = itemFactory;
     }
 
     public ListFooterFactory getFooterFactory() {
@@ -116,6 +214,13 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
                 if (null == footerFactory)
                     throw new IllegalArgumentException("A footer factory should be implemented");
                 factory = footerFactory;
+            case CUSTOM1:
+            case CUSTOM2:
+            case CUSTOM3:
+            case CUSTOM4:
+            case CUSTOM5:
+            case CUSTOM6:
+                factory = getCustomFactory(itemType);
                 break;
             default:
                 throw new IllegalArgumentException("Unknown item type.");
@@ -123,6 +228,11 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
         holder = factory.getViewHolder(convertView, parent, obj);
         return holder.view;
+    }
+
+    protected InflaterFactory getCustomFactory(ItemType itemType) {
+        // do nothing
+        return null;
     }
 
     @Override
