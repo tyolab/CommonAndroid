@@ -15,25 +15,38 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content">
 
-		<ImageView
-			android:id="@+id/itl_image_view"
-			android:layout_width="@dimen/image_list_cell_image_width"
-			android:layout_height="@dimen/image_list_cell_image_height"
-			android:gravity="left|center_vertical"
-			android:scaleType="centerCrop"
-			android:visibility="gone"
-			android:layout_alignParentLeft="true"
-			android:layout_gravity="center"
-			 />
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left|center_vertical"
+            android:visibility="gone"
+            android:layout_alignParentLeft="true"
+            android:layout_gravity="center"
+            android:id="@+id/itl_image_view_container"
+            >
+            <ImageView
+                android:id="@+id/itl_image_view"
+                android:layout_width="@dimen/image_list_cell_image_width"
+                android:layout_height="@dimen/image_list_cell_image_height"
+                android:scaleType="centerCrop"
+                />
+        </FrameLayout>
 
-		<ImageView
-			android:id="@+id/itl_image_button"
-			android:layout_width="@dimen/image_list_cell_image_width"
-			android:layout_height="@dimen/image_list_cell_image_height"
-			android:visibility="gone"
-			android:layout_alignParentRight="true"
-			android:layout_gravity="center"
-			/>
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/itl_image_button_container"
+            android:visibility="gone"
+            >
+            <ImageView
+                android:id="@+id/itl_image_button"
+                android:layout_width="@dimen/image_list_cell_image_width"
+                android:layout_height="@dimen/image_list_cell_image_height"
+                android:visibility="gone"
+                android:layout_alignParentRight="true"
+                android:layout_gravity="center"
+                />
+        </FrameLayout>
 
 		<TextView
 			android:id="@android:id/text1"
@@ -41,8 +54,8 @@
 			android:layout_height="match_parent"
 			android:paddingLeft="8dp"
 			android:gravity="left|center_vertical"
-			android:layout_toLeftOf="@id/itl_image_button"
-			android:layout_toRightOf="@id/itl_image_view"
+			android:layout_toLeftOf="@id/itl_image_button_container"
+			android:layout_toRightOf="@id/itl_image_view_container"
 			android:textAppearance="?android:attr/textAppearanceSmallInverse"
 			android:lines="1"
 			/>

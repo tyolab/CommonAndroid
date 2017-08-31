@@ -54,20 +54,52 @@ public class ListItemFactory extends InflaterFactory {
                 tvTitle.setText(item.getText1());
             }
 
-            ImageView imgView = (ImageView) view.findViewById(R.id.itl_image_view);
-            if (null != imgView && null != item.getImageViewDrawable())
-                imgView.setImageDrawable(item.getImageViewDrawable());
+            // containers
+            View containerCol1 = view.findViewById(R.id.itl_image_view_container);
 
-            ImageView imgButton = (ImageView) view.findViewById(R.id.itl_image_button);
-            //
-            if (imgButton != null) {
-                if (null != item.getImageButtonOnClickListener())
-                    imgButton.setOnClickListener(item.getImageButtonOnClickListener());
-                else if (null != listener)
-                    imgButton.setOnClickListener(listener);
+            if (null != containerCol1) {
+                ImageView imgView = (ImageView) view.findViewById(R.id.itl_image_view);
+                if (null != imgView && null != item.getImageViewDrawable())
+                    imgView.setImageDrawable(item.getImageViewDrawable());
 
-                if (null != item.getImageButtonDrawable())
-                    imgButton.setImageDrawable(item.getImageButtonDrawable());
+                CharSequence altText = item.getAltText();
+                TextView tvAlt = (TextView) view.findViewById(R.id.itl_image_alt);
+                if (null != tvAlt && null != altText) {
+                    tvAlt.setText(altText);
+                    tvAlt.setVisibility(View.VISIBLE);
+
+                    if (null != imgView)
+                        imgView.setVisibility(View.GONE);
+                }
+                else {
+                    imgView.setVisibility(View.VISIBLE);
+
+                    if (tvAlt != null)
+                        tvAlt.setVisibility(View.GONE);
+                }
+
+                if (null != tvAlt || null != imgView)
+                    containerCol1.setVisibility(View.VISIBLE);
+            }
+
+
+            View containerCol3 = view.findViewById(R.id.itl_image_button_container);
+
+            if (null != containerCol3) {
+                ImageView imgButton = (ImageView) view.findViewById(R.id.itl_image_button);
+                //
+                if (imgButton != null) {
+                    if (null != item.getImageButtonOnClickListener())
+                        imgButton.setOnClickListener(item.getImageButtonOnClickListener());
+                    else if (null != listener)
+                        imgButton.setOnClickListener(listener);
+
+                    if (null != item.getImageButtonDrawable())
+                        imgButton.setImageDrawable(item.getImageButtonDrawable());
+                }
+
+                if (null != imgButton)
+                    containerCol3.setVisibility(View.VISIBLE);
             }
 
             CharSequence text2 = item.getText2();
@@ -75,22 +107,6 @@ public class ListItemFactory extends InflaterFactory {
             if (text2 != null) {
                 TextView tv2 = (TextView) view.findViewById(android.R.id.text2);
                 tv2.setText(text2);
-            }
-
-            CharSequence altText = item.getAltText();
-            TextView tvAlt = (TextView) view.findViewById(R.id.itl_image_alt);
-            if (null != tvAlt && null != altText) {
-                tvAlt.setText(altText);
-                tvAlt.setVisibility(View.VISIBLE);
-
-                if (null != imgView)
-                    imgView.setVisibility(View.GONE);
-            }
-            else {
-                imgView.setVisibility(View.VISIBLE);
-
-                if (tvAlt != null)
-                    tvAlt.setVisibility(View.GONE);
             }
         }
         else {
