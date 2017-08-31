@@ -187,7 +187,10 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
     @Override
     public int getItemViewType(int position) {
-        return getItem(position).getViewType();
+        Object obj = getItem(position);
+        if (obj instanceof ListItemViewType)
+            return ((ListItemViewType) obj).getViewType();
+        return ItemType.ITEM.ordinal();
     }
 
     public void addFooter(int resource) {

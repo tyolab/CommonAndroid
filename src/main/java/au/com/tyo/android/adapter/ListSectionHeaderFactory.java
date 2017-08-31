@@ -14,7 +14,7 @@ import au.com.tyo.android.R;
 
 public class ListSectionHeaderFactory extends InflaterFactory {
 
-    private int backgroundColor = -1;
+    private Integer backgroundColor = null;
 
     public static class SectionHeader implements ListItem {
 
@@ -106,7 +106,7 @@ public class ListSectionHeaderFactory extends InflaterFactory {
 
     @Override
     public void bindData(ViewHolder holder, Object obj) {
-        if (backgroundColor > -1) {
+        if (backgroundColor != null) {
             holder.view.setBackgroundColor(backgroundColor);
         }
         TextView text = (TextView) holder.view.findViewById(android.R.id.text1);

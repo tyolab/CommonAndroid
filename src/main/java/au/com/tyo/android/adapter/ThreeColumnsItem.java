@@ -17,7 +17,7 @@ public class ThreeColumnsItem implements ListItem {
 
     private String rightMostText;
 
-    private String altText;
+    private String altText = null;
 
     public ThreeColumnsItem(Drawable leftMostDrawable, Drawable rightMostDrawable, String middleText) {
         this.leftMostDrawable = leftMostDrawable;
