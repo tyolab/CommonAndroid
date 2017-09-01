@@ -1,6 +1,7 @@
 package au.com.tyo.android.adapter;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -80,6 +81,8 @@ public class ListItemFactory extends InflaterFactory {
 
                 if (null != tvAlt || null != imgView)
                     containerCol1.setVisibility(View.VISIBLE);
+                else
+                    containerCol1.setVisibility(View.GONE);
             }
 
 
@@ -87,6 +90,7 @@ public class ListItemFactory extends InflaterFactory {
 
             if (null != containerCol3) {
                 ImageView imgButton = (ImageView) view.findViewById(R.id.itl_image_button);
+                Drawable imgButtonDrawable = item.getImageButtonDrawable();
                 //
                 if (imgButton != null) {
                     if (null != item.getImageButtonOnClickListener())
@@ -94,12 +98,13 @@ public class ListItemFactory extends InflaterFactory {
                     else if (null != listener)
                         imgButton.setOnClickListener(listener);
 
-                    if (null != item.getImageButtonDrawable())
-                        imgButton.setImageDrawable(item.getImageButtonDrawable());
+                    imgButton.setImageDrawable(imgButtonDrawable);
                 }
 
-                if (null != imgButton)
+                if (null != imgButton && null != imgButtonDrawable)
                     containerCol3.setVisibility(View.VISIBLE);
+                else
+                    containerCol3.setVisibility(View.GONE);
             }
 
             CharSequence text2 = item.getText2();
