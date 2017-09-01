@@ -59,21 +59,26 @@ public class ListItemFactory extends InflaterFactory {
             View containerCol1 = view.findViewById(R.id.itl_image_view_container);
 
             if (null != containerCol1) {
-                ImageView imgView = (ImageView) view.findViewById(R.id.itl_image_view);
-                if (null != imgView && null != item.getImageViewDrawable())
-                    imgView.setImageDrawable(item.getImageViewDrawable());
+                ImageView imgView = null;
+
+                if (null != item.getImageViewDrawable()) {
+                    imgView = (ImageView) view.findViewById(R.id.itl_image_view);
+                    if (null != imgView && null != item.getImageViewDrawable())
+                        imgView.setImageDrawable(item.getImageViewDrawable());
+                }
 
                 CharSequence altText = item.getAltText();
-                TextView tvAlt = (TextView) view.findViewById(R.id.itl_image_alt);
+                TextView tvAlt = null;
+                tvAlt = (TextView) view.findViewById(R.id.itl_image_alt);
                 if (null != tvAlt && null != altText) {
                     tvAlt.setText(altText);
                     tvAlt.setVisibility(View.VISIBLE);
 
                     if (null != imgView)
                         imgView.setVisibility(View.GONE);
-                }
-                else {
-                    imgView.setVisibility(View.VISIBLE);
+                } else {
+                    if (null != imgView)
+                        imgView.setVisibility(View.VISIBLE);
 
                     if (tvAlt != null)
                         tvAlt.setVisibility(View.GONE);
@@ -107,11 +112,13 @@ public class ListItemFactory extends InflaterFactory {
                     containerCol3.setVisibility(View.GONE);
             }
 
-            CharSequence text2 = item.getText2();
-
-            if (text2 != null) {
-                TextView tv2 = (TextView) view.findViewById(android.R.id.text2);
-                tv2.setText(text2);
+            TextView tv2 = (TextView) view.findViewById(android.R.id.text2);
+            if (null != tv2) {
+                CharSequence text2 = item.getText2();
+                if (text2 != null)
+                    tv2.setText(text2);
+                else
+                    tv2.setVisibility(View.GONE);
             }
         }
         else {
