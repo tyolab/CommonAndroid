@@ -68,15 +68,16 @@ public class ListItemFactory extends InflaterFactory {
                 }
 
                 CharSequence altText = item.getAltText();
-                TextView tvAlt = null;
-                tvAlt = (TextView) view.findViewById(R.id.itl_image_alt);
+                TextView tvAlt = (TextView) view.findViewById(R.id.itl_image_alt);
+
                 if (null != tvAlt && null != altText) {
                     tvAlt.setText(altText);
-                    tvAlt.setVisibility(View.VISIBLE);
 
+                    tvAlt.setVisibility(View.VISIBLE);
                     if (null != imgView)
                         imgView.setVisibility(View.GONE);
-                } else {
+                }
+                else  {
                     if (null != imgView)
                         imgView.setVisibility(View.VISIBLE);
 
@@ -84,7 +85,7 @@ public class ListItemFactory extends InflaterFactory {
                         tvAlt.setVisibility(View.GONE);
                 }
 
-                if (null != tvAlt || null != imgView)
+                if ((null != tvAlt && tvAlt.getVisibility() == View.VISIBLE) || (null != imgView && imgView.getVisibility() == View.VISIBLE))
                     containerCol1.setVisibility(View.VISIBLE);
                 else
                     containerCol1.setVisibility(View.GONE);
@@ -115,8 +116,10 @@ public class ListItemFactory extends InflaterFactory {
             TextView tv2 = (TextView) view.findViewById(android.R.id.text2);
             if (null != tv2) {
                 CharSequence text2 = item.getText2();
-                if (text2 != null)
+                if (text2 != null) {
                     tv2.setText(text2);
+                    tv2.setVisibility(View.VISIBLE);
+                }
                 else
                     tv2.setVisibility(View.GONE);
             }
