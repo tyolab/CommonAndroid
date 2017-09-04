@@ -6,24 +6,15 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.HttpVersion;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.CoreProtocolPNames;
-import org.apache.http.params.HttpParams;
-
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 import au.com.tyo.android.utils.CacheManager;
+import au.com.tyo.services.HttpPool;
 
 public abstract class ResourceFetcher<FileType, ContainerType> extends CacheManager<FileType>
 	implements ResourceFetchererInterface<FileType, ContainerType> {
@@ -272,42 +263,46 @@ public abstract class ResourceFetcher<FileType, ContainerType> extends CacheMana
 
 	public FileType downloadFileWithUrl(String url) {
     	FileType fileType = null;
-    	HttpParams params = new BasicHttpParams();
-    	params.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-    	HttpClient client = new DefaultHttpClient(params);
-    	
-    	HttpGet getRequest = null;
+		InputStream inputStream = null;
+//    	HttpParams params = new BasicHttpParams();
+//    	params.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
+//    	HttpClient client = new DefaultHttpClient(params);
+//
+//    	HttpGet getRequest = null;
     	try {
-	        getRequest = new HttpGet(url);
-	        
-	        InputStream inputStream = null;
-
-            HttpResponse response = client.execute(getRequest);
-            final int statusCode = response.getStatusLine().getStatusCode();
-            if (statusCode != HttpStatus.SC_OK) { 
-                Log.w("Downloader", "Error " + statusCode + " while retrieving file from " + url); 
-                return null;
-            }
-            
-            final HttpEntity entity = response.getEntity();
-            if (entity != null) {
-                try {
-                    inputStream = entity.getContent(); 
-                    fileType = processInputStream(inputStream, url);
-                } finally {
-                    if (inputStream != null) {
-                        inputStream.close();  
-                    }
-                    entity.consumeContent();
-                }
-            }
+//	        getRequest = new HttpGet(url);
+//
+//            HttpResponse response = client.execute(getRequest);
+//            final int statusCode = response.getStatusLine().getStatusCode();
+//            if (statusCode != HttpStatus.SC_OK) {
+//                Log.w("Downloader", "Error " + statusCode + " while retrieving file from " + url);
+//                return null;
+//            }
+//
+//            final HttpEntity entity = response.getEntity();
+//            if (entity != null) {
+//                try {
+//                    inputStream = entity.getContent();
+//                    fileType = processInputStream(inputStream, url);
+//                } finally {
+//                    if (inputStream != null) {
+//                        inputStream.close();
+//                    }
+//                    entity.consumeContent();
+//                }
+//            }
+			inputStream = HttpPool.getConnection().getAsInputStream(url);
+            fileType = processInputStream(inputStream, url);
         } catch (Exception e) {
             // Could provide a more explicit error message for IOException or IllegalStateException
-            if (getRequest != null) getRequest.abort();
+             // if (getRequest != null) getRequest.abort();
             Log.w("Downloader", "Error while retrieving file from " + url + e.toString());
         } finally {
-            if (client != null) {
-                //client.close();
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                }
             }
         }
         return fileType;
