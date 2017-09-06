@@ -27,7 +27,7 @@ import java.net.MalformedURLException;
 import java.util.Date;
 
 import au.com.tyo.services.HttpConnection;
-import au.com.tyo.utils.DateUtils;
+import au.com.tyo.utils.SimpleDateUtils;
 
 ;
 
@@ -237,7 +237,7 @@ public class HttpAndroid extends HttpConnection {
         long lastModifiedDate = 0;
         try {
             if (response.getHeaders() != null && response.getHeaders().getLastModified() != null) {
-                date = DateUtils.parseDate(response.getHeaders().getLastModified());
+                date = SimpleDateUtils.parseDate(response.getHeaders().getLastModified());
                 lastModifiedDate = date.getTime();
             }
         } catch (Exception e) {
