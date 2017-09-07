@@ -14,6 +14,8 @@ import au.com.tyo.android.R;
 
 public class ListItemFactory extends InflaterFactory {
 
+    private int titleResId = android.R.id.text1;
+
     private View.OnClickListener listener;
 
     public ListItemFactory(Context context) {
@@ -32,6 +34,14 @@ public class ListItemFactory extends InflaterFactory {
         this.listener = listener;
     }
 
+    public int getTitleResId() {
+        return titleResId;
+    }
+
+    public void setTitleResource(int titleResId) {
+        this.titleResId = titleResId;
+    }
+
     /**
 
      define this in the listitem implementation
@@ -46,7 +56,7 @@ public class ListItemFactory extends InflaterFactory {
     @Override
     public void bindData(ViewHolder holder, Object obj) {
         View view = holder.view;
-        TextView tvTitle = (TextView) view.findViewById(android.R.id.text1);
+        TextView tvTitle = (TextView) view.findViewById(getTitleResId());
 
         if (obj instanceof ListItem){
             ListItem item = (ListItem) obj;
