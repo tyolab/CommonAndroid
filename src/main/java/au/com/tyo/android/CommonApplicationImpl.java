@@ -2,7 +2,6 @@ package au.com.tyo.android;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Application;
 import android.app.Dialog;
 import android.app.NotificationManager;
@@ -14,9 +13,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.View;
-import android.widget.TextView;
 
 /**
  * Use pattern for the class names:
@@ -139,7 +135,7 @@ public abstract class CommonApplicationImpl implements CommonController {
 	}
 	
 	protected void showConfirmQuitDialog() {
-		Dialog dialog = DialogFactory.createExitPromtDialog(context, this.getAppName(), 
+		Dialog dialog = DialogFactory.createExitPromptDialog(context, this.getAppName(),
 				new DialogInterface.OnClickListener() {
 	
 					@Override

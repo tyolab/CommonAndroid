@@ -9,17 +9,33 @@ import android.content.Context;
 import android.content.DialogInterface;
 
 public class DialogFactory {
-	
+
+	/**
+	 *
+	 */
 	public static DialogInterface.OnClickListener dismissMeListener = new DialogInterface.OnClickListener() {
 	    public void onClick(DialogInterface dialog, int which) {
         	dialog.dismiss();
 	    }
 	};
-	
+
+	/**
+	 *
+	 * @param context
+	 * @param style
+	 * @return
+	 */
 	public static AlertDialog.Builder getBuilder(Context context, int style) {
 		return getBuilder(context, style, android.R.attr.alertDialogIcon);
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 * @param style
+	 * @param iconResId
+	 * @return
+	 */
 	public static AlertDialog.Builder getBuilder(Context context, int style, int iconResId) {
 		AlertDialog.Builder builder;
 		if (AndroidUtils.getAndroidVersion() > 10 && style > 0) {
@@ -30,12 +46,23 @@ public class DialogFactory {
 			builder = new AlertDialog.Builder(context);
 		return builder;
 	}
-	
-	public static DialogInterface.OnClickListener createDissmissListener(final Activity activity) {
-		return createDissmissListener(activity, false);
+
+	/**
+	 *
+	 * @param activity
+	 * @return
+	 */
+	public static DialogInterface.OnClickListener createDismissListener(final Activity activity) {
+		return createDismissListener(activity, false);
 	}
-	
-	public static DialogInterface.OnClickListener createDissmissListener(final Activity activity, final boolean exitApp) {
+
+	/**
+	 *
+	 * @param activity
+	 * @param exitApp
+	 * @return
+	 */
+	public static DialogInterface.OnClickListener createDismissListener(final Activity activity, final boolean exitApp) {
 		return new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
         		dialog.dismiss();
@@ -44,16 +71,50 @@ public class DialogFactory {
             }
         };
 	}
-	
+
+	/**
+	 *
+	 * @param context
+	 * @param themeResId
+	 * @param title
+	 * @param message
+	 * @return
+	 */
 	public static Builder createDialogBuilder(Context context, int themeResId, String title, 
 			String message) {
 		return createDialogBuilder(context, themeResId, title, message, null, null);
+	}
+
+	/**
+	 *
+	 * @param context
+	 * @param themeResId
+	 * @param dialogArrayResId
+	 * @param okListener
+	 * @param cancelListener
+	 * @return
+	 */
+	public static Dialog createDialog(Context context, int themeResId, int dialogArrayResId,
+                                      DialogInterface.OnClickListener okListener,
+                                      DialogInterface.OnClickListener cancelListener) {
+		String [] strings = context.getResources().getStringArray(dialogArrayResId);
+		return createDialog(context, themeResId, strings[0], strings[1], okListener, cancelListener);
+	}
+
+	public static Dialog createDialog(Context context, int themeResId, String title,
+                                      String message,
+                                      DialogInterface.OnClickListener okListener,
+                                      DialogInterface.OnClickListener cancelListener) {
+		Dialog dialog;
+		AlertDialog.Builder builder = createDialogBuilder(context, themeResId, title, message, okListener, cancelListener);
+		dialog = builder.create();
+		return dialog;
 	}
 	
 	public static AlertDialog.Builder createDialogBuilder(Context context, int themeResId, String title, 
 			String message, 
 			DialogInterface.OnClickListener okListener, 
-			DialogInterface.OnClickListener cancleListener) {
+			DialogInterface.OnClickListener cancelListener) {
 		
 		AlertDialog.Builder builder = getBuilder(context, themeResId);
 		
@@ -64,8 +125,8 @@ public class DialogFactory {
 		if (okListener != null)
 			builder.setPositiveButton(R.string.alert_dialog_ok, okListener);
 		
-		if (cancleListener != null)
-			builder.setNegativeButton(R.string.alert_dialog_cancel,  cancleListener);
+		if (cancelListener != null)
+			builder.setNegativeButton(R.string.alert_dialog_cancel,  cancelListener);
 		
        return builder;
 	}
@@ -90,11 +151,11 @@ public class DialogFactory {
 		return dialog;
 	}
 	
-	public static Dialog createExitPromtDialog(Context context, String what, DialogInterface.OnClickListener listener) {
-		return createExitPromtDialog(context, what, listener, null);
+	public static Dialog createExitPromptDialog(Context context, String what, DialogInterface.OnClickListener listener) {
+		return createExitPromptDialog(context, what, listener, null);
 	}
 	
-	public static Dialog createExitPromtDialog(final Context context, String what, DialogInterface.OnClickListener listener, DialogInterface.OnClickListener cancelListener) {
+	public static Dialog createExitPromptDialog(final Context context, String what, DialogInterface.OnClickListener listener, DialogInterface.OnClickListener cancelListener) {
 		Dialog dialog = null;
 		dialog = new AlertDialog.Builder(context)
 		.setIcon(android.R.drawable.ic_dialog_alert)
