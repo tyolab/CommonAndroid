@@ -2,11 +2,13 @@ package au.com.tyo.android;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.view.Gravity;
+import android.widget.Button;
+import android.widget.LinearLayout;
 
 public class DialogFactory {
 
@@ -80,8 +82,8 @@ public class DialogFactory {
 	 * @param message
 	 * @return
 	 */
-	public static Builder createDialogBuilder(Context context, int themeResId, String title, 
-			String message) {
+	public static AlertDialog.Builder createDialogBuilder(Context context, int themeResId, String title,
+                                                          String message) {
 		return createDialogBuilder(context, themeResId, title, message, null, null);
 	}
 
@@ -136,7 +138,7 @@ public class DialogFactory {
 			DialogInterface.OnClickListener okListener, 
 			DialogInterface.OnClickListener cancleListener) {
 		
-		return createDialogBuilder(context, AlertDialog.THEME_HOLO_LIGHT, title, message, okListener, cancleListener).create();
+		return createDialogBuilder(context, R.style.Theme_AppCompat_Light_Dialog, title, message, okListener, cancleListener).create();
 	}
 	
 	public static Dialog createClearCacheDialog(Context context, DialogInterface.OnClickListener listener) {
@@ -227,4 +229,27 @@ public class DialogFactory {
 		if(dialog != null && !activity.isFinishing())
 			dialog.show();
 	}
+
+    public static void setVertiallyAlignButtons(AlertDialog dialog) {
+        final Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        dialog.setOnShowListener(new DialogInterface.OnShowListener() {
+            @Override
+            public void onShow(DialogInterface di) {
+                try {
+                    LinearLayout linearLayout = (LinearLayout) button.getParent();
+                    if (linearLayout != null) {
+                        linearLayout.setOrientation(LinearLayout.VERTICAL);
+                        linearLayout.setGravity(Gravity.RIGHT);
+                    }
+                } catch (Exception ignored) {
+
+                }
+            }
+        });
+    }
+
+    public static void setDialogButtonColor(AlertDialog dialog, int whatButton, int color) {
+        Button button = dialog.getButton(whatButton);
+        button.setTextColor(color);
+    }
 }
