@@ -178,17 +178,8 @@ public class AndroidSettings extends CommonSettings implements Android {
 		this.firstTimeRun = prefs.getBoolean(PREF_FIRST_TIME_RUN, true);
 		
 		this.themeId = prefs.getInt(PREF_THEME_ID, -1);
-		
-		if (firstTimeRun)
-			onFirstTimeRun();
-		
-		
-		String theDefaultExternalFilePath = this.dataStoragePath; 
-//		if (AndroidUtils.getAndroidVersion() > 7) {
-//			theDefaultExternalFilePath = context.getExternalFilesDir(null) != null ? context.getExternalFilesDir(null).getAbsolutePath() : context.getCacheDir().getAbsolutePath();
-//		}
-//		else {
-//		}
+
+		String theDefaultExternalFilePath = this.dataStoragePath;
 		
 		this.dataStoragePath = prefs.getString(PREF_DATA_STORAGE_PATH, theDefaultExternalFilePath);
 		if (!new File(dataStoragePath).exists()) 
@@ -219,10 +210,6 @@ public class AndroidSettings extends CommonSettings implements Android {
 
 	public Set getPreferenceSet(String key) {
         return prefs.getStringSet(key, null);
-	}
-
-	protected void onFirstTimeRun() {
-		
 	}
 
 	/**
@@ -266,7 +253,6 @@ public class AndroidSettings extends CommonSettings implements Android {
 	}
 
 	public static AndroidSettings getInstance() {
-
 		return instance;
 	}
 	
@@ -331,6 +317,10 @@ public class AndroidSettings extends CommonSettings implements Android {
 		}
     	editor.commit();		
 	}
+
+	public boolean isFirstTimeRun() {
+        return firstTimeRun;
+    }
 	
 	public void hasRunFirstTime() {
 		this.setFirstTimeRun(false);
