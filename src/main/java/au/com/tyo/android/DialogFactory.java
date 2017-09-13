@@ -230,13 +230,23 @@ public class DialogFactory {
 			dialog.show();
 	}
 
-    public static void setVertiallyAlignButtons(AlertDialog dialog) {
-        final Button button = dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+    public static void setVertiallyAlignButtons(final AlertDialog dialog, final int button1Color, final int button2Color) {
+
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
             public void onShow(DialogInterface di) {
+                AlertDialog dia = (AlertDialog) di;
+                final Button button1 = dia.getButton(DialogInterface.BUTTON_POSITIVE);
+                final Button button2 = dia.getButton(DialogInterface.BUTTON_NEGATIVE);
+
+                if (button1Color != -1  && null != button1)
+                    button1.setTextColor(button1Color);
+
+                if (button2Color != -1 && null != button2)
+                    button2.setTextColor(button2Color);
+
                 try {
-                    LinearLayout linearLayout = (LinearLayout) button.getParent();
+                    LinearLayout linearLayout = (LinearLayout) button1.getParent();
                     if (linearLayout != null) {
                         linearLayout.setOrientation(LinearLayout.VERTICAL);
                         linearLayout.setGravity(Gravity.RIGHT);
@@ -250,6 +260,7 @@ public class DialogFactory {
 
     public static void setDialogButtonColor(AlertDialog dialog, int whatButton, int color) {
         Button button = dialog.getButton(whatButton);
-        button.setTextColor(color);
+        if (null != button)
+            button.setTextColor(color);
     }
 }
