@@ -9,6 +9,8 @@ import android.view.View;
 
 public class ThreeColumnsItem implements ListItem {
 
+    private Object id;
+
     private Drawable leftMostDrawable;
 
     private Drawable rightMostDrawable;
@@ -19,10 +21,25 @@ public class ThreeColumnsItem implements ListItem {
 
     private String altText = null;
 
+    public ThreeColumnsItem(Drawable leftMostDrawable, Drawable rightMostDrawable, String middleText, Object id) {
+        this.leftMostDrawable = leftMostDrawable;
+        this.rightMostDrawable = rightMostDrawable;
+        this.middleText = middleText;
+        this.id = id;
+    }
+
     public ThreeColumnsItem(Drawable leftMostDrawable, Drawable rightMostDrawable, String middleText) {
         this.leftMostDrawable = leftMostDrawable;
         this.rightMostDrawable = rightMostDrawable;
         this.middleText = middleText;
+    }
+
+    public Object getId() {
+        return id;
+    }
+
+    public void setId(Object id) {
+        this.id = id;
     }
 
     public void setLeftMostDrawable(Drawable leftMostDrawable) {
@@ -78,5 +95,9 @@ public class ThreeColumnsItem implements ListItem {
     @Override
     public CharSequence getAltText() {
         return altText;
+    }
+
+    public void update() {
+        // no ops
     }
 }
