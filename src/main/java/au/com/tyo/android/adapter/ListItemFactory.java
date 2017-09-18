@@ -116,7 +116,7 @@ public class ListItemFactory extends InflaterFactory {
                     containerCol3.setVisibility(View.VISIBLE);
 
                     View.OnClickListener aListener = item.getImageButtonOnClickListener();
-                    if (null != aListener)
+                    if (null == aListener)
                         aListener = listener;
 
                     if (null != aListener) {
