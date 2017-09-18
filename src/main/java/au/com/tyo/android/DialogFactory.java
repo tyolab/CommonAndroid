@@ -230,7 +230,17 @@ public class DialogFactory {
 			dialog.show();
 	}
 
-    public static void setVertiallyAlignButtons(final AlertDialog dialog, final int button1Color, final int button2Color) {
+	public static void setDialogAttributes(final AlertDialog dialog, final int button1Color, final int button2Color) {
+		setDialogAttributes(dialog, true, button1Color, button2Color);
+	}
+
+	/**
+	 *
+	 * @param dialog
+	 * @param button1Color
+	 * @param button2Color
+	 */
+    public static void setDialogAttributes(final AlertDialog dialog, final boolean verticalButtons, final int button1Color, final int button2Color) {
 
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
@@ -245,19 +255,27 @@ public class DialogFactory {
                 if (button2Color != -1 && null != button2)
                     button2.setTextColor(button2Color);
 
-                try {
-                    LinearLayout linearLayout = (LinearLayout) button1.getParent();
-                    if (linearLayout != null) {
-                        linearLayout.setOrientation(LinearLayout.VERTICAL);
-                        linearLayout.setGravity(Gravity.RIGHT);
-                    }
-                } catch (Exception ignored) {
+				if (verticalButtons)
+					try {
+						LinearLayout linearLayout = (LinearLayout) button1.getParent();
+						if (linearLayout != null) {
+							linearLayout.setOrientation(LinearLayout.VERTICAL);
+							linearLayout.setGravity(Gravity.RIGHT);
+						}
+					} catch (Exception ignored) {
 
-                }
+					}
             }
         });
     }
 
+    /**
+     * This method won't work, as the buttons are not created when the dialog is
+     *
+     * @param dialog
+     * @param whatButton
+     * @param color
+     */
     public static void setDialogButtonColor(AlertDialog dialog, int whatButton, int color) {
         Button button = dialog.getButton(whatButton);
         if (null != button)
