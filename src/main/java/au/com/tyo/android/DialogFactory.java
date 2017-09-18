@@ -103,6 +103,16 @@ public class DialogFactory {
 		return createDialog(context, themeResId, strings[0], strings[1], okListener, cancelListener);
 	}
 
+    /**
+     *
+     * @param context
+     * @param themeResId
+     * @param title
+     * @param message
+     * @param okListener
+     * @param cancelListener
+     * @return
+     */
 	public static Dialog createDialog(Context context, int themeResId, String title,
                                       String message,
                                       DialogInterface.OnClickListener okListener,
@@ -112,7 +122,17 @@ public class DialogFactory {
 		dialog = builder.create();
 		return dialog;
 	}
-	
+
+    /**
+     *
+     * @param context
+     * @param themeResId
+     * @param title
+     * @param message
+     * @param okListener
+     * @param cancelListener
+     * @return
+     */
 	public static AlertDialog.Builder createDialogBuilder(Context context, int themeResId, String title, 
 			String message, 
 			DialogInterface.OnClickListener okListener, 
@@ -132,7 +152,16 @@ public class DialogFactory {
 		
        return builder;
 	}
-	
+
+    /**
+     *
+     * @param context
+     * @param title
+     * @param message
+     * @param okListener
+     * @param cancleListener
+     * @return
+     */
 	public static Dialog createHoloLightDialog(Context context, String title, 
 			String message, 
 			DialogInterface.OnClickListener okListener, 
@@ -140,7 +169,13 @@ public class DialogFactory {
 		
 		return createDialogBuilder(context, R.style.Theme_AppCompat_Light_Dialog, title, message, okListener, cancleListener).create();
 	}
-	
+
+    /**
+     *
+     * @param context
+     * @param listener
+     * @return
+     */
 	public static Dialog createClearCacheDialog(Context context, DialogInterface.OnClickListener listener) {
 		Dialog dialog = null;
 		dialog = new AlertDialog.Builder(context)

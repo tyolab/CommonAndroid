@@ -109,16 +109,21 @@ public class ListItemFactory extends InflaterFactory {
                 Drawable imgButtonDrawable = item.getImageButtonDrawable();
                 //
                 if (imgButton != null) {
-                    if (null != item.getImageButtonOnClickListener())
-                        imgButton.setOnClickListener(item.getImageButtonOnClickListener());
-                    else if (null != listener)
-                        imgButton.setOnClickListener(listener);
-
                     imgButton.setImageDrawable(imgButtonDrawable);
                 }
 
-                if (null != imgButton && null != imgButtonDrawable)
+                if (null != imgButton || null != imgButtonDrawable) {
                     containerCol3.setVisibility(View.VISIBLE);
+
+                    View.OnClickListener aListener = item.getImageButtonOnClickListener();
+                    if (null != aListener)
+                        aListener = listener;
+
+                    if (null != aListener) {
+                        containerCol3.setClickable(true);
+                        containerCol3.setOnClickListener(listener);
+                    }
+                }
                 else
                     containerCol3.setVisibility(View.GONE);
             }
