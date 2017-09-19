@@ -69,4 +69,9 @@ public class CommonCache extends CacheManager<File> {
         File file = createFile(fileName);
         file.delete();
     }
+
+    public void save(String name, byte[] data) {
+        File file = createFile(name);
+        IO.writeFile(file.getAbsolutePath(), data);
+    }
 }

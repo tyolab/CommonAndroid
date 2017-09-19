@@ -28,7 +28,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 
     public static final long DEFAULT_CACHE_LIFE_SPAN = TimeUnit.DAYS.toMillis(28);
 
-	/**
+    /**
 	 * External storage can't be granteed
 	 */
 	public enum CacheLocation {
@@ -283,13 +283,14 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		}
 	}
 
-	public static String createTimestapFileName(String format) {
+	public static String createTimestampFileName(String format) {
 		SimpleDateFormat df = new SimpleDateFormat(format);
 		df.setTimeZone(TimeZone.getTimeZone("UTC"));
 		return df.format(new Date());
 	}
 
 	public static String createTimestampFileName() {
-		return createTimestapFileName("yyyyMMddHHmmss");
+		return createTimestampFileName("yyyyMMddHHmmss");
 	}
+
 }

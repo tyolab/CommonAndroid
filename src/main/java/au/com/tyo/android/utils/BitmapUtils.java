@@ -53,26 +53,59 @@ public class BitmapUtils {
         return bitmap;
 	}
 	
-	public static byte[] bitmapToBytes(Bitmap bitmap) {
+	public static byte[] bitmapToBytesInPNG(Bitmap bitmap) {
+		return bitmapToBytes(bitmap, Bitmap.CompressFormat.PNG);
+	}
+
+	/**
+	 *
+	 * @param bitmap
+	 * @param format
+	 * @return
+	 */
+	public static byte[] bitmapToBytes(Bitmap bitmap, Bitmap.CompressFormat format) {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
-		bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+		bitmap.compress(format, 100, stream);
 		byte[] bytes = stream.toByteArray();
 		return bytes;
 	}
-	
+
+	/**
+	 *
+	 * @param bytes
+	 * @return
+	 */
 	public static Bitmap bytesToBitmap(byte[] bytes) {
 		return BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 	}
 
-
+	/**
+	 *
+	 * @param bitmap
+	 * @param photo
+	 * @throws IOException
+	 */
 	public static void toJPG(Bitmap bitmap, File photo) throws IOException {
 		saveTo(bitmap, photo, Bitmap.CompressFormat.JPEG);
 	}
 
+	/**
+	 *
+	 * @param bitmap
+	 * @param photo
+	 * @throws IOException
+	 */
 	public static void toPNG(Bitmap bitmap, File photo) throws IOException {
 		saveTo(bitmap, photo, Bitmap.CompressFormat.PNG);
 	}
 
+	/**
+	 *
+	 * @param bitmap
+	 * @param format
+	 * @return
+	 * @throws IOException
+	 */
 	public static String toBase64EncodedString(Bitmap bitmap, Bitmap.CompressFormat format) throws IOException {
 		ByteArrayOutputStream stream = new ByteArrayOutputStream();
 		saveTo(bitmap, stream, format);
@@ -81,12 +114,26 @@ public class BitmapUtils {
         return encodedString;
 	}
 
+	/**
+	 *
+	 * @param bitmap
+	 * @param photo
+	 * @param format
+	 * @throws IOException
+	 */
 	public static void saveTo(Bitmap bitmap, File photo, Bitmap.CompressFormat format) throws IOException {
 		OutputStream stream = new FileOutputStream(photo);
 		saveTo(bitmap, stream, format);
 		stream.close();
 	}
 
+	/**
+	 *
+	 * @param bitmap
+	 * @param stream
+	 * @param format
+	 * @throws IOException
+	 */
 	public static void saveTo(Bitmap bitmap, OutputStream stream, Bitmap.CompressFormat format) throws IOException {
 		Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(newBitmap);
