@@ -20,11 +20,11 @@ import android.view.KeyEvent;
  *
  *
  */
-public abstract class CommonApplicationImpl implements CommonController {
+public abstract class CommonApplicationImpl<T extends CommonController> implements CommonController {
 	
 	private static final String LOG_TAG = "CommonApplicationImpl";
 	
-	/* Meta Infomration */
+	/* Meta Information */
 	protected static Object instance;
 	
 	/* General Stuff */
@@ -63,8 +63,8 @@ public abstract class CommonApplicationImpl implements CommonController {
 		notificationManager = (NotificationManager) context.getSystemService(Application.NOTIFICATION_SERVICE);
 	}
 
-	public static Object getInstance() {
-		return instance;
+	public static <T> T getInstance() {
+		return (T) instance;
 	}
 	
 	public static void setInstance(Object obj) {

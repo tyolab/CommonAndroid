@@ -7,7 +7,7 @@ import android.view.View;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 11/8/17.
  */
 
-public class ThreeColumnsItem implements ListItem {
+public class ThreeColumnsItem implements DisablableListItem {
 
     private Object id;
 
@@ -20,6 +20,8 @@ public class ThreeColumnsItem implements ListItem {
     private String rightMostText;
 
     private String altText = null;
+
+    private boolean disabled = false;
 
     public ThreeColumnsItem(Drawable leftMostDrawable, Drawable rightMostDrawable, String middleText, Object id) {
         this.leftMostDrawable = leftMostDrawable;
@@ -99,5 +101,14 @@ public class ThreeColumnsItem implements ListItem {
 
     public void update() {
         // no ops
+    }
+
+    @Override
+    public boolean isDisabled() {
+        return disabled;
+    }
+
+    public void setDisabled(boolean disabled) {
+        this.disabled = disabled;
     }
 }
