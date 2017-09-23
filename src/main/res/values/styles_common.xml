@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="CommonTextAppearance.Light" parent="TextAppearance.AppCompat.Small">
+
+    </style>
+
+    <style name="CommonTextAppearance.Dark" parent="TextAppearance.AppCompat.Small.Inverse">
+        <item name="android:textColor">@color/theme_dark_text_color</item>
+    </style>
+
+    <style name="CommonLayoutPaddingAndMargin">
+
+    </style>
+
+    <style name="CommonFragmentTitleStyle" parent="CommonLayoutPaddingAndMargin">
+        <item name="android:paddingLeft">@dimen/common_fragment_title_padding_left</item>
+        <item name="android:paddingTop">@dimen/common_fragment_title_padding_top</item>
+        <item name="android:paddingBottom">@dimen/common_fragment_title_padding_bottom</item>
+        <item name="android:layout_marginLeft">@dimen/fragment_title_margin_left</item>
+        <item name="android:layout_marginTop">@dimen/fragment_title_margin_top</item>
+        <item name="android:layout_marginBottom">@dimen/fragment_title_margin_bottom</item>
+    </style>
+
+    <style name="CommonFragmentTitleStyleExtra">
+    </style>
+
+    <style name="CommonFragmentTitleStyleExtra.Light">
+        <item name="android:textColor">@color/theme_light_text_color</item>
+    </style>
+
+    <style name="CommonFragmentTitleStyleExtra.Dark">
+        <item name="android:textColor">@color/theme_dark_text_color</item>
+    </style>
+
+    <!--
+        <item name="colorAccent">@color/green</item>
+        for the checkbox color
+    -->
+    <style name="CommonAlertDialog.Light" parent="Theme.AppCompat.Light.Dialog" >
+
+        <item name="colorPrimary">@color/theme_light_text_color</item>
+        <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
+
+        <item name="android:windowBackground">@color/dialog_background_color_light</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+
+        <item name="android:textColor">@color/theme_light_text_color</item>
+        <item name="android:checkboxStyle">@style/CommonCheckBox.Light</item>
+
+        <item name="colorAccent">#FFC107</item>
+
+        <item name="android:textColorPrimary">@color/theme_light_text_color</item>
+        <item name="android:textColorSecondary">@color/theme_light_text_color</item>
+
+        <item name="android:textAppearanceListItem">@style/CommonTextAppearance.Light</item>
+    </style>
+
+    <style name="CommonAlertDialog.Dark" parent="Theme.AppCompat.DayNight.Dialog">
+        <item name="colorPrimary">@color/theme_dark_text_color</item>
+        <item name="colorPrimaryDark">@color/theme_dark_text_color</item>
+
+        <item name="android:windowBackground">@color/dialog_background_color_dark</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+
+        <item name="android:textColor">@color/theme_dark_text_color</item>
+        <item name="android:checkboxStyle">@style/CommonCheckBox.Dark</item>
+
+        <item name="colorAccent">#00359f</item>
+
+        <item name="android:color">@color/theme_dark_text_color</item>
+        <item name="android:textColorPrimary">@color/theme_dark_text_color</item>
+        <item name="android:textColorSecondary">@color/theme_dark_text_color</item>
+
+        <!-- This is the one will change the text color of radiobutton in the listview-->
+        <item name="android:textColorAlertDialogListItem">@color/theme_dark_text_color</item>
+
+        <item name="android:textAppearanceListItem">@style/CommonTextAppearance.Dark</item>
+        <item name="android:textAppearance">@style/CommonTextAppearance.Dark</item>
+    </style>
+
+
+    <style name="CommonDialog">
+
+    </style>
+
+    <style name="CommonDialog.Light">
+        <item name="android:background">@color/theme_light_background_color</item>
+    </style>
+
+    <style name="CommonDialog.Dark">
+        <item name="android:background">@color/dialog_background_color_dark</item>
+    </style>
+
+    <style name="CommonCheckBox"></style>
+
+    <style name="CommonCheckBox.Light" >
+        <item name="android:textColor">@color/theme_light_text_color</item>
+    </style>
+
+    <style name="CommonCheckBox.Dark" >
+        <item name="android:textColor">@color/theme_dark_text_color</item>
+    </style>
+
+    <style name="CommonButtonOverflow" />
+
+    <style name="CommonButtonOverflow.Dark">
+
+    </style>
+
+    <style name="CommonButtonOverflow.Light">
+
+    </style>
+
+    <style name="CommonTabWidget">
+        <item name="android:textAppearance">@style/CommonTabWidgetText</item>
+    </style>
+
+    <style name="CommonTabWidgetText">
+        <item name="android:textSize">16sp</item>
+        <!--
+        <item name="android:textStyle">**strong text**</item>
+        -->
+    </style>
+
+    <style name="CommonAbstractTitle" />
+
+    <style name="CommonAbstractTitle.Dark">
+
+    </style>
+
+    <style name="CommonAbstractTitle.Light">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="CommonTheme.Light" parent="Theme.AppCompat.Light.NoActionBar"/>
+
+    <style name="CommonTheme.Light.Pale"  parent="CommonTheme.Light">
+
+        <!--  don not use this one -->
+        <!--
+        <item name="android:background">@color/theme_light_background_color</item>
+        -->
+        <item name="android:windowBackground">@color/theme_light_background_color</item>
+        <item name="android:colorBackground">@color/theme_light_background_color</item>
+        <item name="android:textColor">@color/theme_light_text_color</item>
+
+        <item name="cardBackgroundRoundCornerColor">@color/theme_light_card_background_color</item>
+        <item name="cardBackgroundRoundCorner">@drawable/card_bg_light</item>
+        <item name="cardBackgroundRoundCornerUp">@drawable/card_bg_up_light</item>
+
+        <item name="drawerBackgroundColor">@color/theme_light_drawer_background_color</item>
+
+        <item name="android:alertDialogStyle">@style/CommonAlertDialog.Light</item>
+        <item name="android:alertDialogTheme">@style/CommonAlertDialog.Light</item>
+        <item name="alertDialogTheme">@style/CommonAlertDialog.Light</item>
+
+        <item name="ic_action_settings">@drawable/ic_action_settings_light</item>
+        <item name="ic_action_exit">@drawable/ic_action_exit_light</item>
+        <item name="ic_action_dice">@drawable/ic_action_dice_light</item>
+        <item name="ic_action_microphone">@drawable/ic_action_microphone_light</item>
+
+        <item name="ic_clear_search">@drawable/ic_clear_search_light</item>
+
+        <!--
+        <item name="ic_action_share_dropdown">@drawable/abs__ic_menu_share_holo_light</item>
+         -->
+
+        <item name="ic_action_social_share">@drawable/ic_action_social_share_light</item>
+
+        <item name="ic_action_file_down">@drawable/ic_action_file_down_light</item>
+
+        <item name="ic_action_navigation_expand">@drawable/ic_action_navigation_expand_light</item>
+
+        <item name="ic_action_navigation_collpase">@drawable/ic_action_navigation_collapse_light</item>
+
+        <item name="ic_more_overflow_style">@style/CommonButtonOverflow.Light</item>
+
+        <item name="ic_action_twitter">@drawable/ic_action_twitter_light</item>
+
+        <item name="ic_action_search">@drawable/ic_action_search_light</item>
+
+        <item name="popupBackgroundStyle">@style/PopupMenuStyle.Light</item>
+
+        <item name="abstract_title_style">@style/CommonAbstractTitle.Light</item>
+
+        <item name="search_result_text_view_style">@style/SearchResultTextViewStyle</item>
+
+        <item name="search_result_text_title_style">@style/SearchResultTextTitleStyle.Light</item>
+
+        <item name="android:tabWidgetStyle">@style/CommonTabWidget</item>
+
+        <item name="android:panelFullBackground">@android:color/darker_gray</item>
+
+        <item name="android:checkboxStyle">@style/CommonCheckBox.Light</item>
+
+        <item name="searchBarBackground">@drawable/searchbar_bg_light</item>
+
+        <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar.Inverse</item>
+
+        <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Light</item>
+
+        <item name="dialogStyle">@style/CommonDialog.Light</item>
+
+        <item name="bodyStyle">@style/BodyStyle</item>
+    </style>
+
+    <style name="CommonTheme.Dark" parent="Theme.AppCompat.NoActionBar" />
+
+    <style name="CommonTheme.Dark.Night">
+        <!--
+        <item name="android:windowBackground">@color/theme_dark_background_color</item>
+    	<item name="android:colorBackground">@color/theme_dark_background_color</item>
+    	-->
+        <item name="android:textColor">@color/theme_dark_text_color</item>
+
+        <item name="cardBackgroundRoundCornerColor">@color/theme_dark_card_background_color</item>
+        <item name="cardBackgroundRoundCorner">@drawable/card_bg_dark</item>
+        <item name="cardBackgroundRoundCornerUp">@drawable/card_bg_up_dark</item>
+
+        <item name="drawerBackgroundColor">@color/theme_dark_drawer_background_color</item>
+
+        <item name="android:alertDialogStyle">@style/CommonAlertDialog.Dark</item>
+        <item name="android:alertDialogTheme">@style/CommonAlertDialog.Dark</item>
+        <item name="alertDialogTheme">@style/CommonAlertDialog.Dark</item>
+
+        <item name="ic_action_settings">@drawable/ic_action_settings_dark</item>
+        <item name="ic_action_exit">@drawable/ic_action_exit_dark</item>
+        <item name="ic_action_dice">@drawable/ic_action_dice_dark</item>
+        <item name="ic_action_microphone">@drawable/ic_action_microphone_dark</item>
+
+        <item name="ic_clear_search">@drawable/ic_clear_search_dark</item>
+
+        <!--
+        <item name="ic_action_share_dropdown">@drawable/abs__ic_menu_share_holo_dark</item>
+         -->
+
+        <item name="ic_action_social_share">@drawable/ic_action_social_share_dark</item>
+
+        <item name="ic_action_file_down">@drawable/ic_action_file_down_dark</item>
+
+        <item name="selectable_item_background">@drawable/background_selectable</item>
+
+        <item name="ic_action_navigation_expand">@drawable/ic_action_navigation_expand_dark</item>
+
+        <item name="ic_action_navigation_collpase">@drawable/ic_action_navigation_collapse_dark</item>
+
+        <item name="ic_more_overflow_style">@style/CommonButtonOverflow.Dark</item>
+
+        <item name="ic_action_twitter">@drawable/ic_action_twitter_dark</item>
+
+        <item name="ic_action_search">@drawable/ic_action_search_dark</item>
+
+        <item name="popupBackgroundStyle">@style/PopupMenuStyle.Dark</item>
+
+        <item name="abstract_title_style">@style/CommonAbstractTitle.Dark</item>
+
+        <item name="search_result_text_view_style">@style/SearchResultTextViewStyle</item>
+
+        <item name="search_result_text_title_style">@style/SearchResultTextTitleStyle.Dark</item>
+
+        <item name="android:tabWidgetStyle">@style/CommonTabWidget</item>
+
+        <item name="android:checkboxStyle">@style/CommonCheckBox.Dark</item>
+
+        <item name="searchBarBackground">@drawable/searchbar_bg_dark</item>
+
+        <item name="progressBarStyle">@style/TyoDroid.Widget.ProgressBar</item>
+
+        <item name="fragmentTitleStyle">@style/CommonFragmentTitleStyleExtra.Dark</item>
+        <item name="dialogStyle">@style/CommonDialog.Dark</item>
+
+        <item name="bodyStyle">@style/BodyStyle</item>
+    </style>
+
+    <style name="CommonAppBaseTheme.Light" parent="CommonTheme.Light.Pale">
+        <!--
+            Theme customizations available in newer API levels can go in
+            res/values-vXX/styles.xml, while customizations related to
+            backward-compatibility can go here.
+            <item name="android:listSelector">@drawable/list_selector_holo_dark</item>
+        -->
+        <item name="android:autoCompleteTextViewStyle">@style/AutoCompleteTextViewLight</item>
+        <item name="android:dropDownItemStyle">@style/Widget.DropDownItemLight</item>
+
+        <item name="selectable_item_background">@drawable/background_selectable</item>
+
+    </style>
+
+    <style name="CommonAppBaseTheme.Dark" parent="CommonTheme.Dark.Night">
+
+        <!--
+        @android:drawable/list_selector_background
+         -->
+
+    </style>
+
+    <!-- Application theme. -->
+    <style name="CommonAppTheme.Light" parent="CommonAppBaseTheme.Light">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="CommonAppTheme.Dark" parent="CommonAppBaseTheme.Dark">
+        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+    </style>
+
+    <style name="CommonAppTheme.Light.NoActionBar">
+        <item name = "android:windowActionBar">false</item>
+        <item name = "android:windowNoTitle">true</item>
+    </style>
+
+    <style name="CommonAppTheme.Dark.NoActionBar">
+        <item name = "android:windowActionBar">false</item>
+        <item name = "android:windowNoTitle">true</item>
+    </style>
+
+    <style name="CommonAppTheme.Dark.NoActionBar.Splash">
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="AutoCompleteTextViewLight" parent="@android:style/Widget.AutoCompleteTextView">
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+
+    <style name="Widget.DropDownItemLight" parent="@android:style/Widget.DropDownItem">
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+
+    <style name="AutoCompleteTextViewDark" parent="@android:style/Widget.AutoCompleteTextView">
+        <item name="android:textColor">@android:color/primary_text_dark</item>
+    </style>
+
+    <style name="Widget.DropDownItemDark" parent="@android:style/Widget.DropDownItem">
+        <item name="android:textColor">@android:color/primary_text_dark</item>
+    </style>
+
+    <style name="NoTitleTheme" parent="CommonAppTheme.Dark">
+        <item name="android:windowNoTitle">true</item>
+    </style>
+
+    <style name="SplashScreenTheme" parent="NoTitleTheme">
+        <item name="android:windowBackground">@color/splash_screen_background_color</item>
+        <item name="android:colorBackground">@color/splash_screen_background_color</item>
+    </style>
+
+    <style name="DrawerListTextStyle">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+    </style>
+
+    <style name="SearchResultTextViewStyle">
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+    </style>
+
+    <style name="SearchResultTextTitleStyle">
+        <item name="android:textSize">@dimen/search_snippet_text_title_font_size</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="SearchResultTextTitleStyle.Light">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SearchResultTextTitleStyle.Dark">
+        <item name="android:textColor">@color/grey</item>
+    </style>
+
+</resources>
