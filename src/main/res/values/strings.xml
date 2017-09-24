@@ -64,4 +64,10 @@
     <string name="congratulations">Congratulations</string>
     <string name="about">About</string>
     <string name="tyodroid_app_package" />
+
+    <!-- Location -->
+    <string name="enable_location_message">Your locations settings is off. Please enable location to use this app</string>
+    <string name="enable_location_title">Enable location</string>
+    <string name="cancel">Cancel</string>
+    <string name="location_settings">Location Settings</string>
 </resources>

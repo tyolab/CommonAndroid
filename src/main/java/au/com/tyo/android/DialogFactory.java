@@ -103,22 +103,6 @@ public class DialogFactory {
 		return createDialog(context, themeResId, strings[0], strings[1], okListener, cancelListener);
 	}
 
-	/**
-	 *
-	 * @param context
-	 * @param title
-	 * @param message
-	 * @param okListener
-	 * @param cancelListener
-	 * @return
-	 */
-	public static Dialog createDialog(Context context, String title,
-									  String message,
-									  DialogInterface.OnClickListener okListener,
-									  DialogInterface.OnClickListener cancelListener) {
-		return createDialog(context, R.style.Commontitle, message, okListener, cancelListener);
-	}
-
     /**
      *
      * @param context
