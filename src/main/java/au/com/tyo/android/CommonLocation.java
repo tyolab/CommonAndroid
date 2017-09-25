@@ -12,6 +12,8 @@ import android.support.v7.app.AlertDialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import au.com.tyo.utils.LocationUtils;
+
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 24/9/17.
  */
@@ -20,27 +22,38 @@ public class CommonLocation {
 
     private LocationManager locationManager;
 
-    private List<Location> locations;
+    private List<LocationUtils.LocationPoint> locations;
 
     private Context context;
 
     /**
      *
      */
+    private Location startLocation;
     private Location lastKnownLocation;
+
+    private LocationListener androiLocationListener;
 
     public CommonLocation(Context context) {
         this.context = context;
 
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        locations = new ArrayList<>();
+        locations = new ArrayList();
     }
 
     public Context getContext() {
         return context;
     }
 
-    private boolean checkLocation() {
+    public LocationListener getAndroiLocationListener() {
+        return androiLocationListener;
+    }
+
+    public void setAndroiLocationListener(LocationListener androiLocationListener) {
+        this.androiLocationListener = androiLocationListener;
+    }
+
+    public boolean checkLocationSetting() {
         if(!isLocationEnabled())
             showLocationSettingOffAlert();
         return isLocationEnabled();
@@ -53,7 +66,7 @@ public class CommonLocation {
     public static void showLocationSettingOffAlert(final Context context) {
         final AlertDialog.Builder builder = DialogFactory.createDialogBuilder(
                 context,
-                R.style.CommonAlertDialog_Light,
+                R.style.Theme_AppCompat_Light_Dialog_Alert,
                 context.getResources().getString(R.string.enable_location_title),
                 context.getResources().getString(R.string.enable_location_message),
                 null,
@@ -81,8 +94,14 @@ public class CommonLocation {
     }
 
     public void requestLocationUpdates(String provider, LocationListener locationListener) {
+        setAndroiLocationListener(locationListener);
+
         locationManager.requestLocationUpdates(
-                provider, 5 * 60 * 1000 /* request update for every 5 minutes */, 10, locationListener);
+                provider, BuildConfig.DEBUG ? 1000 : 5 * 60 * 1000 /* request update for every 5 minutes */,BuildConfig.DEBUG ? 0 : 5, locationListener);
+    }
+
+    public void removeAndroidLocationUpdates() {
+        locationManager.removeUpdates(androiLocationListener);
     }
 
     public void startTracking(String provider, LocationListener locationListener) {
@@ -97,5 +116,34 @@ public class CommonLocation {
 
     public Location getLastKnownLocation() {
         return lastKnownLocation;
+    }
+
+    public void setLastKnownLocation(Location lastKnownLocation) {
+//        if (startLocation == null)
+//            startLocation = lastKnownLocation;
+
+        this.lastKnownLocation = lastKnownLocation;
+    }
+
+    public Location getStartLocation() {
+        return startLocation;
+    }
+
+    public void setStartLocation(Location startLocation) {
+        this.startLocation = startLocation;
+    }
+
+    public void addLocationPoint(LocationUtils.LocationPoint point) {
+        if (locations == null)
+            locations = new ArrayList<>();
+
+        if (locations.size() == 0) {
+            locations.add(point);
+            return;
+        }
+        if (locations.get(locations.size() - 1) == point)
+            return;
+
+        locations.add(point);
     }
 }
