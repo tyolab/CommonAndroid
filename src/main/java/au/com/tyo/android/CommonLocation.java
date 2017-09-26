@@ -12,14 +12,16 @@ import android.support.v7.app.AlertDialog;
 import java.util.ArrayList;
 import java.util.List;
 
+import au.com.tyo.android.services.CustomIntentService;
 import au.com.tyo.utils.LocationUtils;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 24/9/17.
  */
 
-public class CommonLocation {
+public class CommonLocation extends CustomIntentService {
 
+    private static boolean sIsRunning;
     private LocationManager locationManager;
 
     private List<LocationUtils.LocationPoint> locations;
@@ -33,12 +35,22 @@ public class CommonLocation {
     private Location lastKnownLocation;
 
     private LocationListener androiLocationListener;
+    private boolean toStop;
 
     public CommonLocation(Context context) {
+        super("CommonLocationService");
         this.context = context;
 
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locations = new ArrayList();
+    }
+
+    public boolean isToStop() {
+        return toStop;
+    }
+
+    public void setToStop(boolean toStop) {
+        this.toStop = toStop;
     }
 
     public Context getContext() {
@@ -145,5 +157,28 @@ public class CommonLocation {
             return;
 
         locations.add(point);
+    }
+
+    /**
+     * Careful! Only use this internally.
+     *
+     * @return whether we think the service is running
+     */
+    private static synchronized boolean isServiceRunning() {
+        return sIsRunning;
+    }
+
+    private static synchronized void setServiceRunning(boolean isRunning) {
+        sIsRunning = isRunning;
+    }
+
+    @Override
+    protected void onHandleIntent(Intent paramIntent) {
+        setServiceRunning(true);
+    }
+
+    @Override
+    protected boolean shouldStop() {
+        return toStop;
     }
 }
