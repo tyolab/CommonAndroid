@@ -26,8 +26,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.util.Date;
 
+import au.com.tyo.android.utils.SimpleDateUtils;
 import au.com.tyo.services.HttpConnection;
-import au.com.tyo.utils.SimpleDateUtils;
 
 ;
 

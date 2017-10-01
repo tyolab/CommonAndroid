@@ -252,8 +252,8 @@ public class DialogFactory {
             .setSingleChoiceItems(items, 0, listener == null ? newListener : listener)
             .setPositiveButton(R.string.alert_dialog_ok, listener == null ? newListener : listener);
 	
-		if (AndroidUtils.getAndroidVersion() >= 11)
-			builder.setIconAttribute(android.R.drawable.ic_menu_manage);
+//		if (AndroidUtils.getAndroidVersion() >= 11)
+//			builder.setIconAttribute(android.R.drawable.ic_menu_manage);
 		
 		Dialog dialog = builder.create();
 		

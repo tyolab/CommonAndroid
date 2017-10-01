@@ -124,7 +124,7 @@ public class ListItemFactory extends InflaterFactory {
 
                     if (null != aListener) {
                         containerCol3.setClickable(true);
-                        containerCol3.setOnClickListener(listener);
+                        containerCol3.setOnClickListener(aListener);
                     }
                 }
                 else
