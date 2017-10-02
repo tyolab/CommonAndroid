@@ -170,7 +170,7 @@ public abstract class ResourceFetcher<FileType, ContainerType> extends CacheMana
 		protected void onPreExecute() {
 			super.onPreExecute();
 			
-			Thread.currentThread().setName("DownloaderTask");
+			// Thread.currentThread().setName("DownloaderTask");
 		}
 
         @Override

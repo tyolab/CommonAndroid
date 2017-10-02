@@ -79,7 +79,7 @@ public class Loader<FileType> extends CacheManager<FileType> {
         protected void onPreExecute() {
             super.onPreExecute();
 
-            Thread.currentThread().setName("DownloaderTask");
+            // Thread.currentThread().setName("DownloaderTask");
         }
 
         /**

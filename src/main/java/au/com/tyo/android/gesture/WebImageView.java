@@ -88,7 +88,7 @@ public class WebImageView extends ImageView {
 						WebImageView.this.post(new Runnable() {
 							public void run() {
 								String oldName = Thread.currentThread().getName();
-								Thread.currentThread().setName("WebImageViewLoadingTask");
+								// Thread.currentThread().setName("WebImageViewLoadingTask");
 								
 								// cache the image
 								if (WebImageView.this.cache) {
@@ -101,7 +101,7 @@ public class WebImageView extends ImageView {
 								else {
 									WebImageView.defaultListener.onImageLoaded(WebImageView.this, bm, url.toExternalForm());
 								}
-								Thread.currentThread().setName(oldName);
+								// Thread.currentThread().setName(oldName);
 							}
 						});
 					}
