@@ -72,12 +72,16 @@ public class ListItemFactory extends InflaterFactory {
             View containerCol1 = view.findViewById(R.id.itl_image_view_container);
 
             if (null != containerCol1) {
-                ImageView imgView = null;
+                ImageView imgView = (ImageView) view.findViewById(R.id.itl_image_view);
 
-                if (null != item.getImageViewDrawable()) {
-                    imgView = (ImageView) view.findViewById(R.id.itl_image_view);
-                    if (null != imgView && null != item.getImageViewDrawable())
-                        imgView.setImageDrawable(item.getImageViewDrawable());
+                if (null != item.getImageViewDrawable() && null != imgView) {
+                    imgView.setVisibility(View.VISIBLE);
+                    imgView.setImageDrawable(item.getImageViewDrawable());
+                }
+                else {
+                    if (null != imgView)
+                        imgView.setVisibility(View.GONE);
+                    imgView = null;
                 }
 
                 CharSequence altText = item.getAltText();
@@ -93,9 +97,9 @@ public class ListItemFactory extends InflaterFactory {
                 else  {
                     if (null != imgView)
                         imgView.setVisibility(View.VISIBLE);
-
                     if (tvAlt != null)
                         tvAlt.setVisibility(View.GONE);
+                    tvAlt = null;
                 }
 
                 if ((null != tvAlt && tvAlt.getVisibility() == View.VISIBLE) || (null != imgView && imgView.getVisibility() == View.VISIBLE))
