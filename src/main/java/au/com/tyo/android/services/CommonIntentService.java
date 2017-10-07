@@ -35,7 +35,7 @@ import android.util.Log;
  * in should stop. Since the goal of this service is to handle a single kind of
  * intent, it does not queue up batches of intents of the same type.
  */
-public abstract class CustomIntentService extends Service {
+public abstract class CommonIntentService extends Service {
 
     public static final String EXTRA_PACKAGE_NAME = "EPN";
     public static final String EXTRA_PENDING_INTENT = "EPI";
@@ -53,7 +53,7 @@ public abstract class CustomIntentService extends Service {
     private PendingIntent mPendingIntent;
     private PendingIntent mAlarmIntent;
 
-    public CustomIntentService(String paramString) {
+    public CommonIntentService(String paramString) {
         this.mName = paramString;
     }
 
@@ -130,11 +130,11 @@ public abstract class CustomIntentService extends Service {
         @SuppressLint("LongLogTag")
         @Override
         public void handleMessage(Message paramMessage) {
-            CustomIntentService.this
+            CommonIntentService.this
                     .onHandleIntent((Intent) paramMessage.obj);
             if (shouldStop()) {
                 Log.d(LOG_TAG, "stopSelf");
-                CustomIntentService.this.stopSelf(paramMessage.arg1);
+                CommonIntentService.this.stopSelf(paramMessage.arg1);
                 Log.d(LOG_TAG, "afterStopSelf");
             }
         }

@@ -12,14 +12,14 @@ import android.support.v7.app.AlertDialog;
 import java.util.ArrayList;
 import java.util.List;
 
-import au.com.tyo.android.services.CustomIntentService;
+import au.com.tyo.android.services.CommonIntentService;
 import au.com.tyo.utils.LocationUtils;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 24/9/17.
  */
 
-public class CommonLocation extends CustomIntentService {
+public class CommonLocation extends CommonIntentService {
 
     private static boolean sIsRunning;
     private LocationManager locationManager;
@@ -37,9 +37,9 @@ public class CommonLocation extends CustomIntentService {
     private LocationListener androiLocationListener;
     private boolean toStop;
 
-    public CommonLocation(Context context) {
+    public CommonLocation() {
         super("CommonLocationService");
-        this.context = context;
+        this.context = getApplicationContext();
 
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locations = new ArrayList();
