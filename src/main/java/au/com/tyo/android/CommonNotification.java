@@ -16,6 +16,12 @@ import java.lang.reflect.Method;
 public abstract class CommonNotification implements NotificationClient {
 
     private static final String TAG = "CommonNotification";
+
+    public static final int STATE_NONE = -1;
+    public static final int STATE_STARTED = 0;
+    public static final int STATE_UPDATE = 1;
+    public static final int STATE_COMPLETED = 2;
+
     private int mState;
     private final Context mContext;
     private final NotificationManager mNotificationManager;
@@ -57,6 +63,10 @@ public abstract class CommonNotification implements NotificationClient {
 
     public abstract void onStateChanged(int newState);
 
+    public void createNotification(boolean ongoingEvent) {
+        createNotification(ongoingEvent, -1);
+    }
+
     public void createNotification(boolean ongoingEvent, int state) {
         if (null != helpers)
         mCurrentText = mContext.getString(helpers.getTextResourcedIdFromState(state));
@@ -83,6 +93,7 @@ public abstract class CommonNotification implements NotificationClient {
             mCurrentNotification.flags &= ~Notification.FLAG_ONGOING_EVENT;
             mCurrentNotification.flags |= Notification.FLAG_AUTO_CANCEL;
         }
+
         mNotificationManager.notify(notificationId, mCurrentNotification);
     }
 }

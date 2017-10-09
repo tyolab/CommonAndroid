@@ -45,6 +45,9 @@ public class SimpleDateUtils extends au.com.tyo.utils.SimpleDateUtils {
     @SuppressWarnings("Since15")
     @SuppressLint("NewApi")
     public static Date fromJSONDate(String jsonDate) throws ParseException {
+        if (null == jsonDate)
+            return null;
+
 //        if (AndroidUtils.getAndroidVersion() >= 26) {
 //             OffsetDateTime odt = OffsetDateTime.parse(jsonDate);
 //            return new Date(odt.toInstant().toEpochMilli());

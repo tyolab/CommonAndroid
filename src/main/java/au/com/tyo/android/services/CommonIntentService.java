@@ -27,7 +27,10 @@ import android.os.IBinder;
 import android.os.Looper;
 import android.os.Message;
 import android.os.Messenger;
+import android.os.RemoteException;
 import android.util.Log;
+
+import au.com.tyo.android.CommonNotification;
 
 /**
  * This service differs from IntentService in a few minor ways/ It will not
@@ -40,6 +43,9 @@ public abstract class CommonIntentService extends Service {
     public static final String EXTRA_PACKAGE_NAME = "EPN";
     public static final String EXTRA_PENDING_INTENT = "EPI";
     public static final String EXTRA_MESSAGE_HANDLER = "EMH";
+    private static final String TAG = "CommonIntentService";
+
+    private static boolean sIsRunning;
 
     private String mName;
     private boolean mRedelivery;
@@ -52,14 +58,34 @@ public abstract class CommonIntentService extends Service {
     private Messenger mClientMessenger;
     private PendingIntent mPendingIntent;
     private PendingIntent mAlarmIntent;
+    private CommonNotification notification;
+
+    private IBinder mBinder;
 
     public CommonIntentService(String paramString) {
         this.mName = paramString;
+
+        init();
+    }
+
+    protected boolean handleServiceMessage(Message m) {
+        return false;
+    }
+
+    private void init() {
+        mClientMessenger = new Messenger(new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                Log.d(TAG, "received message from client");
+                if (!handleServiceMessage(msg))
+                    super.handleMessage(msg);
+            }
+        });
     }
 
     @Override
     public IBinder onBind(Intent paramIntent) {
-        return null;
+        return mBinder = mClientMessenger.getBinder();
     }
 
     @Override
@@ -72,9 +98,22 @@ public abstract class CommonIntentService extends Service {
         this.mServiceHandler = new ServiceHandler(this.mServiceLooper);
     }
 
+    public void setNotification(CommonNotification con) {
+        notification = con;
+    }
+
+    public CommonNotification getNotification() {
+        return notification;
+    }
+
+    protected void onClientStateChanged(int newState) {
+    }
+
     @SuppressLint("LongLogTag")
     @Override
     public void onDestroy() {
+        setServiceRunning(false);
+
         Thread localThread = this.mServiceLooper.getThread();
         if ((localThread != null) && (localThread.isAlive())) {
             localThread.interrupt();
@@ -85,6 +124,7 @@ public abstract class CommonIntentService extends Service {
 
     @SuppressLint("LongLogTag")
     protected void onHandleIntent(Intent intent) {
+        setServiceRunning(true);
         final PendingIntent pendingIntent = (PendingIntent) intent
                 .getParcelableExtra(EXTRA_PENDING_INTENT);
 
@@ -137,6 +177,44 @@ public abstract class CommonIntentService extends Service {
                 CommonIntentService.this.stopSelf(paramMessage.arg1);
                 Log.d(LOG_TAG, "afterStopSelf");
             }
+        }
+    }
+
+    /**
+     * Careful! Only use this internally.
+     *
+     * @return whether we think the service is running
+     */
+    public static synchronized boolean isServiceRunning() {
+        return sIsRunning;
+    }
+
+    public static synchronized void setServiceRunning(boolean isRunning) {
+        sIsRunning = isRunning;
+    }
+
+    /**
+     *
+     * @param messenger
+     * @param what
+     */
+    public static void sendMessage(Messenger messenger, int what) {
+        sendMessage(messenger, what, null);
+    }
+
+    /**
+     *
+     * @param messenger
+     * @param what
+     * @param replyTo
+     */
+    public static void sendMessage(Messenger messenger, int what, Messenger replyTo) {
+        try {
+            Message msg = Message.obtain(null, what);
+            msg.replyTo = replyTo;
+            messenger.send(msg);
+        }
+        catch (RemoteException e) {
         }
     }
 }

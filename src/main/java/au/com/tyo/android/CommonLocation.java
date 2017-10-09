@@ -21,12 +21,11 @@ import au.com.tyo.utils.LocationUtils;
 
 public class CommonLocation extends CommonIntentService {
 
-    private static boolean sIsRunning;
-    private LocationManager locationManager;
+    private static LocationManager locationManager;
 
     private List<LocationUtils.LocationPoint> locations;
 
-    private Context context;
+//    private Context context;
 
     /**
      *
@@ -34,15 +33,19 @@ public class CommonLocation extends CommonIntentService {
     private Location startLocation;
     private Location lastKnownLocation;
 
-    private LocationListener androiLocationListener;
+    private LocationListener androidLocationListener;
     private boolean toStop;
 
     public CommonLocation() {
         super("CommonLocationService");
-        this.context = getApplicationContext();
 
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locations = new ArrayList();
+    }
+
+    public static LocationManager getLocationManager(Context context) {
+        if (null == locationManager)
+            locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
+        return locationManager;
     }
 
     public boolean isToStop() {
@@ -53,26 +56,18 @@ public class CommonLocation extends CommonIntentService {
         this.toStop = toStop;
     }
 
-    public Context getContext() {
-        return context;
+    public LocationListener getAndroidLocationListener() {
+        return androidLocationListener;
     }
 
-    public LocationListener getAndroiLocationListener() {
-        return androiLocationListener;
+    public void setAndroidLocationListener(LocationListener androidLocationListener) {
+        this.androidLocationListener = androidLocationListener;
     }
 
-    public void setAndroiLocationListener(LocationListener androiLocationListener) {
-        this.androiLocationListener = androiLocationListener;
-    }
-
-    public boolean checkLocationSetting() {
-        if(!isLocationEnabled())
-            showLocationSettingOffAlert();
-        return isLocationEnabled();
-    }
-
-    private void showLocationSettingOffAlert() {
-        showLocationSettingOffAlert(context);
+    public static boolean checkLocationSetting(Context context) {
+        if(!isLocationEnabled(context))
+            showLocationSettingOffAlert(context);
+        return isLocationEnabled(context);
     }
 
     public static void showLocationSettingOffAlert(final Context context) {
@@ -96,34 +91,34 @@ public class CommonLocation extends CommonIntentService {
         dialog.show();
     }
 
-    private boolean isLocationEnabled() {
-        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
-                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    private static boolean isLocationEnabled(Context context) {
+        return getLocationManager(context).isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                getLocationManager(context).isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    public void requestGPSLocationUpdates(LocationListener locationListener) {
-        requestLocationUpdates(LocationManager.GPS_PROVIDER, locationListener);
+    public static void requestGPSLocationUpdates(Context context, LocationListener locationListener) {
+        requestLocationUpdates(context, LocationManager.GPS_PROVIDER, locationListener);
     }
 
-    public void requestLocationUpdates(String provider, LocationListener locationListener) {
-        setAndroiLocationListener(locationListener);
-
-        locationManager.requestLocationUpdates(
+    public static void requestLocationUpdates(Context context, String provider, LocationListener locationListener) {
+        getLocationManager(context).requestLocationUpdates(
                 provider, BuildConfig.DEBUG ? 1000 : 5 * 60 * 1000 /* request update for every 5 minutes */,BuildConfig.DEBUG ? 0 : 5, locationListener);
     }
 
-    public void removeAndroidLocationUpdates() {
-        locationManager.removeUpdates(androiLocationListener);
+    public void removeAndroidLocationUpdates(Context context) {
+        if (null != androidLocationListener)
+            getLocationManager(context).removeUpdates(androidLocationListener);
     }
 
-    public void startTracking(String provider, LocationListener locationListener) {
+    public void startTracking(Context context, String provider, LocationListener locationListener) {
+        LocationManager locationManager = getLocationManager(context);
         if (null == lastKnownLocation)
             lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (null == lastKnownLocation)
             lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
 
         if (null != locationListener)
-            requestLocationUpdates(provider, locationListener);
+            requestLocationUpdates(context, provider, locationListener);
     }
 
     public Location getLastKnownLocation() {
@@ -159,22 +154,9 @@ public class CommonLocation extends CommonIntentService {
         locations.add(point);
     }
 
-    /**
-     * Careful! Only use this internally.
-     *
-     * @return whether we think the service is running
-     */
-    private static synchronized boolean isServiceRunning() {
-        return sIsRunning;
-    }
-
-    private static synchronized void setServiceRunning(boolean isRunning) {
-        sIsRunning = isRunning;
-    }
-
     @Override
     protected void onHandleIntent(Intent paramIntent) {
-        setServiceRunning(true);
+        super.onHandleIntent(paramIntent);
     }
 
     @Override
