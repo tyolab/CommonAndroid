@@ -58,7 +58,7 @@ public abstract class CommonIntentService extends Service {
     private Messenger mClientMessenger;
     private PendingIntent mPendingIntent;
     private PendingIntent mAlarmIntent;
-    private CommonNotification notification;
+    private CommonNotification notificationFactory;
 
     private IBinder mBinder;
 
@@ -98,12 +98,12 @@ public abstract class CommonIntentService extends Service {
         this.mServiceHandler = new ServiceHandler(this.mServiceLooper);
     }
 
-    public void setNotification(CommonNotification con) {
-        notification = con;
+    public void setNotificationFactory(CommonNotification con) {
+        notificationFactory = con;
     }
 
-    public CommonNotification getNotification() {
-        return notification;
+    public CommonNotification getNotificationFactory() {
+        return notificationFactory;
     }
 
     protected void onClientStateChanged(int newState) {
@@ -130,11 +130,12 @@ public abstract class CommonIntentService extends Service {
 
         if (null != pendingIntent)
         {
+            notificationFactory.setClientIntent(pendingIntent);
             mPendingIntent = pendingIntent;
         } else if (null != mPendingIntent) {
-
+            notificationFactory.setClientIntent(mPendingIntent);
         } else {
-            Log.e(LOG_TAG, "Downloader started in bad state without notification intent.");
+            Log.e(LOG_TAG, "Service started in bad state without notification intent.");
             return;
         }
     }

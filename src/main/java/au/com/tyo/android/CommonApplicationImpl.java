@@ -283,6 +283,8 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 
 	@Override
 	public void startMainActivity() {
+		if (getCurrentActivity() != null)
+			getCurrentActivity().finish();
 		startActivity(getMainActivityClass());
 	}
 	

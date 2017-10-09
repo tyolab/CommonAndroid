@@ -4,7 +4,9 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Build;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import java.lang.reflect.Method;
@@ -16,6 +18,8 @@ import java.lang.reflect.Method;
 public abstract class CommonNotification implements NotificationClient {
 
     private static final String TAG = "CommonNotification";
+
+    protected static int countNoti = 0;
 
     public static final int STATE_NONE = -1;
     public static final int STATE_STARTED = 0;
@@ -49,6 +53,14 @@ public abstract class CommonNotification implements NotificationClient {
 
     }
 
+    public int getNotificationId() {
+        return notificationId;
+    }
+
+    public void setNotificationId(int notificationId) {
+        this.notificationId = notificationId;
+    }
+
     public PendingIntent getClientIntent() {
         return mContentIntent;
     }
@@ -67,16 +79,64 @@ public abstract class CommonNotification implements NotificationClient {
         createNotification(ongoingEvent, -1);
     }
 
-    public void createNotification(boolean ongoingEvent, int state) {
+    /**
+     * Override this method to create your own custom notification
+     *
+     * @param ongoingEvent
+     * @param state
+     * @return
+     */
+    public Notification updateNotification(boolean ongoingEvent, int state) {
         if (null != helpers)
-        mCurrentText = mContext.getString(helpers.getTextResourcedIdFromState(state));
+            mCurrentText = helpers.getNotificationTextByState(state);
         mCurrentTitle = mLabel.toString();
-        mCurrentNotification.tickerText = mLabel + ": " + mCurrentText;
 
-        if (null != helpers)
-        mCurrentNotification.icon = helpers.getNotificationIconId();
+        Notification noti = null;
+
+        if (ongoingEvent) {
+            // TODO put the stuff here
+
+            noti = mCurrentNotification;
+            noti.tickerText = mLabel + ": " + mCurrentText;
+            noti.contentIntent = mContentIntent;
+        }
+        else {
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
+
+            builder.setContentTitle(mLabel.toString());
+            builder.setContentText(mCurrentText);
+
+            if (null != helpers) {
+                builder.setContentInfo(helpers.getNotificationContentText());
+                builder.setSmallIcon(helpers.getNotificationIconId());
+                builder.setContentIntent(helpers.getContentIntent(mContext));
+            }
+            else {
+                builder.setContentIntent(mContentIntent);
+            }
+
+            // builder.setOngoing(true);
+            builder.setTicker(mLabel + ": " + mCurrentText);
+            builder.setVibrate(new long[] {200, 100, 300, 200, 100});
+            // builder.setOnlyAlertOnce(!ongoingEvent);
+
+            noti = builder.getNotification();
+        }
+
+        return noti;
+    }
+
+    public void createNotification(boolean ongoingEvent, int state) {
+//        if (null != helpers)
+//            mCurrentText = helpers.getNotificationTextByState(state);
+//        mCurrentTitle = mLabel.toString();
+//        mCurrentNotification.tickerText = mLabel + ": " + mCurrentText;
+//
+//        if (null != helpers)
+//            mCurrentNotification.icon = helpers.getNotificationIconId();
 //            mCurrentNotification.setLatestEventInfo(mContext, mCurrentTitle, mCurrentText,
 //                    mContentIntent);
+
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             try {
                 Method deprecatedMethod = mCurrentNotification.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
@@ -87,6 +147,8 @@ public abstract class CommonNotification implements NotificationClient {
             }
         }
 
+        mCurrentNotification = updateNotification(ongoingEvent, state);
+
         if (ongoingEvent) {
             mCurrentNotification.flags |= Notification.FLAG_ONGOING_EVENT;
         } else {
@@ -96,4 +158,16 @@ public abstract class CommonNotification implements NotificationClient {
 
         mNotificationManager.notify(notificationId, mCurrentNotification);
     }
+
+    public static boolean isNotificationVisible(Context context, Class cls) {
+        Intent notificationIntent = new Intent(context, cls);
+        PendingIntent test = PendingIntent.getActivity(context, countNoti - 1, notificationIntent, PendingIntent.FLAG_NO_CREATE);
+        return test != null;
+    }
+
+    public static void cancel(Context context, int notificationId) {
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.cancel(notificationId);
+    }
+
 }
