@@ -4,7 +4,6 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import au.com.tyo.android.R;
 
@@ -12,11 +11,13 @@ import au.com.tyo.android.R;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 3/8/17.
  */
 
-public class ListSectionHeaderFactory extends InflaterFactory {
+public class ListSectionHeaderFactory extends ListItemFactory {
 
     private Integer backgroundColor = null;
 
-    public static class SectionHeader implements ListItem {
+    private boolean enabled = false;
+
+    public static class SectionHeader implements DisablableListItem {
 
         private String title;
 
@@ -68,6 +69,14 @@ public class ListSectionHeaderFactory extends InflaterFactory {
             return null;
         }
 
+        @Override
+        public boolean isDisabled() {
+            return true;
+        }
+    }
+    public ListSectionHeaderFactory(Context context, int resId, int backgroundColor) {
+        super(context, resId);
+        this.backgroundColor = backgroundColor;
     }
 
     public ListSectionHeaderFactory(Context context) {
@@ -86,10 +95,17 @@ public class ListSectionHeaderFactory extends InflaterFactory {
         this.backgroundColor = backgroundColor;
     }
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
     @Override
     public View getView(View convertView, ViewGroup parent) {
         View view = super.getView(convertView, parent);
-        view.setEnabled(false);
         view.setOnClickListener(null);
         return view;
     }
@@ -107,10 +123,13 @@ public class ListSectionHeaderFactory extends InflaterFactory {
 
     @Override
     public void bindData(ViewHolder holder, Object obj) {
+        super.bindData(holder, obj);
+
         if (backgroundColor != null) {
             holder.view.setBackgroundColor(backgroundColor);
         }
-        TextView text = (TextView) holder.view.findViewById(android.R.id.text1);
-        text.setText(obj.toString());
+
+        if (obj instanceof DisablableListItem)
+            holder.view.setEnabled(!((DisablableListItem) obj).isDisabled());
     }
 }

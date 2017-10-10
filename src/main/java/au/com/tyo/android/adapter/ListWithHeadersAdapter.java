@@ -9,7 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 3/8/17.
@@ -44,6 +46,8 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
     protected ListItemFactory itemFactory;
 
     protected ListFooterFactory footerFactory;
+
+    protected Map<ItemType, InflaterFactory> factoryMap;
 
     public interface ItemValue<T> {
         T valueOf();
@@ -227,16 +231,27 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
                 factory = getCustomFactory(itemType);
                 break;
             default:
-                throw new IllegalArgumentException("Unknown item type.");
+                factory = getCustomFactory(itemType);
+                if (null == factory)
+                    throw new IllegalArgumentException("Unknown item type.");
         }
 
-        holder = factory.getViewHolder(convertView, parent, obj);
-        return holder.view;
+        if (null != factory) {
+            holder = factory.getViewHolder(convertView, parent, obj);
+            return holder.view;
+        }
+        return null;
     }
 
     protected InflaterFactory getCustomFactory(ItemType itemType) {
         // do nothing
-        return null;
+        return factoryMap.get(itemType);
+    }
+
+    public void addCustomFactory(ItemType itemType, InflaterFactory factory) {
+        if (null == factoryMap)
+            factoryMap = new HashMap<>();
+        factoryMap.put(itemType, factory);
     }
 
     @Override
