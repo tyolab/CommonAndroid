@@ -42,9 +42,9 @@ import au.com.tyo.services.HttpConnection;
  *
  */
 
-public class HttpAndroid extends HttpConnection {
+public class HttpAndroid extends HttpConnection<HttpAndroid> {
 
-    private static final String LOG_TAG = "HttpAndroid";
+    private static final String TAG = "HttpAndroid";
 
     private static JsonFactory JSON_FACTORY = new JacksonFactory();
 
@@ -200,12 +200,14 @@ public class HttpAndroid extends HttpConnection {
                     responseInterceptor.interceptResponse(response);
                 }
                 if (!response.isSuccessStatusCode() && httpRequest.getThrowExceptionOnExecuteError()) {
+                    // error = httpRequest.getThrowExceptionOnExecuteError();
                     throw newExceptionOnError(response);
                 }
             }
         });
-        httpRequest.getHeaders().setUserAgent(BROWSER_USER_AGENT_MOBILE);
-        httpRequest.setSuppressUserAgentSuffix(true);
+//        httpRequest.getHeaders().setUserAgent(BROWSER_USER_AGENT_MOBILE);
+//        httpRequest.setSuppressUserAgentSuffix(true);
+        httpRequest.setLoggingEnabled(true);
         return httpRequest;
     }
 
@@ -303,4 +305,14 @@ public class HttpAndroid extends HttpConnection {
     public String uploadWithResult(String url, HttpRequest settings) throws Exception {
         return httpInputStreamToText(upload(url, settings));
     }
+
+    @Override
+    public void setHeader(String header, String value) {
+        requestHeaders.put(header, value);
+    }
+
+    public HttpHeaders getRequestHeaders() {
+        return requestHeaders;
+    }
+
 }
