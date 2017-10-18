@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -123,6 +124,20 @@ public class DialogFactory {
 		return dialog;
 	}
 
+	public static Dialog createDialog(Context context, int themeResId, String title,
+									  String message,
+									  String okButtonText,
+									  DialogInterface.OnClickListener okListener,
+									  String cancelButtonText,
+									  DialogInterface.OnClickListener cancelListener,
+									  String buttonText,
+									  DialogInterface.OnClickListener listener) {
+		Dialog dialog;
+		AlertDialog.Builder builder = createDialogBuilder(context, themeResId, title, message, okButtonText, okListener, cancelButtonText, cancelListener, buttonText, listener);
+		dialog = builder.create();
+		return dialog;
+	}
+
     /**
      *
      * @param context
@@ -133,10 +148,35 @@ public class DialogFactory {
      * @param cancelListener
      * @return
      */
+	public static AlertDialog.Builder createDialogBuilder(Context context, int themeResId, String title,
+														  String message,
+														  DialogInterface.OnClickListener okListener,
+														  DialogInterface.OnClickListener cancelListener) {
+		return createDialogBuilder(context, themeResId, title, message, "OK", okListener, context.getString(R.string.alert_dialog_cancel), cancelListener, null, null);
+	}
+
+	/**
+	 *
+	 * @param context
+	 * @param themeResId
+	 * @param title
+	 * @param message
+	 * @param okButtonText
+	 * @param okListener
+	 * @param cancleButtonText
+	 * @param cancelListener
+	 * @param buttonText
+	 * @param listener
+	 * @return
+	 */
 	public static AlertDialog.Builder createDialogBuilder(Context context, int themeResId, String title, 
-			String message, 
-			DialogInterface.OnClickListener okListener, 
-			DialogInterface.OnClickListener cancelListener) {
+															String message,
+														  String okButtonText,
+															DialogInterface.OnClickListener okListener,
+														  String cancleButtonText,
+															DialogInterface.OnClickListener cancelListener,
+														  String buttonText,
+															DialogInterface.OnClickListener listener) {
 		
 		AlertDialog.Builder builder = getBuilder(context, themeResId);
 		
@@ -145,10 +185,13 @@ public class DialogFactory {
         .setMessage(message);
 		
 		if (okListener != null)
-			builder.setPositiveButton(R.string.alert_dialog_ok, okListener);
+			builder.setPositiveButton(okButtonText, okListener);
 		
 		if (cancelListener != null)
-			builder.setNegativeButton(R.string.alert_dialog_cancel,  cancelListener);
+			builder.setNegativeButton(cancleButtonText, cancelListener);
+
+		if (null != listener)
+			builder.setNeutralButton(buttonText, listener);
 		
        return builder;
 	}
@@ -193,10 +236,14 @@ public class DialogFactory {
 	}
 	
 	public static Dialog createExitPromptDialog(final Context context, String what, DialogInterface.OnClickListener listener, DialogInterface.OnClickListener cancelListener) {
+
+		String title = context.getResources().getString(R.string.exit_app_title);
+		if (TextUtils.isEmpty(title))
+			title = String.format("Closing %s", what);
 		Dialog dialog = null;
 		dialog = new AlertDialog.Builder(context)
 		.setIcon(android.R.drawable.ic_dialog_alert)
-		.setTitle(String.format("Closing %s", what))
+		.setTitle(title)
 		.setMessage(R.string.exit_app_prompt)
 		.setPositiveButton(R.string.alert_dialog_ok, listener == null ? new DialogInterface.OnClickListener()
 		{
