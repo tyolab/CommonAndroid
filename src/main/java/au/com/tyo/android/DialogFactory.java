@@ -323,6 +323,10 @@ public class DialogFactory {
 	 * @param button2Color
 	 */
     public static void setDialogAttributes(final AlertDialog dialog, final boolean verticalButtons, final int button1Color, final int button2Color) {
+		setDialogAttributes(dialog, verticalButtons, button1Color, button2Color, -1);
+	}
+
+	public static void setDialogAttributes(final AlertDialog dialog, final boolean verticalButtons, final int button1Color, final int button2Color, final int buttonColor) {
 
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override
@@ -330,12 +334,16 @@ public class DialogFactory {
                 AlertDialog dia = (AlertDialog) di;
                 final Button button1 = dia.getButton(DialogInterface.BUTTON_POSITIVE);
                 final Button button2 = dia.getButton(DialogInterface.BUTTON_NEGATIVE);
+				final Button button = dia.getButton(DialogInterface.BUTTON_NEUTRAL);
 
                 if (button1Color != -1  && null != button1)
                     button1.setTextColor(button1Color);
 
                 if (button2Color != -1 && null != button2)
                     button2.setTextColor(button2Color);
+
+				if (buttonColor != -1 && null != button)
+					button.setTextColor(buttonColor);
 
 				if (verticalButtons)
 					try {

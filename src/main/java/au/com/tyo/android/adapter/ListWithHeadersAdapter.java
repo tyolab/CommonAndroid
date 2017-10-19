@@ -47,6 +47,8 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
     protected ListFooterFactory footerFactory;
 
+    protected ListHeaderFactory headerFactory;
+
     protected Map<ItemType, InflaterFactory> factoryMap;
 
     public interface ItemValue<T> {
@@ -174,6 +176,19 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
         }
     }
 
+    public void setHeaderFactory(ListHeaderFactory factory) {
+        this.headerFactory = factory;
+
+        if (getCount() > 0) {
+            Object obj = getItem(0);
+            if (!(obj instanceof ListHeaderFactory.Header)) {
+                insert(new ListHeaderFactory.Header(), 0);
+            }
+        }
+        else
+            add(new ListHeaderFactory.Header());
+    }
+
     /**
      *
      * @param context
@@ -201,6 +216,10 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
         setFooterFactory(new ListFooterFactory(getContext(), resource));
     }
 
+    public void addHeader(int resource) {
+        setHeaderFactory(new ListHeaderFactory(getContext(), resource));
+    }
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -222,6 +241,11 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
                     throw new IllegalArgumentException("A footer factory should be implemented");
                 factory = footerFactory;
                 break;
+            case HEADER:
+                if (null == headerFactory)
+                    throw new IllegalArgumentException("A header factory should be implemented");
+                factory = footerFactory;
+                break;
             case CUSTOM1:
             case CUSTOM2:
             case CUSTOM3:
@@ -231,7 +255,6 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
                 factory = getCustomFactory(itemType);
                 break;
             default:
-                factory = getCustomFactory(itemType);
                 if (null == factory)
                     throw new IllegalArgumentException("Unknown item type.");
         }
@@ -245,7 +268,7 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
     protected InflaterFactory getCustomFactory(ItemType itemType) {
         // do nothing
-        return factoryMap.get(itemType);
+        return factoryMap != null ? factoryMap.get(itemType) : null;
     }
 
     public void addCustomFactory(ItemType itemType, InflaterFactory factory) {
