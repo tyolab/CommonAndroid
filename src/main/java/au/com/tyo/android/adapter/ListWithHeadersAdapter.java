@@ -244,7 +244,7 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
             case HEADER:
                 if (null == headerFactory)
                     throw new IllegalArgumentException("A header factory should be implemented");
-                factory = footerFactory;
+                factory = headerFactory;
                 break;
             case CUSTOM1:
             case CUSTOM2:
