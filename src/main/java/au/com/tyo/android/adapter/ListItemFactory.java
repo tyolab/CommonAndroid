@@ -115,7 +115,7 @@ public class ListItemFactory extends InflaterFactory {
                 ImageView imgButton = (ImageView) view.findViewById(R.id.itl_image_button);
                 Drawable imgButtonDrawable = item.getImageButtonDrawable();
                 //
-                if (imgButton != null) {
+                if (imgButton != null && imgButtonDrawable != null) {
                     imgButton.setImageDrawable(imgButtonDrawable);
                 }
 
