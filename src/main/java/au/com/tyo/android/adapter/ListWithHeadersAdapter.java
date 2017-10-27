@@ -287,4 +287,10 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
         return true;
     }
 
+    public void replaceWith(int i, Object obj) {
+        Object oldObj = getItem(i);
+        this.insert((ListItemViewType) obj, i);
+        remove((ListItemViewType) oldObj);
+    }
+
 }

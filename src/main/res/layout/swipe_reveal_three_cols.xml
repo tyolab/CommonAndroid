@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.chauthai.swipereveallayout.SwipeRevealLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipe_layout"
+    app:dragEdge="right"
+    app:mode="same_level">
+
+    <include layout="@layout/swipe_delete"
+        android:id="@+id/delete_layout"
+        />
+
+    <include layout="@layout/image_text_list_cell_three_cols"
+        android:id="@+id/main_cell"
+        android:focusable="false"
+        android:focusableInTouchMode="false"
+        />
+
+</com.chauthai.swipereveallayout.SwipeRevealLayout>

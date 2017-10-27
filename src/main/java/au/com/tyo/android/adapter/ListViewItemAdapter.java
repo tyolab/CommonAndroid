@@ -127,4 +127,8 @@ public class ListViewItemAdapter extends BaseAdapter {
             this.notifyDataSetChanged();
         }
 	}
+
+    public void replaceWith(int i, Object obj) {
+		items.set(i, obj);
+    }
 }

@@ -7,7 +7,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
-import android.view.Menu;
 import android.view.MenuItem;
 
 import java.util.Observer;
@@ -84,4 +83,8 @@ public interface CommonController extends Observer {
 			boolean cancelable);
 
 	void onCreate();
+
+    void onDeleteFromList(Object data);
+
+	void onListItemClick(Object obj);
 }
