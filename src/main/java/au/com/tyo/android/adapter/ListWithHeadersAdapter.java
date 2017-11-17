@@ -170,9 +170,11 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
     public void setFooterFactory(ListFooterFactory footerFactory) {
         this.footerFactory = footerFactory;
 
-        Object obj = getItem(getCount() - 1);
-        if (!(obj instanceof ListFooterFactory.Footer)) {
-            add(new ListFooterFactory.Footer());
+        if (getCount() > 0) {
+            Object obj = getItem(getCount() - 1);
+            if (!(obj instanceof ListFooterFactory.Footer)) {
+                add(new ListFooterFactory.Footer());
+            }
         }
     }
 
