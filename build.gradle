@@ -1,7 +1,7 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "26.0.1"
 
     defaultConfig {
@@ -50,12 +50,14 @@ dependencies {
     compile 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
 
     // Android support
-    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support:appcompat-v7:26.+'
 
     // svg image library
     // https://mvnrepository.com/artifact/com.caverock/androidsvg
     compile group: 'com.caverock', name: 'androidsvg', version: '1.2.1'
-    compile project(path: ':swipe-reveal-layout')
+
+    //compile project(path: ':swipe-reveal-layout')
+    compile 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0'
 }
 
 repositories {
