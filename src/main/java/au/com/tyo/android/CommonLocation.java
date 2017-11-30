@@ -65,9 +65,11 @@ public class CommonLocation extends CommonIntentService {
     }
 
     public static boolean checkLocationSetting(Context context) {
-        if(!isLocationEnabled(context))
+        if(!isLocationEnabled(context)) {
             showLocationSettingOffAlert(context);
-        return isLocationEnabled(context);
+            return false;
+        }
+        return true;
     }
 
     public static void showLocationSettingOffAlert(final Context context) {
