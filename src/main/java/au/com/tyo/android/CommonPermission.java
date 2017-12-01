@@ -12,15 +12,27 @@ import android.support.v4.app.ActivityCompat;
 
 public class CommonPermission {
 
-    public static final int LOCATION_PERMISSON_RC = 19001;
+    public static final int PERMISSON_RC = 19000;
 
-    public static final int STORAGE_PERMISSON_RC = 19002;
+    public static final int PERMISSON_RC_LOCATION = 19001;
+
+    public static final int PERMISSON_RC_STORAGE = 19002;
 
     public interface PermissionCheckListener {
         void onPermissionRequestReturned(int rc);
     }
 
-    protected static boolean checkPermissions(Activity context, String[] requiredPermissions, int rc) {
+    public static void requestPermissions(Activity context, String[] requiredPermissions) {
+        ActivityCompat.requestPermissions(context, requiredPermissions, PERMISSON_RC);
+    }
+
+    public static boolean checkPermission(Activity context, String permission) {
+        if (Build.VERSION.SDK_INT >= 23)
+                return (ActivityCompat.checkSelfPermission(context, permission) != PackageManager.PERMISSION_GRANTED);
+        return true;
+    }
+
+    public static boolean checkAndRequestPermissions(Activity context, String[] requiredPermissions) {
         if (Build.VERSION.SDK_INT >= 23) {
             boolean hasIt = true;
             for (String permission : requiredPermissions) {
@@ -31,7 +43,7 @@ public class CommonPermission {
             }
 
             if (!hasIt) {
-                ActivityCompat.requestPermissions(context, requiredPermissions, rc);
+                requestPermissions(context, requiredPermissions);
                 return false;
             }
         }
@@ -39,6 +51,6 @@ public class CommonPermission {
     }
 
     public static boolean checkLocationPermissions(Activity context) {
-       return checkPermissions(context, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION}, LOCATION_PERMISSON_RC);
+       return checkAndRequestPermissions(context, new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION});
     }
 }
