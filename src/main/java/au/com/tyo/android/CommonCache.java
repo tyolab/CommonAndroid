@@ -52,7 +52,9 @@ public class CommonCache extends CacheManager<File> {
 
     public Object read(String fileName) throws Exception {
         File file = createFile(fileName);
-        return IO.readObject(file);
+        if (file.exists())
+            return IO.readObject(file);
+        return null;
     }
 
     public void write(String fileName, Object object) throws Exception {

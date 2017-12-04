@@ -23,13 +23,15 @@ public class DialogFactory {
 	};
 
 	/**
+	 * if an dialog icon is needed
+	 * android.R.attr.alertDialogIcon
 	 *
 	 * @param context
 	 * @param style
 	 * @return
 	 */
 	public static AlertDialog.Builder getBuilder(Context context, int style) {
-		return getBuilder(context, style, android.R.attr.alertDialogIcon);
+		return getBuilder(context, style, -1);
 	}
 
 	/**
@@ -42,8 +44,10 @@ public class DialogFactory {
 	public static AlertDialog.Builder getBuilder(Context context, int style, int iconResId) {
 		AlertDialog.Builder builder;
 		if (AndroidUtils.getAndroidVersion() > 10 && style > 0) {
-			builder = new AlertDialog.Builder(context, style)
-	        .setIconAttribute(iconResId);
+			builder = new AlertDialog.Builder(context, style);
+
+			if (iconResId > -1)
+	        	builder.setIconAttribute(iconResId);
 		}
 		else
 			builder = new AlertDialog.Builder(context);
