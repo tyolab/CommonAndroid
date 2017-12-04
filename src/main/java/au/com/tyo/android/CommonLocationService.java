@@ -19,13 +19,11 @@ import au.com.tyo.utils.LocationUtils;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 24/9/17.
  */
 
-public class CommonLocation extends CommonIntentService {
+public class CommonLocationService extends CommonIntentService {
 
     private static LocationManager locationManager;
 
     private List<LocationUtils.LocationPoint> locations;
-
-//    private Context context;
 
     /**
      *
@@ -36,7 +34,7 @@ public class CommonLocation extends CommonIntentService {
     private LocationListener androidLocationListener;
     private boolean toStop;
 
-    public CommonLocation() {
+    public CommonLocationService() {
         super("CommonLocationService");
 
         locations = new ArrayList();
@@ -46,6 +44,14 @@ public class CommonLocation extends CommonIntentService {
         if (null == locationManager)
             locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         return locationManager;
+    }
+
+    /**
+     * To override this for controlling the location requests
+     */
+    public boolean hasLocationPermission() {
+        // by default, yes
+        return true;
     }
 
     public boolean isToStop() {
@@ -102,17 +108,39 @@ public class CommonLocation extends CommonIntentService {
         requestLocationUpdates(context, LocationManager.GPS_PROVIDER, locationListener);
     }
 
+    /**
+     * make sure that we have the permission before we request location updates
+     *
+     * @param context
+     * @param provider
+     * @param locationListener
+     */
     public static void requestLocationUpdates(Context context, String provider, LocationListener locationListener) {
         getLocationManager(context).requestLocationUpdates(
                 provider, BuildConfig.DEBUG ? 1000 : 5 * 60 * 1000 /* request update for every 5 minutes */,BuildConfig.DEBUG ? 0 : 5, locationListener);
     }
 
+    /**
+     *  make sure that we have the permission before we remove location update listener
+     *
+     * @param context
+     */
     public void removeAndroidLocationUpdates(Context context) {
         if (null != androidLocationListener)
             getLocationManager(context).removeUpdates(androidLocationListener);
     }
 
+    /**
+     * make sure that we have the permission before we start tracking the location
+     *
+     * @param context
+     * @param provider
+     * @param locationListener
+     */
     public void startTracking(Context context, String provider, LocationListener locationListener) {
+        if (!hasLocationPermission())
+            return;
+
         LocationManager locationManager = getLocationManager(context);
         if (null == lastKnownLocation)
             lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -128,9 +156,6 @@ public class CommonLocation extends CommonIntentService {
     }
 
     public void setLastKnownLocation(Location lastKnownLocation) {
-//        if (startLocation == null)
-//            startLocation = lastKnownLocation;
-
         this.lastKnownLocation = lastKnownLocation;
     }
 
@@ -154,11 +179,6 @@ public class CommonLocation extends CommonIntentService {
             return;
 
         locations.add(point);
-    }
-
-    @Override
-    protected void onHandleIntent(Intent paramIntent) {
-        super.onHandleIntent(paramIntent);
     }
 
     @Override
