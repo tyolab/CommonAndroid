@@ -119,7 +119,7 @@ public class ListItemFactory extends InflaterFactory {
                     imgButton.setImageDrawable(imgButtonDrawable);
                 }
 
-                if (null != imgButton || null != imgButtonDrawable) {
+                if (item.shouldShowImageButton()) {
                     containerCol3.setVisibility(View.VISIBLE);
 
                     View.OnClickListener aListener = item.getImageButtonOnClickListener();

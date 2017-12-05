@@ -81,25 +81,27 @@ public class SwipeDeleteItemFactory extends ListItemFactory {
     public void bindData(InflaterFactory.ViewHolder holder, final Object obj) {
         ViewHolder theHolder = (ViewHolder) holder;
         View view = holder.view;
-        binderHelper.bind(theHolder.swipeLayout, obj.toString());
 
-        final CommonController controller = CommonApplicationImpl.getInstance();
-        theHolder.deleteView.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        try {
-                            if (getOnDeleteListener() != null)
-                                getOnDeleteListener().onDelete(obj);
-                        }
-                        catch (Exception ex) {
-                            Log.e(TAG, "can't delete form " + obj.toString());
+        if (theHolder.swipeLayout != null) {
+            binderHelper.bind(theHolder.swipeLayout, obj.toString());
+
+            final CommonController controller = CommonApplicationImpl.getInstance();
+            theHolder.deleteView.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            try {
+                                if (getOnDeleteListener() != null)
+                                    getOnDeleteListener().onDelete(obj);
+                            } catch (Exception ex) {
+                                Log.e(TAG, "can't delete form " + obj.toString());
+                            }
                         }
                     }
-                }
-        );
+            );
+        }
 
-        if (null != getOnSwipeActionListener())
+        if (null != theHolder.mainCell && null != getOnSwipeActionListener())
             theHolder.mainCell.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

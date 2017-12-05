@@ -73,6 +73,11 @@ public class ListSectionHeaderFactory extends ListItemFactory {
         public boolean isDisabled() {
             return true;
         }
+
+        @Override
+        public boolean shouldShowImageButton() {
+            return false;
+        }
     }
     public ListSectionHeaderFactory(Context context, int resId, int backgroundColor) {
         super(context, resId);

@@ -111,4 +111,9 @@ public class ThreeColumnsItem implements DisablableListItem {
     public void setDisabled(boolean disabled) {
         this.disabled = disabled;
     }
+
+    @Override
+    public boolean shouldShowImageButton() {
+        return null != getImageButtonDrawable();
+    }
 }

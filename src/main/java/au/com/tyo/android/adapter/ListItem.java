@@ -9,11 +9,34 @@ import android.view.View;
 
 public interface ListItem extends ListItemViewType {
 
-    Drawable getImageViewDrawable();
-    CharSequence getText1();
+    /**
+     *
+     * Column 1
+     *
+     */
     CharSequence getAltText();
-    Drawable getImageButtonDrawable();
-    View.OnClickListener getImageButtonOnClickListener();
-    CharSequence getText2();
+    Drawable getImageViewDrawable();
 
+    /**
+     *
+     * Column 2 - Title
+     *
+     */
+    CharSequence getText1();
+
+
+    /**
+     *
+     * Column 3
+     *
+     */
+    View.OnClickListener getImageButtonOnClickListener();
+    Drawable getImageButtonDrawable();
+    boolean shouldShowImageButton();
+
+    /**
+     *
+     * Row 2 / Column 3
+     */
+    CharSequence getText2();
 }
