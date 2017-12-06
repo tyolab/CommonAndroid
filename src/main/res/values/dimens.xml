@@ -83,7 +83,7 @@
 	
 	<dimen name="popup_menu_font_size">16sp</dimen>
 	
-	<!-- simpple dropdown_item_1line -->
+	<!-- simple dropdown_item_1line -->
 	<dimen name="simple_dropdown_item_margin_left">32dp</dimen>
 	<dimen name="simple_dropdown_item_padding_left">18dp</dimen>
 	
