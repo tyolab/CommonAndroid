@@ -64,8 +64,10 @@ public class ListItemFactory extends InflaterFactory {
             if (null != tvTitle) {
                 tvTitle.setText(item.getText1());
 
-                if (obj instanceof DisablableListItem)
-                    tvTitle.setEnabled(!((DisablableListItem) item).isDisabled());
+                if (obj instanceof DisablableListItem) {
+                    boolean disabled = ((DisablableListItem) item).isDisabled();
+                    tvTitle.setEnabled(!disabled);
+                }
             }
 
             // containers
