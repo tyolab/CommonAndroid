@@ -559,6 +559,9 @@ public class AndroidUtils {
      * @param view
      */
     public static void hideSoftKeyboard(View view) {
+		if (null == view)
+			return;
+
         InputMethodManager inputMethodManager =
                 (InputMethodManager) view.getContext().getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
