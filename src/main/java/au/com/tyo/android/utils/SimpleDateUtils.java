@@ -4,7 +4,10 @@ import android.annotation.SuppressLint;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.OffsetDateTime;
 import java.util.Date;
+
+import au.com.tyo.android.AndroidUtils;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 17/8/17.
@@ -44,14 +47,15 @@ public class SimpleDateUtils extends au.com.tyo.utils.SimpleDateUtils {
      */
     @SuppressWarnings("Since15")
     @SuppressLint("NewApi")
-    public static Date fromJSONDate(String jsonDate) throws ParseException {
+    public static Date fromJSONDate(String jsonDate) {
         if (null == jsonDate)
             return null;
 
-//        if (AndroidUtils.getAndroidVersion() >= 26) {
-//             OffsetDateTime odt = OffsetDateTime.parse(jsonDate);
-//            return new Date(odt.toInstant().toEpochMilli());
-//        }
+        if (AndroidUtils.getAndroidVersion() >= 26) {
+             OffsetDateTime odt = OffsetDateTime.parse(jsonDate);
+            return new Date(odt.toInstant().toEpochMilli());
+        }
+
         SimpleDateFormat format;
         format = jsonDateFormat;
         int pos = jsonDate.length() - 5;
@@ -68,7 +72,10 @@ public class SimpleDateUtils extends au.com.tyo.utils.SimpleDateUtils {
         else if (dateString.length() == DATE_PATTERN_ZONED.length())
             format = JSON_SIMPLE_DATE_FORMAT_ZONED;
 
-        return format.parse(dateString);
+        try {
+            return format.parse(dateString);
+        } catch (ParseException e) { /* has to be a parse error that format isn't recognized.*/ }
+        return null;
     }
 
 }
