@@ -34,7 +34,7 @@ public class JustifiedTextView extends WebView {
                     final String text = context.getString(tv.resourceId).replace("\n", "<br />");
                     loadDataWithBaseURL("file:///android_asset/",
                             "<html><head>" +
-                                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"justified_textview.css\" />" +
+                                    "<link rel=\"stylesheet\" type=\"text/css\" href=\"html/css/justified_textview.css\" />" +
                                     "</head><body>" + text + "</body></html>",
 
                                     "text/html", "UTF8", null);
