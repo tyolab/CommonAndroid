@@ -13,6 +13,7 @@ import java.io.IOException;
 
 import au.com.tyo.android.utils.CacheManager;
 import au.com.tyo.io.IO;
+import au.com.tyo.io.WildcardFileStack;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 10/7/17.
@@ -75,5 +76,20 @@ public class CommonCache extends CacheManager<File> {
     public void save(String name, byte[] data) {
         File file = createFile(name);
         IO.writeFile(file.getAbsolutePath(), data);
+    }
+
+    public void clear() {
+        try {
+            WildcardFileStack fileStack = new WildcardFileStack(getCacheDir());
+            fileStack.setToListAllFiles(true);
+            fileStack.listFiles();
+
+            File file;
+            while ((file = fileStack.next()) != null) {
+                file.delete();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
