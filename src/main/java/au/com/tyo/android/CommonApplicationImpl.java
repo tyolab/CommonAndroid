@@ -11,7 +11,6 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.KeyEvent;
 
 /**
@@ -274,32 +273,6 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 
 	public void setHasAd(boolean hasAd) {
 		this.hasAd = hasAd;
-	}
-	
-	@Override
-	public void startSplashScreenActivity(Context context) {
-		startActivity(context, getSplashScreenClass());
-	}
-
-	@Override
-	public void startMainActivity() {
-		Activity activity = getCurrentActivity();
-		startActivity(getMainActivityClass(), true);
-		if (activity != null)
-			activity.finish();
-	}
-	
-	public void startActivity(Class cls, boolean mainActivity) {
-		if (null != context)
-			startActivity(context, cls);
-		else
-			Log.e(LOG_TAG, "trying to start a new activity without context");
-	}
-	
-	public static void startActivity(Context context, Class cls) {
-        Intent i = new Intent(context, cls);
-        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        context.startActivity(i);
 	}
 	
 	@Override

@@ -1,5 +1,7 @@
 package au.com.tyo.android;
 
+import android.content.Context;
+
 public interface CommonUI {
 
 	void setScreenSize(int width, int height);
@@ -10,4 +12,5 @@ public interface CommonUI {
 	
 	int getHeight();
 
+	void startActivity(Context context, Class cls, boolean mainActivity);
 }
