@@ -2,7 +2,7 @@ apply plugin: 'com.android.library'
 
 android {
     compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 14
@@ -39,7 +39,10 @@ dependencies {
 //    compile 'org.apache.httpcomponents:httpclient:4.0.1'
 
     // gson support
-    compile 'com.google.code.gson:gson:2.8.0'
+    compile ('com.google.code.gson:gson:2.8.0') {
+        exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+    }
     compile ('com.google.http-client:google-http-client-gson:1.22.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
