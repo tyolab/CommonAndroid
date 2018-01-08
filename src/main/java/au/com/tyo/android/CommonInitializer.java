@@ -7,13 +7,9 @@ package au.com.tyo.android;
 
 
 import android.content.Context;
-import android.util.Log;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-
-import au.com.tyo.android.services.HttpAndroid;
-import au.com.tyo.services.HttpPool;
 
 /**
  * @author Eric Tang <eric.tang@tyo.com.au>
@@ -100,15 +96,7 @@ public class CommonInitializer {
 	 * Anything that needs to be initialised before use can be put here
 	 */
 	static {
-        String errorMessage = "Can't use HttpAndroid for http connection";
-		try {
-			HttpPool.setHttpConnectionClass(HttpAndroid.class);
-			HttpPool.initialize();
-		} catch (IllegalAccessException e) {
-			Log.e(LOG_TAG, errorMessage);
-		} catch (InstantiationException e) {
-            Log.e(LOG_TAG, errorMessage);
-		}
+		// nothing yet
 	}
 
 	public static void detectDefaultClasses(Context context) {

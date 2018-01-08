@@ -294,6 +294,11 @@ public class HttpAndroid extends HttpConnection<HttpAndroid> {
         return response.getContent();
     }
 
+    @Override
+    public String postJSONForResult(String url, String json) throws Exception {
+        return httpInputStreamToText(postJSON(url, json));
+    }
+
     /**
      *
      * @param url
