@@ -45,8 +45,12 @@ public class CommonCache extends CacheManager<File> {
         return file;
     }
 
-    private File createFile(String fileName) {
-        String fullName = getCacheDir() + File.separator + fileName;
+    public String getCacheFilePathName(String name) {
+       return getCacheDir() + File.separator + name;
+    }
+
+    public File createFile(String fileName) {
+        String fullName = getCacheFilePathName(fileName);
         File file = new File(fullName);
         return file;
     }
