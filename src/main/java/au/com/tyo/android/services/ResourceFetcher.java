@@ -15,9 +15,12 @@ import java.util.HashMap;
 
 import au.com.tyo.android.utils.CacheManager;
 import au.com.tyo.services.HttpPool;
+import au.com.tyo.utils.StringUtils;
 
 public abstract class ResourceFetcher<FileType, ContainerType> extends CacheManager<FileType>
 	implements ResourceFetchererInterface<FileType, ContainerType> {
+
+	private static final String TAG = "ResourceFetcher";
 
 	public interface Callback {
 		void onTaskFinished(Object file);
@@ -296,7 +299,8 @@ public abstract class ResourceFetcher<FileType, ContainerType> extends CacheMana
         } catch (Exception e) {
             // Could provide a more explicit error message for IOException or IllegalStateException
              // if (getRequest != null) getRequest.abort();
-            Log.w("Downloader", "Error while retrieving file from " + url + e.toString());
+            Log.w(TAG, "Error while retrieving file from " + url + e.toString());
+            Log.e(TAG, StringUtils.exceptionStackTraceToString(e));
         } finally {
             if (inputStream != null) {
                 try {
