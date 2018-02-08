@@ -23,12 +23,20 @@ public class CommonCache extends CacheManager<File> {
 
     public static final String LOG_TAG = "CommonCache";
 
+    // already under a cache directory with the name of "cache"
     public CommonCache(Context context) {
-        super(context, "cache");
+        super(context, "");
     }
 
     public CommonCache(Context context, String subdir) {
         super(context, subdir);
+    }
+
+    public CommonCache(Context context, String[] subdirs) {
+        this(context);
+
+        for (String subdir : subdirs)
+            makeDirectory(subdir);
     }
 
     public File outputStreamToFile(ByteArrayOutputStream stream) {
@@ -49,8 +57,16 @@ public class CommonCache extends CacheManager<File> {
        return getCacheDir() + File.separator + name;
     }
 
+    public void makeDirectory(String dir) {
+        new File(getCacheDir().getAbsolutePath() + File.separator + dir).mkdir();
+    }
+
     public File createFile(String fileName) {
-        String fullName = getCacheFilePathName(fileName);
+        String fullName = null;
+        if (fileName.startsWith(File.separator))
+            fullName = fileName;
+        else
+            fullName = getCacheFilePathName(fileName);
         File file = new File(fullName);
         return file;
     }

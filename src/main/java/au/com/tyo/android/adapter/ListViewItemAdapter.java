@@ -64,14 +64,14 @@ public class ListViewItemAdapter extends BaseAdapter {
 
 	@Override
 	public int getCount() {
-		return items == null ? 0 : items.size();
+		return getItems() == null ? 0 : getItems().size();
 	}
 
 	public int size() { return getCount(); }
 
 	@Override
 	public Object getItem(int position) {
-		return this.items.get(position);
+		return getItems().get(position);
 	}
 
 	public Object get(int position) { return getItem(position); }
@@ -85,20 +85,23 @@ public class ListViewItemAdapter extends BaseAdapter {
         if (null == obj)
             return;
 
-		this.items = new ArrayList();
+        if (null == getItems())
+			this.items = new ArrayList();
+
         this.items.addAll(obj);
 	}
 	
 	public void add(Object item) {
-		if (items == null)
+		if (getItems() == null)
 			items = new ArrayList();
-		items.add(0, item);
+
+		getItems().add(0, item);
 	}
 
 	public void pushItem(Object item) { add(item); }
 	
 	public void removeItem(Object item) {
-		items.remove(item);
+		getItems().remove(item);
 	}
 
 	public void remove(Object item) {
@@ -113,7 +116,7 @@ public class ListViewItemAdapter extends BaseAdapter {
 	
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		Object obj = items.get(position);
+		Object obj = get(position);
 
 		if (null == itemFactory)
 			itemFactory = new ListItemFactory(parent.getContext(), resId);
@@ -123,12 +126,12 @@ public class ListViewItemAdapter extends BaseAdapter {
 	
 	public void clear() {
         if (null != items) {
-            items.clear();
+            getItems().clear();
             this.notifyDataSetChanged();
         }
 	}
 
     public void replaceWith(int i, Object obj) {
-		items.set(i, obj);
+		getItems().set(i, obj);
     }
 }
