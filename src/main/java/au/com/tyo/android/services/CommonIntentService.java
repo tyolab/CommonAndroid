@@ -17,10 +17,16 @@
 package au.com.tyo.android.services;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -31,6 +37,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import au.com.tyo.android.CommonNotification;
+import au.com.tyo.android.Constants;
 
 /**
  * This service differs from IntentService in a few minor ways/ It will not
@@ -62,6 +69,9 @@ public abstract class CommonIntentService extends Service {
 
     private IBinder mBinder;
 
+    private PackageInfo mPackageInfo;
+    private CharSequence applicationLabel;
+
     public CommonIntentService(String paramString) {
         this.mName = paramString;
 
@@ -91,12 +101,29 @@ public abstract class CommonIntentService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        try {
+            mPackageInfo = getPackageManager().getPackageInfo(
+                    getPackageName(), 0);
+            ApplicationInfo ai = getApplicationInfo();
+            applicationLabel = getPackageManager().getApplicationLabel(ai);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         HandlerThread localHandlerThread = new HandlerThread("IntentService["
                 + this.mName + "]");
         localHandlerThread.start();
         this.mServiceLooper = localHandlerThread.getLooper();
         this.mServiceHandler = new ServiceHandler(this.mServiceLooper);
     }
+
+    public CharSequence getApplicationLabel() {
+        return applicationLabel;
+    }
+
+    public void setNotificatonFactory(CommonNotification notificationFactory) {}
 
     public void setNotificationFactory(CommonNotification con) {
         notificationFactory = con;
@@ -218,4 +245,5 @@ public abstract class CommonIntentService extends Service {
         catch (RemoteException e) {
         }
     }
+
 }
