@@ -153,8 +153,10 @@ public class ServiceRunner {
                 context.unbindService(connection);
             }
 
-            if (isRunning)
+            if (isRunning) {
                 context.stopService(locationIntent);
+                isRunning = false;
+            }
         }
     }
 
