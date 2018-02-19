@@ -74,6 +74,8 @@ public abstract class CommonIntentService extends Service {
 
     public CommonIntentService() {
         this(TAG);
+
+        init();
     }
 
     public CommonIntentService(String paramString) {

@@ -31,8 +31,12 @@ public class ServiceRunner {
 
     private IBinder service;
 
+    private boolean requiresMessenger;
+
     public ServiceRunner(Class serviceClass) {
         this.serviceClass = serviceClass;
+
+        setRequireMessager(true);
     }
 
     public interface ServiceListener {
@@ -49,13 +53,23 @@ public class ServiceRunner {
         this.serviceListener = serviceListener;
     }
 
+    public boolean doesRequireMessager() {
+        return requiresMessenger;
+    }
+
+    public void setRequireMessager(boolean requiresMessenger) {
+        this.requiresMessenger = requiresMessenger;
+    }
+
     private ServiceConnection connection = new ServiceConnection() {
 
         public void onServiceConnected(ComponentName className, IBinder service) {
             ServiceRunner.this.service = service;
 
-            serviceMessenger = new Messenger(service);
-            sendMessage(Constants.MESSAGE_SERVICE_REGISTER_CLIENT);
+            if (doesRequireMessager()) {
+                serviceMessenger = new Messenger(service);
+                sendMessage(Constants.MESSAGE_SERVICE_REGISTER_CLIENT);
+            }
 
             if (null != serviceListener)
                 serviceListener.onConnected();
