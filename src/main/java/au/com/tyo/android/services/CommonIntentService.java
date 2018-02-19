@@ -72,6 +72,10 @@ public abstract class CommonIntentService extends Service {
     private PackageInfo mPackageInfo;
     private CharSequence applicationLabel;
 
+    public CommonIntentService() {
+        this(TAG);
+    }
+
     public CommonIntentService(String paramString) {
         this.mName = paramString;
 
