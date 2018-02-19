@@ -67,8 +67,13 @@ public class ServiceRunner {
     };
 
     public boolean sendMessage(int message) {
+        return sendMessage(message, null);
+    }
+
+    public boolean sendMessage(int message, Object obj) {
         Message msg = Message.obtain(null, message);
         msg.replyTo = serviceMessenger;
+        msg.obj = obj;
         return sendMessage(msg);
     }
 
