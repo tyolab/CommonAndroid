@@ -17,13 +17,10 @@
 package au.com.tyo.android.services;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -37,7 +34,6 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import au.com.tyo.android.CommonNotification;
-import au.com.tyo.android.Constants;
 
 /**
  * This service differs from IntentService in a few minor ways/ It will not
