@@ -29,6 +29,8 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	/* General Stuff */
 	
 	protected Context context;
+
+	protected Application application;
 	
 	protected Handler msgHandler;
 
@@ -69,7 +71,15 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	public static void setInstance(Object obj) {
 		instance = obj;
 	}
-	
+
+	public Application getApplication() {
+		return application;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
+	}
+
 	@Override
 	public void initializeInMainThread(Context context) {
 		if (null == this.context)
