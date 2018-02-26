@@ -58,6 +58,9 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	public CommonApplicationImpl(Context context) {
 		this.context = context;
 
+		if (context instanceof Application)
+		    setApplication((Application) context);
+
 		if (CommonInitializer.clsUi == null)
 			CommonInitializer.detectDefaultClasses(context);
 
@@ -78,6 +81,15 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 
 	public void setApplication(Application application) {
 		this.application = application;
+	}
+
+	public Context getApplicationContext() {
+        if (null == application) {
+            if (null != getCurrentActivity())
+                return getCurrentActivity().getApplicationContext();
+            return null;
+        }
+    	return application;
 	}
 
 	@Override
