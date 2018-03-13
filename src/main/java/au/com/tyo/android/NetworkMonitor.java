@@ -194,7 +194,7 @@ public class NetworkMonitor implements Runnable {
 		return false;
 	}
 
-	public static boolean isConnectedWiFi(Context context) {
+	public static boolean isConnectedToWiFi(Context context) {
 		return checkNetworkState(context) == NETWORK_TYPE_WIFI;
 	}
 }
