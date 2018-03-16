@@ -766,14 +766,18 @@ public class AndroidUtils {
 	 *
 	 */
 	@TargetApi(Build.VERSION_CODES.M)
-	public static boolean isPhoneCharing(Context context) {
+	public static boolean isDeviceCharging(Context context) {
         boolean charging = false;
 
-        if (getAndroidVersion() >= 23) {
-            BatteryManager batteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
-            charging = batteryManager.isCharging();
-        }
-        else {
+        /**
+         * The following condition can't be meet if the phone is charging via USB
+         */
+//        if (getAndroidVersion() >= 23) {
+//            BatteryManager batteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+//            charging = batteryManager.isCharging();
+//        }
+//        else
+        {
             final Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
             int status = batteryIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
             boolean batteryCharge = status == BatteryManager.BATTERY_STATUS_CHARGING;
