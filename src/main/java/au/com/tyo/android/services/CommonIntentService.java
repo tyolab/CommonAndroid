@@ -125,10 +125,8 @@ public abstract class CommonIntentService extends Service {
         return applicationLabel;
     }
 
-    public void setNotificatonFactory(CommonNotification notificationFactory) {}
-
-    public void setNotificationFactory(CommonNotification con) {
-        notificationFactory = con;
+    public void setNotificationFactory(CommonNotification factory) {
+        notificationFactory = factory;
     }
 
     public CommonNotification getNotificationFactory() {

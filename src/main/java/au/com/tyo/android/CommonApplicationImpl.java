@@ -83,6 +83,7 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 		this.application = application;
 	}
 
+	@Override
 	public Context getApplicationContext() {
         if (null == application) {
             if (null != getCurrentActivity())
@@ -104,6 +105,11 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	@Override
 	public void initializeInBackgroundThread(Context context) {
 		
+	}
+
+	@Override
+	public Handler getHandler() {
+    	return msgHandler;
 	}
 	
 	public boolean onKeyUp(int keyCode, KeyEvent event) {

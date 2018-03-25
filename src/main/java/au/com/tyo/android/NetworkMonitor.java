@@ -4,6 +4,7 @@
  */
 package au.com.tyo.android;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -61,17 +62,17 @@ public class NetworkMonitor implements Runnable {
 		ConnectivityManager conMgr =  (ConnectivityManager)context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
 		int result = NETWORK_TYPE_NONE;
-		NetworkInfo wifiNetwork = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+		@SuppressLint("MissingPermission") NetworkInfo wifiNetwork = conMgr.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
 		if (wifiNetwork != null && (wifiNetwork.isConnected() || wifiNetwork.isConnectedOrConnecting())) {
 			result = NETWORK_TYPE_WIFI;
 		}
 		else {
-			NetworkInfo mobileNetwork = conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
+			@SuppressLint("MissingPermission") NetworkInfo mobileNetwork = conMgr.getNetworkInfo(ConnectivityManager.TYPE_MOBILE);
 			if (mobileNetwork != null && (mobileNetwork.isConnected() || mobileNetwork.isConnectedOrConnecting())) {
 				result = NETWORK_TYPE_MOBILE;
 			}
 			else {
-				NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
+				@SuppressLint("MissingPermission") NetworkInfo activeNetwork = conMgr.getActiveNetworkInfo();
 				if (activeNetwork != null && (activeNetwork.isConnected() || activeNetwork.isConnectedOrConnecting())) {
 					result = NETWORK_TYPE_OTHERS;
 				}
@@ -191,5 +192,9 @@ public class NetworkMonitor implements Runnable {
 			Log.e(LOG_TAG, "oops, something wrong when connecting to the Internet: " + StringUtils.exceptionStackTraceToString(e));
 		}
 		return false;
+	}
+
+	public static boolean isConnectedToWiFi(Context context) {
+		return checkNetworkState(context) == NETWORK_TYPE_WIFI;
 	}
 }

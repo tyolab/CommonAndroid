@@ -3,9 +3,11 @@ package au.com.tyo.android;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -14,6 +16,7 @@ import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
 import android.net.Uri;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -756,5 +759,38 @@ public class AndroidUtils {
         field.setAccessible(true);
 
         method.invoke(field.get(null));
+	}
+
+	/**
+	 * https://stackoverflow.com/questions/6243452/how-to-know-if-the-phone-is-charging
+	 *
+	 */
+	@TargetApi(Build.VERSION_CODES.M)
+	public static boolean isDeviceCharging(Context context) {
+        boolean charging = false;
+
+        /**
+         * The following condition can't be meet if the phone is charging via USB
+         */
+//        if (getAndroidVersion() >= 23) {
+//            BatteryManager batteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+//            charging = batteryManager.isCharging();
+//        }
+//        else
+        {
+            final Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            int status = batteryIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+            boolean batteryCharge = status == BatteryManager.BATTERY_STATUS_CHARGING;
+
+            int chargePlug = batteryIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+            boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+            boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+
+            if (batteryCharge) charging = true;
+            if (usbCharge) charging = true;
+            if (acCharge) charging = true;
+        }
+
+        return charging;
 	}
 }

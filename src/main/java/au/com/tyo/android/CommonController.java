@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 
@@ -16,6 +17,8 @@ public interface CommonController extends Observer {
 //	void initializeUserInterface(CommonUI ui);
 
 	boolean onKeyDown(int keyCode, KeyEvent event);
+
+	Handler getHandler();
 
 	boolean onKeyUp(int keyCode, KeyEvent event);
 	
@@ -56,6 +59,8 @@ public interface CommonController extends Observer {
 //	void onScaleChanged(float oldScale, float newScale);
 
 	Activity getCurrentActivity();
+
+	Context getApplicationContext();
 
 	void initializeInMainThread(Context context);
 
