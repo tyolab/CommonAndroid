@@ -770,7 +770,7 @@ public class AndroidUtils {
         boolean charging = false;
 
         /**
-         * The following condition can't be meet if the phone is charging via USB
+         * The following condition can't be met if the phone is charging via USB
          */
 //        if (getAndroidVersion() >= 23) {
 //            BatteryManager batteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
