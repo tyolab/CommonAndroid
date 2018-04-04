@@ -15,12 +15,14 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -47,6 +49,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import static android.content.Context.AUDIO_SERVICE;
 
 public class AndroidUtils {
 	
@@ -455,7 +459,7 @@ public class AndroidUtils {
 	public static List<String> getDeviceAccounts(Context context) {
 		ArrayList list = new ArrayList<String>();
 		Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
-		Account[] accounts = AccountManager.get(context).getAccounts();
+		@SuppressLint("MissingPermission") Account[] accounts = AccountManager.get(context).getAccounts();
 		
 		for (Account account : accounts) 
 		    if (emailPattern.matcher(account.name).matches()) 
@@ -793,4 +797,41 @@ public class AndroidUtils {
 
         return charging;
 	}
+
+	/**
+	 *
+	 * @param context
+	 * @param what
+	 * @return
+	 */
+	public static int getVolumeLevel(Context context, int what) {
+		AudioManager am = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+		return am.getStreamVolume(what);
+	}
+
+	/**
+	 * Get Volume level for media / music
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static int getMediaVolumeLevel(Context context) {
+		return getVolumeLevel(context, AudioManager.STREAM_MUSIC);
+	}
+
+    /**
+     *
+     * @param context
+     * @return
+     */
+	public static int getScreenBrightness(Context context)  {
+        try {
+            return Settings.System.getInt(
+                    context.getContentResolver(),
+                    Settings.System.SCREEN_BRIGHTNESS);
+        } catch (Settings.SettingNotFoundException e) {
+
+        }
+        return -1;
+    }
 }
