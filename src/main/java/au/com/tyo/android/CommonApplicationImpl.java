@@ -29,6 +29,8 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	/* General Stuff */
 	
 	protected Context context;
+
+	protected Application application;
 	
 	protected Handler msgHandler;
 
@@ -56,6 +58,9 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	public CommonApplicationImpl(Context context) {
 		this.context = context;
 
+		if (context instanceof Application)
+		    setApplication((Application) context);
+
 		if (CommonInitializer.clsUi == null)
 			CommonInitializer.detectDefaultClasses(context);
 
@@ -69,7 +74,25 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	public static void setInstance(Object obj) {
 		instance = obj;
 	}
-	
+
+	public Application getApplication() {
+		return application;
+	}
+
+	public void setApplication(Application application) {
+		this.application = application;
+	}
+
+	@Override
+	public Context getApplicationContext() {
+        if (null == application) {
+            if (null != getCurrentActivity())
+                return getCurrentActivity().getApplicationContext();
+            return null;
+        }
+    	return application;
+	}
+
 	@Override
 	public void initializeInMainThread(Context context) {
 		if (null == this.context)
@@ -82,6 +105,11 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	@Override
 	public void initializeInBackgroundThread(Context context) {
 		
+	}
+
+	@Override
+	public Handler getHandler() {
+    	return msgHandler;
 	}
 	
 	public boolean onKeyUp(int keyCode, KeyEvent event) {

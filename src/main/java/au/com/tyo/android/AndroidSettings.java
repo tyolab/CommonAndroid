@@ -48,7 +48,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 	
 	protected boolean hasVoiceRecognitionService = false;
 	
-	protected boolean hasVoiceRecoginitionActivity = true;
+	protected boolean hasVoiceRecognitionActivity = true;
 	
 	protected boolean customTitleSupported = false;
 	
@@ -102,7 +102,7 @@ public class AndroidSettings extends CommonSettings implements Android {
         PackageManager pm = context.getPackageManager();
         List<ResolveInfo> infoList = pm.queryIntentActivities(new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH), 0);
         if (infoList.size() == 0) {
-        	hasVoiceRecoginitionActivity = false;
+        	hasVoiceRecognitionActivity = false;
         	/** Show some feedback to user if there is the activity. Something like "Your device is not able to run this feature..."*/
         }
 	
@@ -129,9 +129,6 @@ public class AndroidSettings extends CommonSettings implements Android {
 		
 		this.setShowDonation(context.getResources().getBoolean(R.bool.showDonation));
 
-//		searchHistoryArray = null;
-//		loadPreferences();
-//		notificationBarHeight = calculateNotificationBarHeight(context);
 		this.dataStoragePath = externalStorage.isAvailable() ? externalStorage.getDir().getAbsolutePath() : context.getCacheDir().getAbsolutePath(); /// + "/Android/data/" + AndroidUtils.getPackageName(context) + "/";
 		
 		Debug.build = AndroidUtils.isAppDebuggable(context); // || context.getResources().getBoolean(R.bool.tyo_debug_build);
@@ -143,30 +140,26 @@ public class AndroidSettings extends CommonSettings implements Android {
 	}
 	
 	private void checkIfDebuggable() {
-//		if (!AndroidUtils.isAppDebuggable(context)) {
-			String[] storages = AndroidUtils.getStorageDirectories();
-			String keyStr = context.getResources().getString(R.string.debug_key);
-			if (keyStr != null) {
-				byte[] debugKey = keyStr.trim().getBytes();
-				if (debugKey.length > 0)
-					for (String str : storages) {
-						File file = new File(str + File.separator + "debug.txt");
-						if (file.exists()) {
-							debugKey = IO.readFileIntoBytes(file);
-							if (debugKey == null)
-								continue;
-							
-							byte[] key = new String().trim().getBytes();
-							if (Arrays.equals(key, debugKey)) {
-								Debug.debugging = true;
-								break;
-							}
+		String[] storages = AndroidUtils.getStorageDirectories();
+		String keyStr = context.getResources().getString(R.string.debug_key);
+		if (keyStr != null) {
+			byte[] debugKey = keyStr.trim().getBytes();
+			if (debugKey.length > 0)
+				for (String str : storages) {
+					File file = new File(str + File.separator + "debug.txt");
+					if (file.exists()) {
+						debugKey = IO.readFileIntoBytes(file);
+						if (debugKey == null)
+							continue;
+
+						byte[] key = new String().trim().getBytes();
+						if (Arrays.equals(key, debugKey)) {
+							Debug.debugging = true;
+							break;
 						}
 					}
-			}
-//		}
-//		else
-//			DEBUG = true;
+				}
+		}
 	}
 
 	/**
@@ -336,7 +329,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 	}
 
 	public boolean hasVoiceRecoginitionActivity() {
-		return hasVoiceRecoginitionActivity;
+		return hasVoiceRecognitionActivity;
 	}
 
 	public boolean hasAd() {

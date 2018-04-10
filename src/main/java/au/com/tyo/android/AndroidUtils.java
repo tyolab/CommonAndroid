@@ -3,9 +3,11 @@ package au.com.tyo.android;
 import android.accounts.Account;
 import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -13,11 +15,14 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.AudioManager;
 import android.net.Uri;
+import android.os.BatteryManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -35,6 +40,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
@@ -42,6 +49,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import static android.content.Context.AUDIO_SERVICE;
 
 public class AndroidUtils {
 	
@@ -450,7 +459,7 @@ public class AndroidUtils {
 	public static List<String> getDeviceAccounts(Context context) {
 		ArrayList list = new ArrayList<String>();
 		Pattern emailPattern = Patterns.EMAIL_ADDRESS; // API level 8+
-		Account[] accounts = AccountManager.get(context).getAccounts();
+		@SuppressLint("MissingPermission") Account[] accounts = AccountManager.get(context).getAccounts();
 		
 		for (Account account : accounts) 
 		    if (emailPattern.matcher(account.name).matches()) 
@@ -725,9 +734,104 @@ public class AndroidUtils {
 	 * @return
 	 */
 	public static boolean isEmulator() {
-		boolean goldfish = getSystemProperty("ro.hardware").contains("goldfish");
-		boolean emu = getSystemProperty("ro.kernel.qemu").length() > 0;
-		boolean sdk = getSystemProperty("ro.product.model").equals("sdk");
-		return goldfish || emu || sdk;
+//		boolean goldfish = getSystemProperty("ro.hardware").contains("goldfish");
+//		boolean emu = getSystemProperty("ro.kernel.qemu").length() > 0;
+//		boolean sdk = getSystemProperty("ro.product.model").equals("sdk");
+//		return goldfish || emu || sdk;
+		return Build.FINGERPRINT.startsWith("generic")
+		            || Build.FINGERPRINT.startsWith("unknown")
+							|| Build.MODEL.contains("google_sdk")
+							|| Build.MODEL.contains("Emulator")
+							|| Build.MODEL.contains("Android SDK built for x86")
+							|| Build.MANUFACTURER.contains("Genymotion")
+							|| (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"))
+							|| "google_sdk".equals(Build.PRODUCT);
 	}
+
+	public static void fixCocurrentTimeoutException()
+            throws ClassNotFoundException,
+            NoSuchMethodException,
+            NoSuchFieldException,
+            IllegalAccessException,
+            InvocationTargetException {
+        Class clazz = Class.forName("java.lang.Daemons$FinalizerWatchdogDaemon");
+
+        Method method = clazz.getSuperclass().getDeclaredMethod("stop");
+        method.setAccessible(true);
+
+        Field field = clazz.getDeclaredField("INSTANCE");
+        field.setAccessible(true);
+
+        method.invoke(field.get(null));
+	}
+
+	/**
+	 * https://stackoverflow.com/questions/6243452/how-to-know-if-the-phone-is-charging
+	 *
+	 */
+	@TargetApi(Build.VERSION_CODES.M)
+	public static boolean isDeviceCharging(Context context) {
+        boolean charging = false;
+
+        /**
+         * The following condition can't be met if the phone is charging via USB
+         */
+//        if (getAndroidVersion() >= 23) {
+//            BatteryManager batteryManager = (BatteryManager) context.getSystemService(Context.BATTERY_SERVICE);
+//            charging = batteryManager.isCharging();
+//        }
+//        else
+        {
+            final Intent batteryIntent = context.registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+            int status = batteryIntent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+            boolean batteryCharge = status == BatteryManager.BATTERY_STATUS_CHARGING;
+
+            int chargePlug = batteryIntent.getIntExtra(BatteryManager.EXTRA_PLUGGED, -1);
+            boolean usbCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+            boolean acCharge = chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+
+            if (batteryCharge) charging = true;
+            if (usbCharge) charging = true;
+            if (acCharge) charging = true;
+        }
+
+        return charging;
+	}
+
+	/**
+	 *
+	 * @param context
+	 * @param what
+	 * @return
+	 */
+	public static int getVolumeLevel(Context context, int what) {
+		AudioManager am = (AudioManager) context.getSystemService(AUDIO_SERVICE);
+		return am.getStreamVolume(what);
+	}
+
+	/**
+	 * Get Volume level for media / music
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static int getMediaVolumeLevel(Context context) {
+		return getVolumeLevel(context, AudioManager.STREAM_MUSIC);
+	}
+
+    /**
+     *
+     * @param context
+     * @return
+     */
+	public static int getScreenBrightness(Context context)  {
+        try {
+            return Settings.System.getInt(
+                    context.getContentResolver(),
+                    Settings.System.SCREEN_BRIGHTNESS);
+        } catch (Settings.SettingNotFoundException e) {
+
+        }
+        return -1;
+    }
 }

@@ -4,6 +4,7 @@
 
 package au.com.tyo.android.images.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -72,11 +73,16 @@ public class BitmapUtils {
 	        connection.connect();
 	        
 	        InputStream input = connection.getInputStream();
-	        bitmap = BitmapFactory.decodeStream(input);
+	        bitmap = inputStreamToBitmap(input);
 	    } catch (IOException e) {
 	    	Log.e(LOG_TAG, "cannot get the image from link :" + urlStr);
 	    }
         return bitmap;
+	}
+
+	public static Bitmap getBitmapFromAssets(Context context, String path) throws IOException {
+		InputStream inputStream = context.getAssets().open(path);
+		return inputStreamToBitmap(inputStream);
 	}
 
     /**

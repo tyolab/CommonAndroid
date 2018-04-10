@@ -1,5 +1,6 @@
 package au.com.tyo.android;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -92,6 +93,7 @@ public class CommonLocationService extends CommonIntentService {
             public void onClick(DialogInterface dialogInterface, int paramInt) {
                 Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 context.startActivity(intent);
+                dialogInterface.dismiss();
             }
         });
 
@@ -115,6 +117,7 @@ public class CommonLocationService extends CommonIntentService {
      * @param provider
      * @param locationListener
      */
+    @SuppressLint("MissingPermission")
     public static void requestLocationUpdates(Context context, String provider, LocationListener locationListener) {
         getLocationManager(context).requestLocationUpdates(
                 provider, BuildConfig.DEBUG ? 1000 : 5 * 60 * 1000 /* request update for every 5 minutes */,BuildConfig.DEBUG ? 0 : 5, locationListener);
@@ -125,6 +128,7 @@ public class CommonLocationService extends CommonIntentService {
      *
      * @param context
      */
+    @SuppressLint("MissingPermission")
     public void removeAndroidLocationUpdates(Context context) {
         if (null != androidLocationListener)
             getLocationManager(context).removeUpdates(androidLocationListener);
@@ -137,6 +141,7 @@ public class CommonLocationService extends CommonIntentService {
      * @param provider
      * @param locationListener
      */
+    @SuppressLint("MissingPermission")
     public void startTracking(Context context, String provider, LocationListener locationListener) {
         if (!hasLocationPermission())
             return;

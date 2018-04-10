@@ -21,6 +21,9 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
@@ -62,6 +65,15 @@ public abstract class CommonIntentService extends Service {
 
     private IBinder mBinder;
 
+    private PackageInfo mPackageInfo;
+    private CharSequence applicationLabel;
+
+    public CommonIntentService() {
+        this(TAG);
+
+        init();
+    }
+
     public CommonIntentService(String paramString) {
         this.mName = paramString;
 
@@ -91,6 +103,17 @@ public abstract class CommonIntentService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        try {
+            mPackageInfo = getPackageManager().getPackageInfo(
+                    getPackageName(), 0);
+            ApplicationInfo ai = getApplicationInfo();
+            applicationLabel = getPackageManager().getApplicationLabel(ai);
+
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
         HandlerThread localHandlerThread = new HandlerThread("IntentService["
                 + this.mName + "]");
         localHandlerThread.start();
@@ -98,8 +121,12 @@ public abstract class CommonIntentService extends Service {
         this.mServiceHandler = new ServiceHandler(this.mServiceLooper);
     }
 
-    public void setNotificationFactory(CommonNotification con) {
-        notificationFactory = con;
+    public CharSequence getApplicationLabel() {
+        return applicationLabel;
+    }
+
+    public void setNotificationFactory(CommonNotification factory) {
+        notificationFactory = factory;
     }
 
     public CommonNotification getNotificationFactory() {
@@ -218,4 +245,5 @@ public abstract class CommonIntentService extends Service {
         catch (RemoteException e) {
         }
     }
+
 }

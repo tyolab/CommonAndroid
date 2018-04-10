@@ -7,6 +7,7 @@ package au.com.tyo.android;
 
 
 import android.content.Context;
+import android.util.Log;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -205,6 +206,7 @@ public class CommonInitializer {
 	 */
 	public static Object initializeInstance(Class<?> theClass, Context context, boolean initializeMain, boolean initializeBackground) {
 		Object instance = null;
+		String errorMessage = "Failed to create class instance";
 
 		try {
 			if (null != context) {
@@ -212,21 +214,23 @@ public class CommonInitializer {
 				instance = ctor.newInstance(new Object[]{context});
 			}
 		} catch (InstantiationException e) {
-			e.printStackTrace();
+			Log.e(LOG_TAG, errorMessage, e);
 		} catch (IllegalAccessException e) {
-			e.printStackTrace();
+            Log.e(LOG_TAG, errorMessage, e);
 		} catch (NoSuchMethodException e) {
-			e.printStackTrace();
+            Log.e(LOG_TAG, errorMessage, e);
 		} catch (IllegalArgumentException e) {
-			e.printStackTrace();
+            Log.e(LOG_TAG, errorMessage, e);
 		} catch (InvocationTargetException e) {
-			e.printStackTrace();
+            Log.e(LOG_TAG, errorMessage, e);
 		} finally {
 			if (instance == null)
 				try {
 					instance = theClass.newInstance();
 				} catch (InstantiationException e) {
+                    Log.e(LOG_TAG, errorMessage, e);
 				} catch (IllegalAccessException e) {
+                    Log.e(LOG_TAG, errorMessage, e);
 				}
 		}
 
