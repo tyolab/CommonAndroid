@@ -150,10 +150,10 @@ public class AndroidUtils {
 	private static final Pattern DIR_SEPORATOR = Pattern.compile("/");
 
 	/**
-	 * Raturns all available SD-Cards in the system (include emulated)
+	 * Returns all available SD-Cards in the system (include emulated)
 	 *
 	 * Warning: Hack! Based on Android source code of version 4.3 (API 18)
-	 * Because there is no standart way to get it.
+	 * Because there is no standard way to get it.
 	 * TODO: Test on future Android versions 4.4+
 	 *
 	 * @return paths to all available SD-Cards in the system (include emulated)
