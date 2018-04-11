@@ -156,7 +156,7 @@ public class AndroidUtils {
 		return pInfo == null ? "" : pInfo.packageName;
 	}
 	
-	private static final Pattern DIR_SEPORATOR = Pattern.compile("/");
+	private static final Pattern DIR_SEPARATOR = Pattern.compile(File.separator);
 
 	/**
 	 * Returns all available SD-Cards in the system (include emulated)
@@ -202,7 +202,7 @@ public class AndroidUtils {
 	        else
 	        {
 	            final String path = Environment.getExternalStorageDirectory().getAbsolutePath();
-	            final String[] folders = DIR_SEPORATOR.split(path);
+	            final String[] folders = DIR_SEPARATOR.split(path);
 	            final String lastFolder = folders[folders.length - 1];
 	            boolean isDigit = false;
 	            try
