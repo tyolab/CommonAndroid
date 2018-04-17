@@ -262,22 +262,32 @@ public class CommonInitializer {
 
 	public static Object newInstanceWithContext(Class cls, Context context) {
         Object instance = null;
+        Exception exception = null;
         try {
             if (null != context) {
                 Constructor ctor = cls.getConstructor(Context.class);
                 instance = ctor.newInstance(new Object[]{context});
             }
-        } catch (InstantiationException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalArgumentException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        } finally {
+        }
+        catch (InstantiationException e) {
+            exception = e;
+        }
+        catch (IllegalAccessException e) {
+            exception = e;
+        }
+        catch (NoSuchMethodException e) {
+            exception = e;
+        }
+        catch (IllegalArgumentException e) {
+            exception = e;
+        }
+        catch (InvocationTargetException e) {
+            exception = e;
+        }
+        finally {
+            if (null != exception)
+                Log.e(LOG_TAG, "Failed to create instance (" + cls.getName() + ")", exception);
+
             if (instance == null)
                 try {
                     instance = cls.newInstance();
