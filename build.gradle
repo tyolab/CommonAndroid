@@ -28,40 +28,45 @@ android {
 }
 
 dependencies {
-    compile project(":CommonUtils")
+    api project(":CommonUtils")
 
     // Amazon
-    compile files('libs/amazon-ads-5.8.1.1.jar')
+    // api files('libs/amazon-ads-5.8.1.1.jar')
+    api 'com.amazon.android:mobile-ads:5.+'
 
     // Apache HTTP
-//    compile files('libs/org.apache.http.legacy.jar')
-//    compile 'org.apache.httpcomponents:httpcore:4.0.1'
-//    compile 'org.apache.httpcomponents:httpclient:4.0.1'
+//    api files('libs/org.apache.http.legacy.jar')
+//    api 'org.apache.httpcomponents:httpcore:4.0.1'
+//    api 'org.apache.httpcomponents:httpclient:4.0.1'
 
     // gson support
-    compile ('com.google.code.gson:gson:2.8.0') {
+    api ('com.google.code.gson:gson:2.8.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
-    compile ('com.google.http-client:google-http-client-gson:1.22.0') {
+    api ('com.google.http-client:google-http-client-gson:1.22.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
 
     // Dependencies for the REST API example
-    compile 'com.google.api-client:google-api-client:1.22.0' exclude module: 'httpclient'
-    compile 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
+    api 'com.google.api-client:google-api-client:1.22.0' exclude module: 'httpclient'
+    api 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
 
     // Android support
     //noinspection GradleCompatible
-    compile 'com.android.support:appcompat-v7:27.0.2'
+    api 'com.android.support:appcompat-v7:27.0.2'
 
     // svg image library
     // https://mvnrepository.com/artifact/com.caverock/androidsvg
-    compile group: 'com.caverock', name: 'androidsvg', version: '1.2.1'
+    api (group: 'com.caverock', name: 'androidsvg', version: '1.2.1') {
+        exclude group: 'com.android.support', module: 'support-compat'
+    }
 
-    //compile project(path: ':swipe-reveal-layout')
-    compile 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0'
+    //api project(path: ':swipe-reveal-layout')
+    api ('com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0') {
+        exclude group: 'com.android.support', module: 'support-compat'
+    }
 }
 
 repositories {
