@@ -596,9 +596,9 @@ public class AndroidUtils {
 	 * @param theme
 	 * @return
 	 */
-	public static int getApplicationThemeId(Context context, Resources.Theme theme) {
+	public static int getApplicationThemeId(Context context) {
 		int themeId = -1;
-
+		Resources.Theme theme = context.getTheme();
 		try {
 			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
 				Field fThemeImpl = theme.getClass().getDeclaredField("mThemeImpl");
@@ -620,15 +620,18 @@ public class AndroidUtils {
 	/**
 	 *
 	 * @param context
-	 * @param theme
-	 * @param themeId
 	 * @return
 	 */
-	public static String getApplicationThemeName(Context context, Resources.Theme theme, int themeId) {
+	public static String getApplicationThemeName(Context context) {
+		Resources.Theme theme = context.getTheme();
+		int themeId = getApplicationThemeId(context);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 			return theme.getResources().getResourceEntryName(themeId);
 		}
-		return context.getResources().getResourceEntryName(themeId);
+
+		if (themeId > -1)
+			return context.getResources().getResourceEntryName(themeId);
+		return null;
 	}
 
 	/**
