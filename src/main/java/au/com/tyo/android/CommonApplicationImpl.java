@@ -346,7 +346,9 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
     		appContext = getContext();
     	
     	if (null != appContext)
-    		return String.format(getAppName() + " (%s)"/*context.getResources().getString(R.string.app_desc), getVersion()*/,  AndroidUtils.getPackageVersionName(appContext));
+    		return String.format(getAppName() + " (%s)"
+					/*context.getResources().getString(R.string.app_desc), getVersion()*/,
+					AndroidUtils.getPackageVersionName(appContext));
     	
     	return "";
 	}

@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -13,6 +14,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.AudioManager;
@@ -837,4 +839,30 @@ public class AndroidUtils {
         }
         return -1;
     }
+
+	/**
+	 *
+	 * @param context
+	 * @param bitmap
+	 * @throws IOException
+	 */
+	@SuppressLint("ResourceType")
+	public static void setSystemWallpaperWithImage(Context context, Bitmap bitmap) throws IOException {
+		WallpaperManager wallpaperManager
+				= WallpaperManager.getInstance(context);
+		wallpaperManager.setBitmap(bitmap);
+	}
+
+	/**
+	 *
+	 * @param context
+	 * @param resourceId
+	 * @throws IOException
+	 */
+	@SuppressLint("MissingPermission")
+	public static void setSystemWallpaperWithResource(Context context, int resourceId) throws IOException {
+		WallpaperManager wallpaperManager
+				= WallpaperManager.getInstance(context);
+		wallpaperManager.setResource(resourceId);
+	}
 }

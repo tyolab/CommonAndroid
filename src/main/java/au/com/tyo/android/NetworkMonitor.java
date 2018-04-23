@@ -111,7 +111,6 @@ public class NetworkMonitor implements Runnable {
 	public void start() {
 		if (thread == null)
 			thread = new Thread(getInstance());
-		thread.setName(LOG_TAG);
 		if (!thread.isAlive()) {
 			thread.setDaemon(true);
 			thread.start();

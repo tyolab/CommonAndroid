@@ -1,11 +1,16 @@
 package au.com.tyo.android;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.util.Log;
+import android.widget.Toast;
 
 public class AndroidMarket {
+
+    private final static String LOG_TAG = "AndroidMarket";
 	
 	public static final String VENDOR_GOOGLE_PLAY_STORE = "com.android.vending";
 	
@@ -67,7 +72,18 @@ public class AndroidMarket {
 			final Uri uri = marketUri;
             Intent marketIntent = new Intent(Intent.ACTION_VIEW, uri);
             marketIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(marketIntent);
+            try {
+				context.startActivity(marketIntent);
+			}
+            catch (Exception ex) {
+                String message = "Can't open the store app, or it doesn't exist.";
+            	Log.e(LOG_TAG, message, ex);
+
+            	if (context instanceof Activity) {
+            	    Activity activity = (Activity) context;
+                    Toast.makeText(activity, message, Toast.LENGTH_SHORT);
+                }
+			}
 		}
 	}
 	
