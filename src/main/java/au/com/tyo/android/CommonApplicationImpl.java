@@ -198,7 +198,8 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 
 	@Override
 	public void onCreate() {
-		logoResId = R.drawable.ic_logo;
+    	if (logoResId <= 0)
+			logoResId = R.drawable.ic_logo;
 	}
 
 	public Handler getMessageHandler() {

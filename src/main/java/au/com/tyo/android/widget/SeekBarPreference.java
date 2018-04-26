@@ -3,7 +3,8 @@ package au.com.tyo.android.widget;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
-import android.preference.Preference;
+import android.support.v7.preference.Preference;
+import android.support.v7.preference.PreferenceViewHolder;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -91,20 +92,8 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 	}
 	
 	@Override
-	protected View onCreateView(ViewGroup parent) {
-		View view = super.onCreateView(parent);
-		
-		// The basic preference layout puts the widget frame to the right of the title and summary,
-		// so we need to change it a bit - the seekbar should be under them.
-		LinearLayout layout = (LinearLayout) view;
-		layout.setOrientation(LinearLayout.VERTICAL);
-		
-		return view;
-	}
-	
-	@Override
-	public void onBindView(View view) {
-		super.onBindView(view);
+	public void onBindViewHolder(PreferenceViewHolder holder) {
+		super.onBindViewHolder(holder);
 
 /*		try {
 			// move our seekbar to the new view we've been given
@@ -131,17 +120,18 @@ public class SeekBarPreference extends Preference implements OnSeekBarChangeList
 		{
 			mSeekBar.setEnabled(false);
 		}*/
-	    super.onBindView(view);
-	    if(view != null)
+	    if(holder.itemView != null)
 	    {
-	      mSeekBar = (SeekBar)view.findViewById(R.id.seekBarPrefSeekBar);
+		LinearLayout layout = (LinearLayout) holder.itemView;
+		layout.setOrientation(LinearLayout.VERTICAL);
+
+	      mSeekBar = (SeekBar)holder.itemView.findViewById(R.id.seekBarPrefSeekBar);
 	      mSeekBar.setMax(mMaxValue - mMinValue);
 	      mSeekBar.setOnSeekBarChangeListener(this);
 	    }
 
-	    updateView(view);
-		
-		updateView(view);
+	    updateView(holder.itemView);
+
 	}
     
     	/**
