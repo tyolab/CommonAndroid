@@ -595,7 +595,6 @@ public class AndroidUtils {
 	/**
 	 *
 	 * @param context
-	 * @param theme
 	 * @return
 	 */
 	public static int getApplicationThemeId(Context context) {
@@ -615,6 +614,7 @@ public class AndroidUtils {
 				themeId = fThemeResId.getInt(theme);
 			}
 		} catch (Exception ex) {
+			Log.e(LOG_TAG, "Getting application theme id error.", ex);
 		}
 		return themeId;
 	}
