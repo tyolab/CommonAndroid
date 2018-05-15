@@ -32,11 +32,17 @@ public class ServiceRunner {
     private IBinder service;
 
     private boolean requiresMessenger;
+    private boolean alive;
 
     public ServiceRunner(Class serviceClass) {
         this.serviceClass = serviceClass;
+        this.alive = false;
 
         setRequireMessager(true);
+    }
+
+    public boolean isAlive() {
+        return alive;
     }
 
     public interface ServiceListener {
@@ -65,6 +71,7 @@ public class ServiceRunner {
 
         public void onServiceConnected(ComponentName className, IBinder service) {
             ServiceRunner.this.service = service;
+            alive = true;
 
             if (doesRequireMessager()) {
                 serviceMessenger = new Messenger(service);
@@ -77,6 +84,7 @@ public class ServiceRunner {
 
         public void onServiceDisconnected(ComponentName className) {
             serviceMessenger = null;
+            alive = false;
         }
     };
 
