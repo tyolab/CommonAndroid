@@ -28,44 +28,44 @@ android {
 }
 
 dependencies {
-    api project(":CommonUtils")
+    implementation project(":CommonUtils")
 
     // Amazon
-    // api files('libs/amazon-ads-5.8.1.1.jar')
-    api 'com.amazon.android:mobile-ads:5.+'
+    // implementation files('libs/amazon-ads-5.8.1.1.jar')
+    implementation 'com.amazon.android:mobile-ads:5.+'
 
     // Apache HTTP
-//    api files('libs/org.apache.http.legacy.jar')
-//    api 'org.apache.httpcomponents:httpcore:4.0.1'
-//    api 'org.apache.httpcomponents:httpclient:4.0.1'
+//    implementation files('libs/org.apache.http.legacy.jar')
+//    implementation 'org.apache.httpcomponents:httpcore:4.0.1'
+//    implementation 'org.apache.httpcomponents:httpclient:4.0.1'
 
     // gson support
-    api ('com.google.code.gson:gson:2.8.0') {
+    implementation ('com.google.code.gson:gson:2.8.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
-    api ('com.google.http-client:google-http-client-gson:1.22.0') {
+    implementation ('com.google.http-client:google-http-client-gson:1.22.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
 
     // Dependencies for the REST API example
-    api 'com.google.api-client:google-api-client:1.22.0' exclude module: 'httpclient'
-    api 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
+    implementation 'com.google.api-client:google-api-client:1.22.0' exclude module: 'httpclient'
+    implementation 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
 
     // Android support
     //noinspection GradleCompatible
-    api 'com.android.support:appcompat-v7:27.0.2'
-    api 'com.android.support:preference-v7:27.0.2'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
+    implementation 'com.android.support:preference-v7:27.1.1'
 
     // svg image library
     // https://mvnrepository.com/artifact/com.caverock/androidsvg
-    api (group: 'com.caverock', name: 'androidsvg', version: '1.2.1') {
+    implementation (group: 'com.caverock', name: 'androidsvg', version: '1.2.1') {
         exclude group: 'com.android.support', module: 'support-compat'
     }
 
-    //api project(path: ':swipe-reveal-layout')
-    api ('com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0') {
+    //implementation project(path: ':swipe-reveal-layout')
+    implementation ('com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.0') {
         exclude group: 'com.android.support', module: 'support-compat'
     }
 }
