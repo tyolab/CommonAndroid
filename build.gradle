@@ -44,12 +44,13 @@ dependencies {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
+
     implementation ('com.google.http-client:google-http-client-gson:1.22.0') {
         exclude module: 'httpclient'
         exclude group: 'org.apache.httpcomponents'
     }
 
-    // Dependencies for the REST API example
+    // Dependencies for the REST implementation example
     implementation 'com.google.api-client:google-api-client:1.22.0' exclude module: 'httpclient'
     implementation 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
 
