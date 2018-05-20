@@ -13,6 +13,8 @@ import android.os.RemoteException;
 import android.text.TextUtils;
 import android.util.Log;
 
+import java.io.Serializable;
+
 import au.com.tyo.android.Constants;
 
 /**
@@ -111,34 +113,40 @@ public class ServiceRunner {
         return false;
     }
 
+    public void sendCommand(Context context, String command, Serializable data) {
+        handlerService(context, serviceClass, command, null, data, true);
+    }
+
     public void sendCommand(Context context, String command) {
-        handlerService(context, serviceClass, command, null, true);
+        sendCommand(context, command, null);
     }
 
     public void startService(Context context) {
-        handlerService(context, true);
+        handlerService(context, serviceClass, null,null, true);
     }
 
     public void stopService(Context context) {
-        handlerService(context, false);
+        handlerService(context, serviceClass, null, null, false);
     }
 
     public void stopService(Context context, String command) {
         handlerService(context, serviceClass, command, null, false);
     }
 
-    public void handlerService(Context context, boolean toStart) {
-        handlerService(context, serviceClass, toStart);
+    public void handlerService(Context context, Class serviceClass, String command, Serializable data, boolean toStart) {
+        handlerService(context, serviceClass, command, null, data, toStart);
     }
 
-    public void handlerService(Context context, Class cls, boolean toStart) {
-        handlerService(context, cls, null, null, toStart);
+    public void handlerService(Context context, Class cls, Serializable data, boolean toStart) {
+        handlerService(context, cls, null, null, data, toStart);
     }
 
-    public void handlerService(Context context, Class cls, String command, PendingIntent pendingIntent, boolean toStart) {
+    public void handlerService(Context context, Class cls, String command, PendingIntent pendingIntent, Serializable data, boolean toStart) {
         Intent locationIntent = new Intent(context, cls);
         if (!TextUtils.isEmpty(command))
             locationIntent.setAction(command);
+        if (null != data)
+            locationIntent.putExtra(Constants.DATA, data);
 
         // Build PendingIntent used to open this activity from
         // Notification

@@ -17,4 +17,11 @@ public interface Constants {
     int MESSAGE_SERVICE_REGISTER_CLIENT = 1234;
     
     int MESSAGE_SERVICE_UNREGISTER_CLIENT = 4321;
+
+    /**
+     * Activity Communication
+     */
+    String DATA = "TYODROID_DATA";
+    String BUNDLE = "TYODROID_BUNDLE";
+    String RESULT = "TYODROID_RESULT";
 }
