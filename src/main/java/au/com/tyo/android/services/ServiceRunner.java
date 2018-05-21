@@ -142,26 +142,26 @@ public class ServiceRunner {
     }
 
     public void handlerService(Context context, Class cls, String command, PendingIntent pendingIntent, Serializable data, boolean toStart) {
-        Intent locationIntent = new Intent(context, cls);
+        Intent serviceIntent = new Intent(context, cls);
         if (!TextUtils.isEmpty(command))
-            locationIntent.setAction(command);
+            serviceIntent.setAction(command);
         if (null != data)
-            locationIntent.putExtra(Constants.DATA, data);
+            serviceIntent.putExtra(Constants.DATA, data);
 
         // Build PendingIntent used to open this activity from
         // Notification
 
         if (toStart) {
             if (null != pendingIntent)
-                locationIntent.putExtra(CommonIntentService.EXTRA_PENDING_INTENT, pendingIntent);
+                serviceIntent.putExtra(CommonIntentService.EXTRA_PENDING_INTENT, pendingIntent);
 
             if (!isRunning || !TextUtils.isEmpty(command)) {
-                context.startService(locationIntent);
+                context.startService(serviceIntent);
                 isRunning = true;
             }
 
             if (null == serviceMessenger)
-                context.bindService(locationIntent, connection, Context.BIND_AUTO_CREATE);
+                context.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
         }
         else {
             if (null != serviceMessenger) {
@@ -170,7 +170,7 @@ public class ServiceRunner {
             }
 
             if (isRunning) {
-                context.stopService(locationIntent);
+                context.stopService(serviceIntent);
                 isRunning = false;
             }
         }
