@@ -26,7 +26,9 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 
 	public static final String DEFAULT_SUBDIR_NAME = "app";
 
-    public static final long DEFAULT_CACHE_LIFE_SPAN = TimeUnit.DAYS.toMillis(28);
+    public static final long CACHE_LIFE_SPAN_DEFAULT = TimeUnit.DAYS.toMillis(28);
+
+    public static final long CACHE_LIFE_SPAN_INFINITE = -1;
 
     /**
 	 * External storage can't be granteed
@@ -49,10 +51,12 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 
 	protected CacheLocation location;
 
+	private boolean usePackageNameAsRootFolder;
+
 	/**
 	 * The lifespan of cache
 	 */
-	private long cacheSpan;
+	private long cacheSpan = -1; // infinite
 	
 	public CacheManager() {
 		this(null, DEFAULT_SUBDIR_NAME);
@@ -74,16 +78,23 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		this.context = context;
 		this.subDirStr = subdir;
 		this.location = location;
-		
+
+		usePackageNameAsRootFolder = false;
 		cacheDir = this.getCacheDirectoryFromLocation();
 
-		if (cacheDir != null && !cacheDir.exists())
-			cacheDir.mkdirs();
-		if (cacheDir.exists())
-			cacheEnabled = true;
+		if (cacheDir != null) {
+			if (!cacheDir.exists())
+				cacheDir.mkdirs();
+
+			if (cacheDir.exists())
+				cacheEnabled = true;
+			else
+				cacheEnabled = false;
+		}
 		else
 			cacheEnabled = false;
-        cacheSpan = DEFAULT_CACHE_LIFE_SPAN;
+
+        // cacheSpan = DEFAULT_CACHE_LIFE_SPAN;
 	}
 
 	public long getCacheSpan() {
@@ -106,12 +117,12 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		if (context != null) {
 			switch (location) {
 				case SYSTEM_CACHE:
-					default:
+				default:
 					return getCacheDirectoryFromLocation(context);
 				case SYSTEM_DATA:
 					return getDataDirectory(context, subDirStr);
 				case EXTERNAL_STORAGE:
-					return getCacheDirectoryFromExternalStorage(context, subDirStr);
+					return getCacheDirectoryFromExternalStorage(context, subDirStr, usePackageNameAsRootFolder);
 			}
 		}
 
@@ -122,16 +133,24 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		return getCacheDirectoryFromLocation(refContext, subDirStr);
 	}
 
+	public boolean isUsePackageNameAsRootFolder() {
+		return usePackageNameAsRootFolder;
+	}
+
+	public void setUsePackageNameAsRootFolder(boolean usePackageNameAsRootFolder) {
+		this.usePackageNameAsRootFolder = usePackageNameAsRootFolder;
+	}
+
 	/**
 	 *
 	 * @param refContext
 	 * @param subDirStr
 	 * @return
 	 */
-	public static File getCacheDirectoryFromExternalStorage(Context refContext, String subDirStr) {
+	public static File getCacheDirectoryFromExternalStorage(Context refContext, String subDirStr, boolean usePackageNameAsRootFolder) {
 		String sdState = "";
 		try {
-			android.os.Environment.getExternalStorageState();
+			sdState = android.os.Environment.getExternalStorageState();
 		}
 		catch (Exception ex) {
 			Log.e(LOG_TAG, "Unable to get external storage state");
@@ -140,7 +159,9 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		if (sdState.equals(android.os.Environment.MEDIA_MOUNTED)) {
 			File sdDir = android.os.Environment.getExternalStorageDirectory();
 
-			cacheDir = new File(sdDir, "Android" + File.separator + DEFAULT_SUBDIR_NAME + File.separator + AndroidUtils.getPackageName(refContext) + File.separator+ subDirStr);
+			cacheDir = new File(sdDir,
+					(usePackageNameAsRootFolder ? ("Android" + File.separator + DEFAULT_SUBDIR_NAME + File.separator + AndroidUtils.getPackageName(refContext)) : "") +
+					File.separator+ subDirStr);
 			if (!cacheDir.exists())
 				Log.e(LOG_TAG, "cannot access external sd card to create a package data directory");
 		}

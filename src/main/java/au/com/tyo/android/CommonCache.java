@@ -26,7 +26,7 @@ public class CommonCache extends CacheManager<File> {
 
     // already under a cache directory with the name of "cache"
     public CommonCache(Context context) {
-        super(context, "");
+        this(context, "");
     }
 
     public CommonCache(Context context, String subdir) {
@@ -38,6 +38,10 @@ public class CommonCache extends CacheManager<File> {
 
         for (String subdir : subdirs)
             makeDirectory(subdir);
+    }
+
+    public CommonCache(Context context, String subdir, CacheLocation location) {
+        super(context, subdir, location);
     }
 
     public File outputStreamToFile(ByteArrayOutputStream stream) {
