@@ -314,12 +314,25 @@ public class AndroidSettings extends CommonSettings implements Android {
 	public boolean isFirstTimeRun() {
         return firstTimeRun;
     }
-	
+
+	/**
+	 * @deprecated
+	 *
+	 * replaced with didFirstTimeRun()
+	 */
 	public void hasRunFirstTime() {
+		didFirstTimeRun();
+	}
+
+	public void didFirstTimeRun() {
 		this.setFirstTimeRun(false);
 		this.updatePreference(PREF_FIRST_TIME_RUN, (Boolean) false);
 	}
-	
+
+	/**
+	 *
+	 * @return
+	 */
 	public int getThemeId() {
 		return themeId;
 	}

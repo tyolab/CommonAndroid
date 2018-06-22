@@ -15,18 +15,103 @@ import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.PictureDrawable;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class BitmapUtils {
 	
 	private static final String LOG_TAG = "BitmapUtils";
+
+	public static byte[] bitmapToBytesInPNG(Bitmap bitmap) {
+		return bitmapToBytes(bitmap, Bitmap.CompressFormat.PNG);
+	}
+
+	/**
+	 *
+	 * @param bitmap
+	 * @param format
+	 * @return
+	 */
+	public static byte[] bitmapToBytes(Bitmap bitmap, Bitmap.CompressFormat format) {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		bitmap.compress(format, 100, stream);
+		byte[] bytes = stream.toByteArray();
+		return bytes;
+	}
+
+	/**
+	 *
+	 * @param bitmap
+	 * @param photo
+	 * @throws IOException
+	 */
+	public static void toJPG(Bitmap bitmap, File photo) throws IOException {
+		saveTo(bitmap, photo, Bitmap.CompressFormat.JPEG);
+	}
+
+	/**
+	 *
+	 * @param bitmap
+	 * @param photo
+	 * @throws IOException
+	 */
+	public static void toPNG(Bitmap bitmap, File photo) throws IOException {
+		saveTo(bitmap, photo, Bitmap.CompressFormat.PNG);
+	}
+
+	/**
+	 *
+	 * @param bitmap
+	 * @param format
+	 * @return
+	 * @throws IOException
+	 */
+	public static String toBase64EncodedString(Bitmap bitmap, Bitmap.CompressFormat format) throws IOException {
+		ByteArrayOutputStream stream = new ByteArrayOutputStream();
+		saveTo(bitmap, stream, format);
+		String encodedString = android.util.Base64.encodeToString(stream.toByteArray(), Base64.DEFAULT);
+		stream.close();
+		return encodedString;
+	}
+
+	/**
+	 *
+	 * @param bitmap
+	 * @param photo
+	 * @param format
+	 * @throws IOException
+	 */
+	public static void saveTo(Bitmap bitmap, File photo, Bitmap.CompressFormat format) throws IOException {
+		OutputStream stream = new FileOutputStream(photo);
+		saveTo(bitmap, stream, format);
+		stream.close();
+	}
+
+	/**
+	 *
+	 * @param bitmap
+	 * @param stream
+	 * @param format
+	 * @throws IOException
+	 */
+	public static void saveTo(Bitmap bitmap, OutputStream stream, Bitmap.CompressFormat format) throws IOException {
+		Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+		Canvas canvas = new Canvas(newBitmap);
+		canvas.drawColor(Color.WHITE);
+		canvas.drawBitmap(bitmap, 0, 0, null);
+		newBitmap.compress(format, 80, stream);
+	}
 
     /**
      *
@@ -84,6 +169,15 @@ public class BitmapUtils {
 		InputStream inputStream = context.getAssets().open(path);
 		return inputStreamToBitmap(inputStream);
 	}
+
+    public static Bitmap getBitmapFromFile(String path) throws IOException {
+        return getBitmapFromFile(new File(path));
+    }
+
+    public static Bitmap getBitmapFromFile(File path) throws IOException {
+        InputStream inputStream = new FileInputStream(((path)));
+        return inputStreamToBitmap(inputStream);
+    }
 
     /**
      *
