@@ -99,8 +99,6 @@ public class CommonCache extends CacheManager<File> {
         IO.writeFile(file, text);
     }
 
-
-
     public boolean exists(String fileName) {
         File file = createFile(fileName);
         return file.exists() && file.length() > 0;
