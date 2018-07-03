@@ -7,7 +7,14 @@ public class ResourceUtils {
 
     public static String getStringByIdName(Context context, String name) {
         Resources res = context.getResources();
-        return res.getString(res.getIdentifier(name, "string", context.getPackageName()));
+        String value = null;
+        try {
+            value = res.getString(res.getIdentifier(name, "string", context.getPackageName()));
+        }
+        catch (Exception ex) {
+            // ResourceNotFound
+        }
+        return value;
     }
 
 }

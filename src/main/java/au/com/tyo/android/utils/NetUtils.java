@@ -11,7 +11,7 @@ import static android.content.Context.WIFI_SERVICE;
 
 public class NetUtils extends au.com.tyo.network.NetUtils {
 
-    public static List scanWifiNetwork(Context context, int port) {
+    public static List scanWifiNetwork(Context context, int port, NetworkScanListener networkScanListener) {
         WifiManager wifiMgr = (WifiManager) context.getSystemService(WIFI_SERVICE);
         @SuppressLint("MissingPermission") WifiInfo wifiInfo = wifiMgr.getConnectionInfo();
         int ip = wifiInfo.getIpAddress();
@@ -21,6 +21,6 @@ public class NetUtils extends au.com.tyo.network.NetUtils {
          */
         List<byte[]> list = getPeerIPsFast(null, bytes);
 
-       return scanLocalNetwork(list, port);
+       return scanLocalNetwork(list, port, networkScanListener);
     }
 }
