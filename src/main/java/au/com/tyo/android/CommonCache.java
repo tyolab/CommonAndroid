@@ -94,7 +94,7 @@ public class CommonCache extends CacheManager<File> {
         return null;
     }
 
-    public String readText(File file) throws Exception {
+    public String readText(File file) {
         if (file.exists())
             return new String(IO.readFileIntoBytes(file));
         return null;
@@ -105,7 +105,7 @@ public class CommonCache extends CacheManager<File> {
         IO.writeObject(object, file);
     }
 
-    public void writeText(String fileName, String text) throws Exception {
+    public void writeText(String fileName, String text) {
         File file = createFile(fileName);
         IO.writeFile(file, text);
     }
