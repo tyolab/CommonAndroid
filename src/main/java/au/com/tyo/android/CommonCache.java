@@ -15,6 +15,7 @@ import java.util.Calendar;
 import au.com.tyo.android.utils.CacheManager;
 import au.com.tyo.io.IO;
 import au.com.tyo.io.WildcardFileStack;
+import au.com.tyo.utils.TextUtils;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 10/7/17.
@@ -66,14 +67,24 @@ public class CommonCache extends CacheManager<File> {
         new File(getCacheDir().getAbsolutePath() + File.separator + dir).mkdir();
     }
 
-    public File createFile(String fileName) {
+    public File createFile(String dir, String fileName) {
         String fullName = null;
         if (fileName.startsWith(File.separator))
             fullName = fileName;
-        else
-            fullName = getCacheFilePathName(fileName);
+        else {
+            if (!android.text.TextUtils.isEmpty(dir)) {
+                String dirName = getCacheFilePathName(dir);
+                fullName = dirName + File.separator + fileName;
+            }
+            else
+                fullName = getCacheFilePathName(fileName);
+        }
         File file = new File(fullName);
         return file;
+    }
+
+    public File createFile(String fileName) {
+        return createFile(null, fileName);
     }
 
     public Object read(String fileName) throws Exception {
@@ -83,7 +94,7 @@ public class CommonCache extends CacheManager<File> {
         return null;
     }
 
-    public String readText(File file) throws Exception {
+    public String readText(File file) {
         if (file.exists())
             return new String(IO.readFileIntoBytes(file));
         return null;
@@ -94,7 +105,7 @@ public class CommonCache extends CacheManager<File> {
         IO.writeObject(object, file);
     }
 
-    public void writeText(String fileName, String text) throws Exception {
+    public void writeText(String fileName, String text) {
         File file = createFile(fileName);
         IO.writeFile(file, text);
     }
