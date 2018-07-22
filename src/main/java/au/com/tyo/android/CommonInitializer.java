@@ -175,7 +175,7 @@ public class CommonInitializer {
     /**
 	 * @param theClass
 	 */
-	public static Object initializeInstance(Class<?> theClass) {
+	public static <T extends CommonController> T initializeInstance(Class<T> theClass) {
 		return initializeInstance(theClass, null);
 	}
 
@@ -185,7 +185,7 @@ public class CommonInitializer {
 	 * @param theClass
 	 * @param context
 	 */
-	public static Object initializeInstance(Class<?> theClass, Context context) {
+	public static <T extends CommonController> T  initializeInstance(Class<T> theClass, Context context) {
 		return initializeInstance(theClass, context, true, false);
 	}
 
@@ -194,7 +194,7 @@ public class CommonInitializer {
 	 * @param context
 	 * @param initializeBackground
 	 */
-	public static Object initializeInstance(Class<?> theClass, Context context, boolean initializeBackground) {
+	public static <T extends CommonController> T initializeInstance(Class<T> theClass, Context context, boolean initializeBackground) {
 		return initializeInstance(theClass, context, true, initializeBackground);
 	}
 
@@ -204,13 +204,13 @@ public class CommonInitializer {
 	 * @param initializeMain
 	 * @param initializeBackground
 	 */
-	public static Object initializeInstance(Class<?> theClass, Context context, boolean initializeMain, boolean initializeBackground) {
-		Object instance = null;
+	public static <T extends CommonController> T initializeInstance(Class<T> theClass, Context context, boolean initializeMain, boolean initializeBackground) {
+		T instance = null;
 		String errorMessage = "Failed to create class instance";
 
 		try {
 			if (null != context) {
-				Constructor ctor = theClass.getConstructor(Context.class/*Classes.clsController*/);
+				Constructor<T> ctor = theClass.getConstructor(Context.class/*Classes.clsController*/);
 				instance = ctor.newInstance(new Object[]{context});
 			}
 		} catch (InstantiationException e) {
