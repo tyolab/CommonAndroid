@@ -24,4 +24,7 @@ public interface Constants {
     String DATA = "TYODROID_DATA";
     String BUNDLE = "TYODROID_BUNDLE";
     String RESULT = "TYODROID_RESULT";
+
+    int REQUEST_CODE_PICK_DOCUMENT = 6666;
+    int REQUEST_CODE_PICK_IMAGE = 6667;
 }
