@@ -1,8 +1,16 @@
-package au.com.tyo.android;
+    package au.com.tyo.android;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.net.Uri;
 import android.os.Build;
+import android.os.Parcelable;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 6/8/18.
@@ -21,7 +29,11 @@ public class AndroidHelper {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType(type);
-        context.startActivityForResult(intent, requestCode);
+
+        if (requestCode > -1)
+            context.startActivityForResult(intent, requestCode);
+        else
+            context.startActivity(intent);
     }
 
     public static void openImageManager(Activity context) {
@@ -41,5 +53,65 @@ public class AndroidHelper {
 
     public static boolean isSamsungDevice() {
         return Build.MANUFACTURER.equalsIgnoreCase("samsung");
+    }
+
+    public static Intent shareToOtherApps(String title, Context ctx, String imagePath) {
+        return shareExclude(title, ctx, AndroidUtils.getPackageName(ctx), imagePath);
+    }
+
+    /**
+     *
+     * @param title
+     * @param ctx
+     * @param packageNameToExclude
+     * @param imagePath
+     * @return
+     */
+    public static Intent shareExclude(String title, Context ctx, String packageNameToExclude, String imagePath) {
+        return shareExclude(title, ctx, packageNameToExclude, imagePath, null);
+    }
+
+    /**
+     *
+     * https://stackoverflow.com/questions/4064848/how-to-exclude-your-own-app-from-the-share-menu
+     *
+     * @param ctx
+     * @param packageNameToExclude
+     * @param imagePath
+     * @param text
+     * @return
+     */
+    public static Intent shareExclude(String title, Context ctx, String packageNameToExclude, String imagePath, String text) {
+        List<Intent> targetedShareIntents = new ArrayList<>();
+        Intent share = new Intent(android.content.Intent.ACTION_SEND);
+        share.setType("image/*");
+        List<ResolveInfo> resInfo = ctx.getPackageManager().queryIntentActivities(createShareIntent(text,new File(imagePath)), 0);
+        if (!resInfo.isEmpty()) {
+            for (ResolveInfo info : resInfo) {
+                Intent targetedShare = createShareIntent(text, new File(imagePath));
+
+                if (!info.activityInfo.packageName.equalsIgnoreCase(packageNameToExclude)) {
+                    targetedShare.setPackage(info.activityInfo.packageName);
+                    targetedShareIntents.add(targetedShare);
+                }
+            }
+
+            Intent chooserIntent = Intent.createChooser(targetedShareIntents.remove(0),
+                    title);
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
+                    targetedShareIntents.toArray(new Parcelable[] {}));
+            return chooserIntent;
+        }
+        return null;
+    }
+
+    private static Intent createShareIntent(String text, File file) {
+        Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+        intent.setType("image/*");
+        if (text != null) {
+            intent.putExtra(Intent.EXTRA_TEXT, text);
+        }
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        return intent;
     }
 }

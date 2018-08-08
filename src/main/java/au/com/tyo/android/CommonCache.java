@@ -9,13 +9,15 @@ import android.util.Log;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStream;
 import java.util.Calendar;
 
 import au.com.tyo.android.utils.CacheManager;
 import au.com.tyo.io.IO;
 import au.com.tyo.io.WildcardFileStack;
-import au.com.tyo.utils.TextUtils;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 10/7/17.
@@ -128,6 +130,14 @@ public class CommonCache extends CacheManager<File> {
     public void save(String name, byte[] data) {
         File file = createFile(name);
         IO.writeFile(file.getAbsolutePath(), data);
+    }
+
+    public OutputStream openOutputStream(String name) throws FileNotFoundException {
+        return new FileOutputStream(createFile(name));
+    }
+
+    public OutputStream openOutputStream(String dir, String name) throws FileNotFoundException {
+        return new FileOutputStream(createFile(dir, name));
     }
 
     public void clear() {
