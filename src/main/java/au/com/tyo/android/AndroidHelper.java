@@ -12,7 +12,9 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+import au.com.tyo.data.ContentTypes;
+
+    /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 6/8/18.
  */
 public class AndroidHelper {
@@ -84,7 +86,12 @@ public class AndroidHelper {
     public static Intent shareExclude(String title, Context ctx, String packageNameToExclude, String imagePath, String text) {
         List<Intent> targetedShareIntents = new ArrayList<>();
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
-        share.setType("image/*");
+
+        if (ContentTypes.isImage(imagePath))
+            share.setType("image/*");
+        else
+            share.setType("*/*");
+
         List<ResolveInfo> resInfo = ctx.getPackageManager().queryIntentActivities(createShareIntent(text,new File(imagePath)), 0);
         if (!resInfo.isEmpty()) {
             for (ResolveInfo info : resInfo) {
