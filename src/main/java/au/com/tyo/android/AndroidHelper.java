@@ -57,6 +57,24 @@ public class AndroidHelper {
         return Build.MANUFACTURER.equalsIgnoreCase("samsung");
     }
 
+        /**
+         *
+         * @param context
+         * @param path
+         * @param type
+         */
+    public static void openFolder(Activity context, String path, String type) {
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        if (null != type)
+            intent.setType(type);
+
+        intent.setData(Uri.fromFile(new File(path)));
+
+        context.startActivity(intent);
+    }
+
     public static Intent shareToOtherApps(String title, Context ctx, String imagePath) {
         return shareExclude(title, ctx, AndroidUtils.getPackageName(ctx), imagePath);
     }
