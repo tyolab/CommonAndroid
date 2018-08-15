@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Window;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -148,7 +149,11 @@ public class AndroidSettings extends CommonSettings implements Android {
 				for (String str : storages) {
 					File file = new File(str + File.separator + "debug.txt");
 					if (file.exists()) {
-						debugKey = IO.readFileIntoBytes(file);
+						try {
+							debugKey = IO.readFileIntoBytes(file);
+						} catch (IOException e) {
+							Log.e(LOG_TAG, "failed to load debug.txt", e);
+						}
 						if (debugKey == null)
 							continue;
 

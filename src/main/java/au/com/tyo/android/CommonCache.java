@@ -96,7 +96,7 @@ public class CommonCache extends CacheManager<File> {
         return null;
     }
 
-    public String readText(File file) {
+    public String readText(File file) throws IOException {
         if (file.exists())
             return new String(IO.readFileIntoBytes(file));
         return null;
@@ -107,7 +107,7 @@ public class CommonCache extends CacheManager<File> {
         IO.writeObject(object, file);
     }
 
-    public void writeText(String fileName, String text) {
+    public void writeText(String fileName, String text) throws IOException {
         File file = createFile(fileName);
         IO.writeFile(file, text);
     }
@@ -127,7 +127,7 @@ public class CommonCache extends CacheManager<File> {
         file.setLastModified(Calendar.getInstance().getTimeInMillis());
     }
 
-    public void save(String name, byte[] data) {
+    public void save(String name, byte[] data) throws IOException {
         File file = createFile(name);
         IO.writeFile(file.getAbsolutePath(), data);
     }
