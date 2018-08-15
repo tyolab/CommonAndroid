@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
+import android.support.v4.content.FileProvider;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -63,14 +64,19 @@ public class AndroidHelper {
          * @param path
          * @param type
          */
-    public static void openFolder(Activity context, String path, String type) {
+    public static void openFolder(Activity context, String path, String type, String authority) {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
         if (null != type)
             intent.setType(type);
 
-        intent.setData(Uri.fromFile(new File(path)));
+        if (AndroidUtils.getAndroidVersion() < 24)
+            intent.setData(Uri.fromFile(new File(path)));
+        else {
+            intent.setData(FileProvider.getUriForFile(context, authority, new File(path)));
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        }
 
         context.startActivity(intent);
     }
