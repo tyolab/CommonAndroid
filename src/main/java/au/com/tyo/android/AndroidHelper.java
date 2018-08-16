@@ -20,18 +20,46 @@ import au.com.tyo.data.ContentTypes;
  */
 public class AndroidHelper {
 
+    /**
+     *
+     * @param type
+     * @return
+     */
+    public static Intent createOpenDocumentIntent(String type) {
+        Intent intent = null;
+        if (AndroidUtils.getAndroidVersion() >= 19)
+            intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+        else
+            intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+
+        if (null != type)
+            intent.setType(type);
+        else
+            intent.setType("*/*");
+
+        return intent;
+    }
+
+    /**
+     *
+     * @param context
+     */
     public static void openDocumentManager(Activity context) {
         openDocumentManager(context, Constants.REQUEST_CODE_PICK_DOCUMENT);
     }
 
+    /**
+     *
+      * @param context
+     * @param requestCode
+     */
     public static void openDocumentManager(Activity context, int requestCode) {
-        openDocumentManager(context, requestCode, "*/*");
+        openDocumentManager(context, requestCode, null);
     }
 
     public static void openDocumentManager(Activity context, int requestCode, String type) {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-        intent.setType(type);
+        Intent intent = createOpenDocumentIntent(type);
 
         if (requestCode > -1)
             context.startActivityForResult(intent, requestCode);
@@ -58,18 +86,14 @@ public class AndroidHelper {
         return Build.MANUFACTURER.equalsIgnoreCase("samsung");
     }
 
-        /**
-         *
-         * @param context
-         * @param path
-         * @param type
-         */
+    /**
+     *
+     * @param context
+     * @param path
+     * @param type
+     */
     public static void openFolder(Activity context, String path, String type, String authority) {
-        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-        intent.addCategory(Intent.CATEGORY_OPENABLE);
-
-        if (null != type)
-            intent.setType(type);
+        Intent intent = createOpenDocumentIntent(type);
 
         if (AndroidUtils.getAndroidVersion() < 24)
             intent.setData(Uri.fromFile(new File(path)));
