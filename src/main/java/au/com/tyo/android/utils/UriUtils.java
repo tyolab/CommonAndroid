@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.provider.OpenableColumns;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 14/8/18.
@@ -140,5 +141,37 @@ public class UriUtils {
      */
     public static boolean isGooglePhotosUri(Uri uri) {
         return "com.google.android.apps.photos.content".equals(uri.getAuthority());
+    }
+
+    /**
+     *
+     * @param context
+     * @param uri
+     * @return
+     */
+    public static String getFileName(Context context, Uri uri) {
+        String name = null;
+        String scheme = uri.getScheme();
+        if (scheme.equals("file"))
+            return uri.getLastPathSegment();
+
+        if (scheme.equals("content")) {
+            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+            try {
+                if (cursor != null && cursor.moveToFirst()) {
+                    name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        if (name == null) {
+            name = uri.getPath();
+            int cut = name.lastIndexOf('/');
+            if (cut != -1) {
+                name = name.substring(cut + 1);
+            }
+        }
+        return name;
     }
 }
