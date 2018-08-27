@@ -122,7 +122,15 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 				case SYSTEM_DATA:
 					return getDataDirectory(context, subDirStr);
 				case EXTERNAL_STORAGE:
-					return getCacheDirectoryFromExternalStorage(context, subDirStr, usePackageNameAsRootFolder);
+                    /**
+                     * OK, not all the phone has external storage
+                     */
+                    File externalFileDir = getCacheDirectoryFromExternalStorage(context, subDirStr, usePackageNameAsRootFolder);
+                    if (null == externalFileDir) {
+                        externalFileDir = getDataDirectory(context, subDirStr);
+                        location = CacheLocation.SYSTEM_DATA;
+                    }
+					return externalFileDir;
 			}
 		}
 
@@ -154,6 +162,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		}
 		catch (Exception ex) {
 			Log.e(LOG_TAG, "Unable to get external storage state");
+			return null;
 		}
 		File cacheDir = null;
 		if (sdState.equals(android.os.Environment.MEDIA_MOUNTED)) {

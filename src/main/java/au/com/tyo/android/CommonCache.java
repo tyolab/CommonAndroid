@@ -66,7 +66,13 @@ public class CommonCache extends CacheManager<File> {
     }
 
     public void makeDirectory(String dir) {
-        new File(getCacheDir().getAbsolutePath() + File.separator + dir).mkdirs();
+        try {
+            String parentDir = getCacheDir().getAbsolutePath();
+            new File( parentDir+ File.separator + dir).mkdirs();
+        }
+        catch (Exception ex) {
+            Log.e(LOG_TAG, "Failed to make directory: " + dir);
+        }
     }
 
     public File createFile(String dir, String fileName) {
