@@ -9,8 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
+import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -217,10 +219,10 @@ public class BitmapUtils {
 	/**
 	 * http://stackoverflow.com/questions/8381514/android-converting-color-image-to-grayscale
 	 *
-	 * @param bmpOriginal
+	 * @param original
 	 * @return
 	 */
-	public Bitmap toGrayscale(Bitmap bmpOriginal) {
+	public static Bitmap toGrayscale(Bitmap original) {
         /*
         similarly
         for(int x = 0; x < width; ++x) {
@@ -239,20 +241,110 @@ public class BitmapUtils {
             }
         }
          */
-		int width, height;
-		height = bmpOriginal.getHeight();
-		width = bmpOriginal.getWidth();
-
-		Bitmap bmpGrayscale = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-		Canvas c = new Canvas(bmpGrayscale);
-		Paint paint = new Paint();
 		ColorMatrix cm = new ColorMatrix();
 		cm.setSaturation(0);
-		ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
-		paint.setColorFilter(f);
-		c.drawBitmap(bmpOriginal, 0, 0, paint);
-		return bmpGrayscale;
+		return colorFilterIt(original, cm);
 	}
+
+	public static Bitmap colorFilterIt(Bitmap original, ColorMatrix cm) {
+		ColorMatrixColorFilter f = new ColorMatrixColorFilter(cm);
+		return colorFilterIt(original, f);
+	}
+
+    public static Bitmap colorFilterIt(Bitmap original, ColorFilter colorFilter) {
+        int width, height;
+        height = original.getHeight();
+        width = original.getWidth();
+
+        Bitmap bitmap = Bitmap.createBitmap(width, height, original.getConfig());
+        Canvas c = new Canvas(bitmap);
+        Paint paint = new Paint();
+
+        paint.setColorFilter(colorFilter);
+        c.drawBitmap(original, 0, 0, paint);
+
+        return bitmap;
+    }
+
+	public static Bitmap toSepia(Bitmap original) {
+		ColorMatrix cm = new ColorMatrix();
+		cm.setSaturation(0);
+
+		ColorMatrix colorScale = new ColorMatrix();
+		colorScale.setScale(1, 1, 0.8f, 1);
+
+		cm.postConcat(colorScale);
+
+		return colorFilterIt(original, cm);
+	}
+
+	public static Bitmap toBinary(Bitmap original) {
+		ColorMatrix cm = new ColorMatrix();
+		cm.setSaturation(0);
+
+		float m = 255f;
+		float t = -255*128f;
+		ColorMatrix threshold = new ColorMatrix(new float[] {
+				m, 0, 0, 1, t,
+				0, m, 0, 1, t,
+				0, 0, m, 1, t,
+				0, 0, 0, 1, 0
+		});
+
+		cm.postConcat(threshold);
+
+		return colorFilterIt(original, cm);
+	}
+
+    public static Bitmap toInvert(Bitmap original) {
+        ColorMatrix cm = new ColorMatrix(new float[] {
+                -1,  0,  0,  0, 255,
+                0, -1,  0,  0, 255,
+                0,  0, -1,  0, 255,
+                0,  0,  0,  1,   0
+        });
+
+        return colorFilterIt(original, cm);
+    }
+
+    public static Bitmap toAlphaBlue(Bitmap original) {
+        ColorMatrix cm = new ColorMatrix(new float[] {
+                0, 0, 0, 0, 0,
+                0.3f, 0, 0, 0, 50,
+                0, 0, 0, 0, 255,
+                0.2f, 0.4f, 0.4f, 0, -30
+        });
+
+        return colorFilterIt(original, cm);
+    }
+
+    public static Bitmap toAlphaPink(Bitmap original) {
+        ColorMatrix cm = new ColorMatrix(new float[] {
+                0, 0, 0, 0, 255,
+                0, 0, 0, 0, 0,
+                0.2f, 0, 0, 0, 50,
+                0.2f, 0.2f, 0.2f, 0, -20
+        });
+
+        return colorFilterIt(original, cm);
+    }
+
+    public static Bitmap redIt(Bitmap original) {
+        return colorFilterIt(original, new LightingColorFilter(Color.RED, 0));
+    }
+
+    public static Bitmap blueIt(Bitmap original) {
+        return colorFilterIt(original, new LightingColorFilter(Color.BLUE, 0));
+    }
+
+    public static Bitmap greenIt(Bitmap original) {
+        return colorFilterIt(original, new LightingColorFilter(Color.GREEN, 0));
+    }
+
+    public static Bitmap yellowIt(Bitmap original) {
+        return colorFilterIt(original, new LightingColorFilter(Color.YELLOW, 0));
+    }
+
 
 	/**
 	 * Convert View to BITMAP
