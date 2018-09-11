@@ -16,6 +16,7 @@ import java.io.OutputStream;
 import java.util.Calendar;
 
 import au.com.tyo.android.utils.CacheManager;
+import au.com.tyo.io.FileUtils;
 import au.com.tyo.io.IO;
 import au.com.tyo.io.WildcardFileStack;
 
@@ -75,13 +76,43 @@ public class CommonCache extends CacheManager<File> {
         }
     }
 
+    /**
+     *
+     * @param dir
+     * @param fileName
+     * @return
+     */
     public File createFile(String dir, String fileName) {
+        return createFile(dir, fileName, false);
+    }
+
+    /**
+     *
+     * @param dir
+     * @param fileName
+     * @param deleteFolderIfExists
+     * @return
+     */
+    public File createFile(String dir, String fileName, boolean deleteFolderIfExists) {
         String fullName = null;
         if (fileName.startsWith(File.separator))
             fullName = fileName;
         else {
             if (!android.text.TextUtils.isEmpty(dir)) {
                 String dirName = getCacheFilePathName(dir);
+                try {
+                    File dirFile = new File(dirName);
+
+                    if (dirFile.exists()) {
+                        if (deleteFolderIfExists)
+                            FileUtils.delete(dirFile);
+                        dirFile.mkdirs();
+                    }
+                    else
+                        dirFile.mkdirs();
+                }
+                catch (Exception ex) {}
+
                 fullName = dirName + File.separator + fileName;
             }
             else
