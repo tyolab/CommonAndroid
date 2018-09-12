@@ -25,7 +25,7 @@ public class ServiceRunner {
 
     private static final String TAG = "ServiceRunner";
 
-    private Messenger serviceMessenger = null;
+    private Messenger clientMessenger = null;
 
     private boolean isRunning = false;
 
@@ -61,6 +61,14 @@ public class ServiceRunner {
         this.serviceListener = serviceListener;
     }
 
+    public IBinder getService() {
+        return service;
+    }
+
+    public void setService(IBinder service) {
+        this.service = service;
+    }
+
     public boolean doesRequireMessager() {
         return requiresMessenger;
     }
@@ -76,7 +84,7 @@ public class ServiceRunner {
             alive = true;
 
             if (doesRequireMessager()) {
-                serviceMessenger = new Messenger(service);
+                clientMessenger = new Messenger(service);
                 sendMessage(Constants.MESSAGE_SERVICE_REGISTER_CLIENT);
             }
 
@@ -85,8 +93,9 @@ public class ServiceRunner {
         }
 
         public void onServiceDisconnected(ComponentName className) {
-            serviceMessenger = null;
+            clientMessenger = null;
             alive = false;
+            ServiceRunner.this.service = null;
         }
     };
 
@@ -96,15 +105,15 @@ public class ServiceRunner {
 
     public boolean sendMessage(int message, Object obj) {
         Message msg = Message.obtain(null, message);
-        msg.replyTo = serviceMessenger;
+        msg.replyTo = clientMessenger;
         msg.obj = obj;
         return sendMessage(msg);
     }
 
     public boolean sendMessage(Message msg) {
-        if (null != serviceMessenger)
+        if (null != clientMessenger)
             try {
-                serviceMessenger.send(msg);
+                clientMessenger.send(msg);
                 return true;
             }
             catch (RemoteException e) {
@@ -160,11 +169,11 @@ public class ServiceRunner {
                 isRunning = true;
             }
 
-            if (null == serviceMessenger)
+            if (null == clientMessenger)
                 context.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
         }
         else {
-            if (null != serviceMessenger) {
+            if (null != clientMessenger) {
                 sendMessage(Constants.MESSAGE_SERVICE_UNREGISTER_CLIENT);
                 context.unbindService(connection);
             }

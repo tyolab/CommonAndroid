@@ -58,7 +58,8 @@ public abstract class CommonIntentService extends Service {
     private static final int WHAT_MESSAGE = -10;
 
     private BroadcastReceiver mConnReceiver;
-    private Messenger mClientMessenger;
+    private Messenger serviceMessenger;
+    private Messenger clientMessenger;
     private PendingIntent mPendingIntent;
     private PendingIntent mAlarmIntent;
     private CommonNotification notificationFactory;
@@ -85,10 +86,13 @@ public abstract class CommonIntentService extends Service {
     }
 
     private void init() {
-        mClientMessenger = new Messenger(new Handler() {
+        serviceMessenger = new Messenger(new Handler() {
             @Override
             public void handleMessage(Message msg) {
                 Log.d(TAG, "received message from client");
+
+                clientMessenger = msg.replyTo;
+
                 if (!handleServiceMessage(msg))
                     super.handleMessage(msg);
             }
@@ -97,7 +101,7 @@ public abstract class CommonIntentService extends Service {
 
     @Override
     public IBinder onBind(Intent paramIntent) {
-        return mBinder = mClientMessenger.getBinder();
+        return mBinder = serviceMessenger.getBinder();
     }
 
     @Override
