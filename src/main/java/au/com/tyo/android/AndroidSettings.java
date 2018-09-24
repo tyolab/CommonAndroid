@@ -313,6 +313,8 @@ public class AndroidSettings extends CommonSettings implements Android {
 		else if (value instanceof Set<?>) {
 			editor.putStringSet(key, (Set<String>) value);
 		}
+		else
+			throw new IllegalArgumentException("Unknown data type, please save this data with a different implementation.");
     	editor.commit();		
 	}
 
