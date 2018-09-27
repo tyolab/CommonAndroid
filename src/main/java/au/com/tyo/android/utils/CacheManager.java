@@ -30,7 +30,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 
     public static final long CACHE_LIFE_SPAN_INFINITE = -1;
 
-    /**
+	/**
 	 * External storage can't be granteed
 	 */
 	public enum CacheLocation {
@@ -80,24 +80,28 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		this.location = location;
 
 		usePackageNameAsRootFolder = false;
-		cacheDir = this.getCacheDirectoryFromLocation();
 
-		if (cacheDir != null) {
-			if (!cacheDir.exists())
-				cacheDir.mkdirs();
-
-			if (cacheDir.exists())
-				cacheEnabled = true;
-			else
-				cacheEnabled = false;
-		}
-		else
-			cacheEnabled = false;
-
+        setupCacheDir();
         // cacheSpan = DEFAULT_CACHE_LIFE_SPAN;
 	}
 
-	public long getCacheSpan() {
+    protected void setupCacheDir() {
+        cacheDir = this.getCacheDirectoryFromLocation();
+
+        if (cacheDir != null) {
+            if (!cacheDir.exists())
+                cacheDir.mkdirs();
+
+            if (cacheDir.exists())
+                cacheEnabled = true;
+            else
+                cacheEnabled = false;
+        }
+        else
+            cacheEnabled = false;
+    }
+
+    public long getCacheSpan() {
 		return cacheSpan;
 	}
 
@@ -114,20 +118,24 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
     }
 
     public File getCacheDirectoryFromLocation() {
+	    return getCacheDirectoryFromLocation(subDirStr);
+    }
+
+    public File getCacheDirectoryFromLocation(String subDir) {
 		if (context != null) {
 			switch (location) {
 				case SYSTEM_CACHE:
 				default:
 					return getCacheDirectoryFromLocation(context);
 				case SYSTEM_DATA:
-					return getDataDirectory(context, subDirStr);
+					return getDataDirectory(context, subDir);
 				case EXTERNAL_STORAGE:
                     /**
                      * OK, not all the phone has external storage
                      */
-                    File externalFileDir = getCacheDirectoryFromExternalStorage(context, subDirStr, usePackageNameAsRootFolder);
+                    File externalFileDir = getCacheDirectoryFromExternalStorage(context, subDir, usePackageNameAsRootFolder);
                     if (null == externalFileDir) {
-                        externalFileDir = getDataDirectory(context, subDirStr);
+                        externalFileDir = getDataDirectory(context, subDir);
                         location = CacheLocation.SYSTEM_DATA;
                     }
 					return externalFileDir;
@@ -323,4 +331,20 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		return createTimestampFileName("yyyyMMddHHmmss");
 	}
 
+	public boolean renameTo(String newName) {
+		File oldDir = getCacheDir();
+		if (null != oldDir) {
+		    File newSub = getCacheDirectoryFromLocation(newName);
+
+		    cacheDir = newSub;
+		    if (!newSub.exists())
+                return oldDir.renameTo(newSub);
+		    return true;
+        }
+        else {
+            subDirStr = newName;
+            setupCacheDir();
+            return true;
+        }
+	}
 }
