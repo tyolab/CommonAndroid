@@ -913,4 +913,16 @@ public class AndroidUtils {
 			return 1;
 		}
 	}
+
+	/**
+	 * Return system ABI
+	 *
+	 * @return
+	 */
+	public static String getAbi() {
+		return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ?
+				Build.SUPPORTED_ABIS[0]
+				:
+				Build.CPU_ABI;
+	}
 }
