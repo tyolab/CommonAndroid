@@ -173,12 +173,13 @@ public class ServiceRunner {
                 context.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
         }
         else {
-            if (null != clientMessenger) {
-                sendMessage(Constants.MESSAGE_SERVICE_UNREGISTER_CLIENT);
-                context.unbindService(connection);
-            }
-
             if (isRunning) {
+
+                if (null != clientMessenger) {
+                    sendMessage(Constants.MESSAGE_SERVICE_UNREGISTER_CLIENT);
+                    context.unbindService(connection);
+                }
+
                 context.stopService(serviceIntent);
                 isRunning = false;
             }

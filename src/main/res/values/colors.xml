@@ -62,6 +62,7 @@
 	<color name="Hotpink">#7D2252</color>
 	<color name="cyan">#00ffff</color>
 	<color name="light_grey">#888888</color>
+    <color name="dark_grey">#515151</color>
 	<color name="dark_red">#c92a1a</color>
 
     <color name="colorListHeader">#DBE8F1</color>
