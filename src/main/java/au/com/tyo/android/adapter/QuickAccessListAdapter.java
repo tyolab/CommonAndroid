@@ -35,11 +35,12 @@ public class QuickAccessListAdapter extends ListWithHeadersAdapter {
         clear();
         setSelected(selected);
 
-        if (null != quickAccessTitle)
-            add(new SectionTitleItem(quickAccessTitle));
+        if (null != quickAccess) {
+            if (null != quickAccessTitle)
+                add(new SectionTitleItem(quickAccessTitle));
 
-        if (null != quickAccess)
             addAll(quickAccess);
+        }
 
         if (addSeparator && getCount() > 0)
             add(new SeparatorItem());
