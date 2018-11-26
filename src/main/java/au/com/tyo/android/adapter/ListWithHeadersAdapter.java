@@ -19,7 +19,7 @@ import java.util.Map;
  * Credits: https://stackoverflow.com/questions/13590627/android-listview-headers
  */
 
-public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
+public class ListWithHeadersAdapter extends ArrayAdapter {
 
     public static final int ITEM_TYPE_ITEM = 0;
 
@@ -28,6 +28,8 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
     public static final int ITEM_TYPE_HEADER = 2;
 
     public static final int ITEM_TYPE_FOOTER = 4;
+
+    public static final int ITEM_TYPE_SEPARATOR = 8;
 
     public static final int ITEM_TYPE_CUSTOM1 = 100;
 
@@ -45,11 +47,55 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
     protected ListItemFactory itemFactory;
 
+    protected ListSeparatorFactory separatorFactory;
+
     protected ListFooterFactory footerFactory;
 
     protected ListHeaderFactory headerFactory;
 
     protected Map<ItemType, InflaterFactory> factoryMap;
+
+    protected int[] selected;
+
+    public ListWithHeadersAdapter(@NonNull Context context, int resource) {
+        super(context, resource);
+
+        init();
+    }
+
+    public ListWithHeadersAdapter(@NonNull Context context, int resource, int textViewResourceId) {
+        super(context, resource, textViewResourceId);
+
+        init();
+    }
+
+    public ListWithHeadersAdapter(@NonNull Context context, int resource, @NonNull Object[] objects) {
+        super(context, resource, objects);
+
+        init();
+    }
+
+    public ListWithHeadersAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull Object[] objects) {
+        super(context, resource, textViewResourceId, objects);
+
+        init();
+    }
+
+    public ListWithHeadersAdapter(@NonNull Context context, int resource, @NonNull List objects) {
+        super(context, resource, objects);
+
+        init();
+    }
+
+    public ListWithHeadersAdapter(@NonNull Context context, int resource, int textViewResourceId, @NonNull List objects) {
+        super(context, resource, textViewResourceId, objects);
+
+        init();
+    }
+
+    private void init() {
+
+    }
 
     public interface ItemValue<T> {
         T valueOf();
@@ -75,6 +121,11 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
             @Override
             public Integer valueOf() {
                 return ITEM_TYPE_HEADER;
+            }
+        }, SEPARATOR {
+            @Override
+            public Integer valueOf() {
+                return ITEM_TYPE_SEPARATOR;
             }
         } /* better not to implement header here */
         ,
@@ -117,37 +168,13 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
     }
 
-    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource) {
-        super(context, resource);
-        onCreate(context, resource);
-    }
-
-    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId) {
-        super(context, resource, textViewResourceId);
-        onCreate(context, resource);
-    }
-
-    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull ListItemViewType[] objects) {
-        super(context, resource, objects);
-        onCreate(context, resource);
-    }
-
-    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull ListItemViewType[] objects) {
-        super(context, resource, textViewResourceId, objects);
-        onCreate(context, resource);
-    }
-
-    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @NonNull List<ListItemViewType> objects) {
-        super(context, resource, objects);
-        onCreate(context, resource);
-    }
-
-    public ListWithHeadersAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, @NonNull List<ListItemViewType> objects) {
-        super(context, resource, textViewResourceId, objects);
-        onCreate(context, resource);
+    public void setSelected(int[] selected) {
+        this.selected = selected;
     }
 
     public ListSectionHeaderFactory getSectionHeaderFactory() {
+        if (null == sectionHeaderFactory)
+            setSectionHeaderFactory(new ListSectionHeaderFactory(getContext()));
         return sectionHeaderFactory;
     }
 
@@ -165,6 +192,12 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
 
     public ListFooterFactory getFooterFactory() {
         return footerFactory;
+    }
+
+    public ListSeparatorFactory getSeparatorFactory() {
+        if (null == separatorFactory)
+            separatorFactory = new ListSeparatorFactory(getContext());
+        return separatorFactory;
     }
 
     public void setFooterFactory(ListFooterFactory footerFactory) {
@@ -209,6 +242,10 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
     @Override
     public int getItemViewType(int position) {
         Object obj = getItem(position);
+        return getItemViewType(obj);
+    }
+
+    protected int getItemViewType(Object obj) {
         if (obj instanceof ListItemViewType)
             return ((ListItemViewType) obj).getViewType();
         return ItemType.ITEM.ordinal();
@@ -237,6 +274,9 @@ public class ListWithHeadersAdapter extends ArrayAdapter<ListItemViewType> {
                 break;
             case SECTION_HEADER:
                 factory = sectionHeaderFactory;
+                break;
+            case SEPARATOR:
+                factory = separatorFactory;
                 break;
             case FOOTER:
                 if (null == footerFactory)

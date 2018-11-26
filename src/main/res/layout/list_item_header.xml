@@ -12,11 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left|center_vertical"
         android:id="@android:id/text1"
-        android:textAppearance="@style/TextAppearanceListHeaderText.Common"
-        android:paddingStart="@dimen/list_header_padding_left"
-        android:paddingLeft="@dimen/list_header_padding_left"
-        android:paddingTop="@dimen/list_header_padding_top"
-        android:paddingBottom="@dimen/list_header_padding_bottom"
+        style="@style/AppStyle.Common.List.SectionHeader"
         />
 
 </FrameLayout>

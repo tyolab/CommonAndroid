@@ -418,7 +418,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 		this.updatePreference(PREF_DATA_STORAGE_PATH, dataStoragePath);
 	}
 	
-    public boolean isLightThemeUsed() {
+    public boolean isLightThemeInUse() {
 		return lightThemeUsed;
 	}
 
