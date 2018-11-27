@@ -422,7 +422,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 		return lightThemeUsed;
 	}
 
-	public void setLightThemeUsed(boolean usesLightTheme) {
+	public void setLightThemeInUse(boolean usesLightTheme) {
 		this.lightThemeUsed = usesLightTheme;
 	}
 	
