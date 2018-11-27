@@ -270,13 +270,13 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
 
         switch (itemType) {
             case ITEM:
-                factory = itemFactory;
+                factory = getItemFactory();
                 break;
             case SECTION_HEADER:
-                factory = sectionHeaderFactory;
+                factory = getSectionHeaderFactory();
                 break;
             case SEPARATOR:
-                factory = separatorFactory;
+                factory = getSeparatorFactory();
                 break;
             case FOOTER:
                 if (null == footerFactory)
@@ -305,7 +305,8 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
             holder = factory.getViewHolder(convertView, parent, obj);
             return holder.view;
         }
-        return null;
+        // throw new IllegalStateException("Cannot return a null view from the list adapter");
+        return super.getView(position, convertView, parent);
     }
 
     protected InflaterFactory getCustomFactory(ItemType itemType) {
