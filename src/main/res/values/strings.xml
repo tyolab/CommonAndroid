@@ -36,7 +36,7 @@
     <string name="cache">Cache</string>
     <string name="cache_unavailable">Caching view histories cannot be enabled on this device.</string>
     <string name="write_disk_warining">Please make sure there is enough disk space available and sufficient write file permissions.</string>
-    <string name="clear_cache">Clear History</string>
+    <string name="clear_cache">Clear Cache</string>
     <string name="clear_cache_desc">All your viewing histories are cached. If you want to clear them, please press here.</string>
     <string name="clear_cache_prompt">Are you sure that you want to clear all history?</string>
     <string name="accessibility">Accessibility</string>
