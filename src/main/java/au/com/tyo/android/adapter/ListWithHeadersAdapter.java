@@ -45,7 +45,7 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
 
     protected ListSectionHeaderFactory sectionHeaderFactory;
 
-    protected ListItemFactory itemFactory;
+    protected InflaterFactory itemFactory;
 
     protected ListSeparatorFactory separatorFactory;
 
@@ -182,11 +182,11 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
         this.sectionHeaderFactory = sectionHeaderFactory;
     }
 
-    public ListItemFactory getItemFactory() {
+    public InflaterFactory getItemFactory() {
         return itemFactory;
     }
 
-    public void setItemFactory(ListItemFactory itemFactory) {
+    public void setItemFactory(InflaterFactory itemFactory) {
         this.itemFactory = itemFactory;
     }
 
@@ -231,7 +231,7 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
      */
     protected void onCreate(Context context, int resource) {
         sectionHeaderFactory = new ListSectionHeaderFactory(context);
-        itemFactory = new ListItemFactory(context, resource);
+        // itemFactory = new ListItemFactory(context, resource);
     }
 
     @Override
