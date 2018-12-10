@@ -5,10 +5,12 @@ import android.support.annotation.IdRes;
 import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,6 +58,11 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
     protected Map<ItemType, InflaterFactory> factoryMap;
 
     protected int[] selected;
+
+    /**
+     * The real list for the actual items (== ITEM.ordial())
+     */
+    protected List items;
 
     public ListWithHeadersAdapter(@NonNull Context context, int resource) {
         super(context, resource);
@@ -334,6 +341,62 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
         Object oldObj = getItem(i);
         this.insert((ListItemViewType) obj, i);
         remove((ListItemViewType) oldObj);
+    }
+
+    public List getItems() {
+        return items;
+    }
+
+    public int getItemCount() { return null != items ? items.size() : 0; }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    public void setItems(List obj) {
+        if (null == obj)
+            return;
+
+        if (null == getItems())
+            this.items = new ArrayList();
+
+        this.items.addAll(obj);
+    }
+
+    @Override
+    public void add(Object item) {
+        if (item instanceof ListItemViewType && ((ListItemViewType) item).getViewType() == ItemType.ITEM.ordinal()) {
+            addItem(item);
+            return;
+        }
+
+        super.add(item);
+    }
+
+    public void addItem(Object item) {
+        if (((ListItemViewType) item).getViewType() != ItemType.ITEM.ordinal())
+            throw new IllegalArgumentException("The object being inserted is not a valid item type");
+
+        if (getItems() == null)
+            items = new ArrayList();
+
+        getItems().add(0, item);
+        super.add(item);
+    }
+
+    public void pushItem(Object item) { addItem(item); }
+
+    public void removeItem(Object item) {
+        getItems().remove(item);
+        remove(item);
+    }
+
+    public void clear() {
+        if (null != items) {
+            items.clear();
+        }
+        super.clear();
     }
 
 }
