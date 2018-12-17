@@ -38,7 +38,7 @@
     <string name="write_disk_warining">Please make sure there is enough disk space available and sufficient write file permissions.</string>
     <string name="clear_cache">Clear Cache</string>
     <string name="clear_cache_desc">All your viewing histories are cached. If you want to clear them, please press here.</string>
-    <string name="clear_cache_prompt">Are you sure that you want to clear all history?</string>
+    <string name="clear_cache_prompt">Are you sure that you want to clear all history / cache?</string>
     <string name="accessibility">Accessibility</string>
     <string name="font_size">Font Size</string>
     <string name="adjust_font_size">Adjust request font size</string>

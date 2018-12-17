@@ -367,25 +367,29 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
     @Override
     public void add(Object item) {
         if (item instanceof ListItemViewType && ((ListItemViewType) item).getViewType() == ItemType.ITEM.ordinal()) {
-            addItem(item);
+            push(item);
             return;
         }
 
-        super.add(item);
+        super.insert(item, 0);
     }
 
-    public void addItem(Object item) {
+    public void push(Object item) {
+        setItem(item, 0);
+    }
+
+    public void setItem(Object item, int index) {
         if (((ListItemViewType) item).getViewType() != ItemType.ITEM.ordinal())
             throw new IllegalArgumentException("The object being inserted is not a valid item type");
 
         if (getItems() == null)
             items = new ArrayList();
 
-        getItems().add(0, item);
-        super.add(item);
+        getItems().add(index, item);
+        super.insert(item, index);
     }
 
-    public void pushItem(Object item) { addItem(item); }
+    public void pushItem(Object item) { push(item); }
 
     public void removeItem(Object item) {
         getItems().remove(item);
