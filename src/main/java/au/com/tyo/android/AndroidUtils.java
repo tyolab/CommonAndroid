@@ -947,4 +947,12 @@ public class AndroidUtils {
 				:
 				Build.CPU_ABI;
 	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public static int generateViewId() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 ? View.generateViewId() : (int) System.currentTimeMillis();
+	}
 }
