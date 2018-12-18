@@ -429,7 +429,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 	public String getAppPath(String what) {
 		String path = null;
 		path = /*Environment.getExternalStorageDirectory().getAbsolutePath()*/ dataStoragePath
-				+ File.separator + "Android" + File.separator + what + File.separator
+				+ File.separator + "Android" + File.separator + what
 				+ File.separator + AndroidUtils.getPackageName(context);
 		return path;
 	}
