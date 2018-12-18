@@ -61,8 +61,9 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 		if (context instanceof Application)
 		    setApplication((Application) context);
 
-		if (CommonInitializer.clsUi == null)
-			CommonInitializer.detectDefaultClasses(context);
+		// if (CommonInitializer.clsUi == null)
+		// detect the default classes
+		CommonInitializer.detectDefaultClasses(context);
 
 		notificationManager = (NotificationManager) context.getSystemService(Application.NOTIFICATION_SERVICE);
 	}
