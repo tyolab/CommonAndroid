@@ -47,4 +47,5 @@
     <string name="collapse_all">收起頁</string>
     <string name="expand_or_collapse">展開/折疊頁</string>
     <string name="not_available">無法使用</string>
+    <string name="oops">"出錯了 "</string>
 </resources>
