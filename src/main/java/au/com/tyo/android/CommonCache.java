@@ -62,6 +62,10 @@ public class CommonCache extends CacheManager<File> {
         return file;
     }
 
+    public String getCacheFilePathName(String dir, String name) {
+        return getCacheFilePathName(dir) + File.separator + name;
+    }
+
     public String getCacheFilePathName(String name) {
        return getCacheDir() + File.separator + name;
     }
