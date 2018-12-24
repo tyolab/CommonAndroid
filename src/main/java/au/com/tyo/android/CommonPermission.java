@@ -18,7 +18,19 @@ public class CommonPermission {
 
     public static final int PERMISSON_RC_STORAGE = 19002;
 
+    /**
+     * Common Read / Write Storage Permission
+     */
+    public static final String[] PERMISSIONS_STORAGE = new String[] {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+
+    /**
+     * Common Location Permission
+     */
     public static final String[] PERMISSIONS_LOCATION = new String[] {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+
+    /**
+     * Common Camera Persmission
+     */
     public static final String[] PERMISSIONS_CAMERA = new String[] {Manifest.permission.CAMERA};
 
     public interface PermissionCheckListener {

@@ -441,12 +441,8 @@ public class AndroidSettings extends CommonSettings implements Android {
 	
 	@Override
 	public String getAppDataSubPath(String subPath) {
-		String path = getAppDataPath() + File.separator +subPath;
-		File file = new File(path);
-		if (!file.exists())
-			file.mkdirs();
-		return path;
-	}
+		return getAppDataPath() + File.separator + subPath;
+    }
 	
 	@Override
 	public String getAppDataPath() {
