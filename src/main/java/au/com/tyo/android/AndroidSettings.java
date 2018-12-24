@@ -396,8 +396,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 		int networkStatus = NetworkMonitor.checkNetworkState(context);
 		return networkStatus > NetworkMonitor.NETWORK_TYPE_NONE;
 	}
-	
-	
+
 	public void updateThemePreference(int themeId) {
 		if (themeId != getThemeId()) {
 			setThemeId(themeId);
