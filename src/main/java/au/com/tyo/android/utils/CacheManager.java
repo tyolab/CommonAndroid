@@ -178,7 +178,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 
 			cacheDir = new File(sdDir,
 					(usePackageNameAsRootFolder ? ("Android" + File.separator + DEFAULT_SUBDIR_NAME + File.separator + AndroidUtils.getPackageName(refContext)) : "") +
-					File.separator+ subDirStr);
+					File.separator + subDirStr);
 			if (!cacheDir.exists())
 				Log.e(LOG_TAG, "cannot access external sd card to create a package data directory");
 		}
