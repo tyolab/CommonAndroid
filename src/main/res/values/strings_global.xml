@@ -6,10 +6,10 @@
     <string name="empty_string"></string>
     
     <string name="go">Go</string>
+
+    <string name="app_copyright">©2018 TYO Lab</string>
     
-    <string name="app_copyright">Copyright ©2018 \n\nTYONLINE TECHNOLOGY PTY. LTD.</string>
-    
-    <string name="app_contact_us">Contact Us:</string>
+    <string name="app_contact_us">Contact Us</string>
     
     <string name="app_credits">\nWebsite: http://www.tyo.com.au\nEmail: dev@tyo.com.au \n</string>
     

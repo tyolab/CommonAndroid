@@ -598,24 +598,46 @@ public class AndroidUtils {
 	 * @param context
 	 * @return
 	 */
+	public static int getActivityThemeId(Activity context) {
+		int themeResId = -1;
+		try {
+			themeResId = context.getPackageManager().getActivityInfo(context.getComponentName(), 0).getThemeResource();
+		} catch (NameNotFoundException e) {
+
+		}
+		return themeResId;
+	}
+
+	/**
+	 *
+	 * @param context
+	 * @return
+	 */
 	public static int getApplicationThemeId(Context context) {
 		int themeId = -1;
 		Resources.Theme theme = context.getTheme();
 		try {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-				Field fThemeImpl = theme.getClass().getDeclaredField("mThemeImpl");
-				if (!fThemeImpl.isAccessible()) fThemeImpl.setAccessible(true);
-				Object mThemeImpl = fThemeImpl.get(theme);
-				Field fThemeResId = mThemeImpl.getClass().getDeclaredField("mThemeResId");
-				if (!fThemeResId.isAccessible()) fThemeResId.setAccessible(true);
-				themeId = fThemeResId.getInt(mThemeImpl);
-			} else {
-				Field fThemeResId = theme.getClass().getDeclaredField("mThemeResId");
-				if (!fThemeResId.isAccessible()) fThemeResId.setAccessible(true);
-				themeId = fThemeResId.getInt(theme);
+			Method method = theme.getClass().getMethod("getThemeResId");
+			method.setAccessible(true);
+			themeId = (Integer) method.invoke(context);
+		}
+		catch (Exception ex) {
+			try {
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+					Field fThemeImpl = theme.getClass().getDeclaredField("mThemeImpl");
+					if (!fThemeImpl.isAccessible()) fThemeImpl.setAccessible(true);
+					Object mThemeImpl = fThemeImpl.get(theme);
+					Field fThemeResId = mThemeImpl.getClass().getDeclaredField("mThemeResId");
+					if (!fThemeResId.isAccessible()) fThemeResId.setAccessible(true);
+					themeId = fThemeResId.getInt(mThemeImpl);
+				} else {
+					Field fThemeResId = theme.getClass().getDeclaredField("mThemeResId");
+					if (!fThemeResId.isAccessible()) fThemeResId.setAccessible(true);
+					themeId = fThemeResId.getInt(theme);
+				}
+			} catch (Exception ex1) {
+				Log.e(LOG_TAG, "Getting application theme id error.", ex);
 			}
-		} catch (Exception ex) {
-			Log.e(LOG_TAG, "Getting application theme id error.", ex);
 		}
 		return themeId;
 	}
@@ -912,5 +934,25 @@ public class AndroidUtils {
 			//Default to return 1 core
 			return 1;
 		}
+	}
+
+	/**
+	 * Return system ABI
+	 *
+	 * @return
+	 */
+	public static String getAbi() {
+		return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP ?
+				Build.SUPPORTED_ABIS[0]
+				:
+				Build.CPU_ABI;
+	}
+
+	/**
+	 *
+	 * @return
+	 */
+	public static int generateViewId() {
+		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 ? View.generateViewId() : (int) System.currentTimeMillis();
 	}
 }

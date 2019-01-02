@@ -101,12 +101,11 @@ public class CommonInitializer {
 	}
 
 	public static void detectDefaultClasses(Context context) {
-		String packageName = context.getPackageName();
 
 		String appPackage = context.getResources().getString(R.string.tyodroid_app_package);
 		if (null == appPackage || appPackage.length() == 0)
 			appPackage = CommonInitializer.appPackage;
-		CommonInitializer.detectDefaultClasses(appPackage == null ? packageName : appPackage);
+		CommonInitializer.detectDefaultClasses(appPackage == null ? context.getPackageName() : appPackage);
 	}
 
 	/**

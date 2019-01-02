@@ -396,8 +396,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 		int networkStatus = NetworkMonitor.checkNetworkState(context);
 		return networkStatus > NetworkMonitor.NETWORK_TYPE_NONE;
 	}
-	
-	
+
 	public void updateThemePreference(int themeId) {
 		if (themeId != getThemeId()) {
 			setThemeId(themeId);
@@ -418,19 +417,19 @@ public class AndroidSettings extends CommonSettings implements Android {
 		this.updatePreference(PREF_DATA_STORAGE_PATH, dataStoragePath);
 	}
 	
-    public boolean isLightThemeUsed() {
+    public boolean isLightThemeInUse() {
 		return lightThemeUsed;
 	}
 
-	public void setLightThemeUsed(boolean usesLightTheme) {
+	public void setLightThemeInUse(boolean usesLightTheme) {
 		this.lightThemeUsed = usesLightTheme;
 	}
 	
 	public String getAppPath(String what) {
 		String path = null;
 		path = /*Environment.getExternalStorageDirectory().getAbsolutePath()*/ dataStoragePath
-				+ File.separator + "Android" + File.separator + what + File.separator
-				+ File.separator + "Tyokiie"/*AndroidUtils.getPackageName(context)*/;
+				+ File.separator + "Android" + File.separator + what
+				+ File.separator + AndroidUtils.getPackageName(context);
 		return path;
 	}
 	
@@ -441,12 +440,8 @@ public class AndroidSettings extends CommonSettings implements Android {
 	
 	@Override
 	public String getAppDataSubPath(String subPath) {
-		String path = getAppDataPath() + File.separator +subPath;
-		File file = new File(path);
-		if (!file.exists())
-			file.mkdirs();
-		return path;
-	}
+		return getAppDataPath() + File.separator + subPath;
+    }
 	
 	@Override
 	public String getAppDataPath() {

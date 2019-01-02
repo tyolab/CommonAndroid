@@ -33,19 +33,19 @@ public class CommonCache extends CacheManager<File> {
         this(context, "");
     }
 
-    public CommonCache(Context context, String subdir) {
-        super(context, subdir);
+    public CommonCache(Context context, String dir) {
+        super(context, dir);
     }
 
-    public CommonCache(Context context, String[] subdirs) {
+    public CommonCache(Context context, String dir, String[] subdirs) {
         this(context);
 
         for (String subdir : subdirs)
             makeDirectory(subdir);
     }
 
-    public CommonCache(Context context, String subdir, CacheLocation location) {
-        super(context, subdir, location);
+    public CommonCache(Context context, String dir, CacheLocation location) {
+        super(context, dir, location);
     }
 
     public File outputStreamToFile(ByteArrayOutputStream stream) {
@@ -62,6 +62,10 @@ public class CommonCache extends CacheManager<File> {
         return file;
     }
 
+    public String getCacheFilePathName(String dir, String name) {
+        return getCacheFilePathName(dir) + File.separator + name;
+    }
+
     public String getCacheFilePathName(String name) {
        return getCacheDir() + File.separator + name;
     }
@@ -69,7 +73,7 @@ public class CommonCache extends CacheManager<File> {
     public void makeDirectory(String dir) {
         try {
             String parentDir = getCacheDir().getAbsolutePath();
-            new File( parentDir+ File.separator + dir).mkdirs();
+            new File( parentDir + File.separator + dir).mkdirs();
         }
         catch (Exception ex) {
             Log.e(LOG_TAG, "Failed to make directory: " + dir);

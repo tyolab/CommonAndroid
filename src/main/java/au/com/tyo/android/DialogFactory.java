@@ -298,7 +298,7 @@ public class DialogFactory {
         	items[count++] = String.format("%s (%.2fG)", str, AndroidUtils.getStorageSizeInGigabytes(str));
 		
 		AlertDialog.Builder builder = getBuilder(context, -1, 
-				settings.isLightThemeUsed() ? R.drawable.ic_action_device_access_sd_storage_light : R.drawable.ic_action_device_access_sd_storage_dark)
+				settings.isLightThemeInUse() ? R.drawable.ic_action_device_access_sd_storage_light : R.drawable.ic_action_device_access_sd_storage_dark)
             .setTitle(R.string.please_choose_an_external_storage_for_data)
             .setSingleChoiceItems(items, 0, listener == null ? newListener : listener)
             .setPositiveButton(R.string.alert_dialog_ok, listener == null ? newListener : listener);

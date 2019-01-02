@@ -165,13 +165,16 @@ public class CommonListView extends RelativeLayout implements OnScrollListener {
 		}
 	}
 
+	public static void removeListDivider(ListView list) {
+		list.setDivider(null);
+		list.setDividerHeight(0);
+	}
 	/**
 	 * Remove list divider
 	 *
 	 */
 	public void removeDivider() {
-		list.setDivider(null);
-		list.setDividerHeight(0);
+		removeListDivider(list);
 	}
 
 	public void refresh() {
