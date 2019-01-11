@@ -68,6 +68,8 @@ public class AndroidSettings extends CommonSettings implements Android {
 	private int networkStatus;
 	
 	private String dataStoragePath;
+
+	private String obbPath;
 	
 	protected boolean lightThemeUsed;
 	
@@ -139,8 +141,16 @@ public class AndroidSettings extends CommonSettings implements Android {
 	public Context getContext() {
 		return context;
 	}
-	
-	private void checkIfDebuggable() {
+
+    public String getObbPath() {
+        return obbPath;
+    }
+
+    public void setObbPath(String obbPath) {
+        this.obbPath = obbPath;
+    }
+
+    private void checkIfDebuggable() {
 		String[] storages = AndroidUtils.getStorageDirectories();
 		String keyStr = context.getResources().getString(R.string.debug_key);
 		if (keyStr != null) {
@@ -426,12 +436,17 @@ public class AndroidSettings extends CommonSettings implements Android {
 	}
 	
 	public String getAppPath(String what) {
-		String path = null;
-		path = /*Environment.getExternalStorageDirectory().getAbsolutePath()*/ dataStoragePath
-				+ File.separator + "Android" + File.separator + what
-				+ File.separator + AndroidUtils.getPackageName(context);
-		return path;
+        return getAppPathFromStorage(context, dataStoragePath, what);
 	}
+
+	public static String getAppPathFromStorage(Context context, String storagePath, String what) {
+        String path = null;
+        path = /*Environment.getExternalStorageDirectory().getAbsolutePath()*/
+				storagePath
+                + File.separator + "Android" + File.separator + what
+                + File.separator + AndroidUtils.getPackageName(context);
+        return path;
+    }
 	
 	@Override
 	public String getAppDataDataPath() {
@@ -450,8 +465,12 @@ public class AndroidSettings extends CommonSettings implements Android {
 	
 	@Override
 	public String getAppObbPath() {
-		return getAppPath("obb");
+		return null == obbPath ? getAppPath("obb") : obbPath;
 	}
+
+	public String getAppObbPathFromStorage(String storagePath) {
+	    return getAppPathFromStorage(context, storagePath, "obb");
+    }
 	
 	@Override
 	public String getPatchObbName(int expansionVersion) {
