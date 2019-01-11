@@ -28,6 +28,7 @@ public class ServiceRunner {
     private Messenger clientMessenger = null;
 
     private boolean isRunning = false;
+    private boolean shallStop = false;
 
     private Class serviceClass;
 
@@ -49,6 +50,14 @@ public class ServiceRunner {
 
     public boolean isAlive() {
         return alive;
+    }
+
+    public boolean isShallStop() {
+        return shallStop;
+    }
+
+    public void setShallStop(boolean shallStop) {
+        this.shallStop = shallStop;
     }
 
     private ServiceListener serviceListener;
@@ -161,6 +170,8 @@ public class ServiceRunner {
         // Notification
 
         if (toStart) {
+            shallStop = false;
+
             if (null != pendingIntent)
                 serviceIntent.putExtra(CommonIntentService.EXTRA_PENDING_INTENT, pendingIntent);
 
@@ -173,8 +184,9 @@ public class ServiceRunner {
                 context.bindService(serviceIntent, connection, Context.BIND_AUTO_CREATE);
         }
         else {
-            if (isRunning) {
+            shallStop = true;
 
+            if (isRunning) {
                 if (null != clientMessenger) {
                     sendMessage(Constants.MESSAGE_SERVICE_UNREGISTER_CLIENT);
                     context.unbindService(connection);
@@ -205,6 +217,7 @@ public class ServiceRunner {
     }
 
     public void showNotification() {
-        sendMessage(Constants.MESSAGE_SERVICE_SHOW_NOTIFICATION);
+        if (!shallStop && isRunning)
+            sendMessage(Constants.MESSAGE_SERVICE_SHOW_NOTIFICATION);
     }
 }

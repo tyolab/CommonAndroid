@@ -185,9 +185,4 @@ public class CommonLocationService extends CommonIntentService {
 
         locations.add(point);
     }
-
-    @Override
-    protected boolean shouldStop() {
-        return toStop;
-    }
 }

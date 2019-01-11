@@ -55,6 +55,8 @@ public abstract class CommonIntentService extends Service {
     private boolean mRedelivery;
     private volatile ServiceHandler mServiceHandler;
     private volatile Looper mServiceLooper;
+
+    private boolean serviceStopIndicator;
     private static final String LOG_TAG = "CancellableIntentService";
     private static final int WHAT_MESSAGE = -10;
 
@@ -102,6 +104,15 @@ public abstract class CommonIntentService extends Service {
                     super.handleMessage(msg);
             }
         });
+        serviceStopIndicator = false;
+    }
+
+    public boolean isServiceStopIndicator() {
+        return serviceStopIndicator;
+    }
+
+    public void setServiceStopIndicator(boolean serviceStopIndicator) {
+        this.serviceStopIndicator = serviceStopIndicator;
     }
 
     @Override
@@ -176,8 +187,6 @@ public abstract class CommonIntentService extends Service {
         }
     }
 
-    protected abstract boolean shouldStop();
-
     @Override
     public void onStart(Intent paramIntent, int startId) {
         if (!this.mServiceHandler.hasMessages(WHAT_MESSAGE)) {
@@ -209,7 +218,7 @@ public abstract class CommonIntentService extends Service {
         public void handleMessage(Message paramMessage) {
             CommonIntentService.this
                     .onHandleIntent((Intent) paramMessage.obj);
-            if (shouldStop()) {
+            if (serviceStopIndicator) {
                 Log.d(LOG_TAG, "stopSelf");
                 CommonIntentService.this.stopSelf(paramMessage.arg1);
                 Log.d(LOG_TAG, "afterStopSelf");
