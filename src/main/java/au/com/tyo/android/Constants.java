@@ -18,6 +18,8 @@ public interface Constants {
     
     int MESSAGE_SERVICE_UNREGISTER_CLIENT = 4321;
 
+    int MESSAGE_SERVICE_SHOW_NOTIFICATION = 4322;
+
     /**
      * Activity Communication
      */

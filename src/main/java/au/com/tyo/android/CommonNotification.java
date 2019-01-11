@@ -79,6 +79,10 @@ public abstract class CommonNotification implements NotificationClient {
         createNotification(ongoingEvent, -1);
     }
 
+    public void createNotification() {
+        createNotification (null != helpers ? helpers.isOngoingEvent() : false);
+    }
+
     /**
      * Override this method to create your own custom notification
      *

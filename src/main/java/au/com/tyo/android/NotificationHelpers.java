@@ -18,4 +18,6 @@ public interface NotificationHelpers {
     CharSequence getNotificationContentText();
 
     PendingIntent getContentIntent(Context context);
+
+    boolean isOngoingEvent();
 }

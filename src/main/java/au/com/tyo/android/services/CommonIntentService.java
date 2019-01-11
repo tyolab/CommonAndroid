@@ -34,6 +34,7 @@ import android.os.RemoteException;
 import android.util.Log;
 
 import au.com.tyo.android.CommonNotification;
+import au.com.tyo.android.Constants;
 
 /**
  * This service differs from IntentService in a few minor ways/ It will not
@@ -57,7 +58,7 @@ public abstract class CommonIntentService extends Service {
     private static final String LOG_TAG = "CancellableIntentService";
     private static final int WHAT_MESSAGE = -10;
 
-    private BroadcastReceiver mConnReceiver;
+    private BroadcastReceiver broadcastReceiver;
     private Messenger serviceMessenger;
     private Messenger clientMessenger;
     private PendingIntent mPendingIntent;
@@ -82,6 +83,10 @@ public abstract class CommonIntentService extends Service {
     }
 
     protected boolean handleServiceMessage(Message m) {
+        if (m.what == Constants.MESSAGE_SERVICE_SHOW_NOTIFICATION) {
+            getNotificationFactory().createNotification();
+            return true;
+        }
         return false;
     }
 

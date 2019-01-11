@@ -203,4 +203,8 @@ public class ServiceRunner {
         }
         return false;
     }
+
+    public void showNotification() {
+        sendMessage(Constants.MESSAGE_SERVICE_SHOW_NOTIFICATION);
+    }
 }
