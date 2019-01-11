@@ -36,19 +36,19 @@ public class ServiceRunner {
     private boolean requiresMessenger;
     private boolean alive;
 
+    public interface ServiceListener {
+        void onConnected();
+    }
+
     public ServiceRunner(Class serviceClass) {
         this.serviceClass = serviceClass;
         this.alive = false;
 
-        setRequireMessager(true);
+        setRequireMessenger(true);
     }
 
     public boolean isAlive() {
         return alive;
-    }
-
-    public interface ServiceListener {
-        void onConnected();
     }
 
     private ServiceListener serviceListener;
@@ -69,11 +69,11 @@ public class ServiceRunner {
         this.service = service;
     }
 
-    public boolean doesRequireMessager() {
+    public boolean doesRequireMessenger() {
         return requiresMessenger;
     }
 
-    public void setRequireMessager(boolean requiresMessenger) {
+    public void setRequireMessenger(boolean requiresMessenger) {
         this.requiresMessenger = requiresMessenger;
     }
 
@@ -83,7 +83,7 @@ public class ServiceRunner {
             ServiceRunner.this.service = service;
             alive = true;
 
-            if (doesRequireMessager()) {
+            if (doesRequireMessenger()) {
                 clientMessenger = new Messenger(service);
                 sendMessage(Constants.MESSAGE_SERVICE_REGISTER_CLIENT);
             }
