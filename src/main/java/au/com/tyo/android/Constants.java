@@ -15,10 +15,13 @@ public interface Constants {
     int MESSAGE_SERVICE_PERMISSION_GRANTED = 1235;
 
     int MESSAGE_SERVICE_REGISTER_CLIENT = 1234;
+
+    int MESSAGE_SERVICE_APP_EXITS = 1238;
     
     int MESSAGE_SERVICE_UNREGISTER_CLIENT = 4321;
 
     int MESSAGE_SERVICE_SHOW_NOTIFICATION = 4322;
+
 
     /**
      * Activity Communication
