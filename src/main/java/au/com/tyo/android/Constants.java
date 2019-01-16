@@ -22,6 +22,8 @@ public interface Constants {
 
     int MESSAGE_SERVICE_SHOW_NOTIFICATION = 4322;
 
+    int MESSAGE_SERVICE_STORAGE_ACCESSIBLE = 4333;
+
 
     /**
      * Activity Communication
