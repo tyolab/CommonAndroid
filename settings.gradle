@@ -1,3 +1,0 @@
-include ':CommonUtils'
-
-project(':CommonUtils').projectDir = new File('./CommonUtils')
