@@ -17,4 +17,15 @@ public class ResourceUtils {
         return value;
     }
 
+    public static String[] getStringArrayByIdName(Context context, String name) {
+        Resources res = context.getResources();
+        String value[] = null;
+        try {
+            value = res.getStringArray(res.getIdentifier(name, "array", context.getPackageName()));
+        }
+        catch (Exception ex) {
+            // ResourceNotFound
+        }
+        return value;
+    }
 }
