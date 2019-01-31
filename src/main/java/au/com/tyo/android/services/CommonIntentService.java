@@ -84,7 +84,25 @@ public abstract class CommonIntentService extends Service {
         init();
     }
 
-    protected boolean handleServiceMessage(Message m) {
+    public void sendClientMessage(int msgId) {
+        Message msg = Message.obtain();
+        msg.what = msgId;
+        sendClientMessage(msg);
+    }
+
+    public void sendClientMessage(Message m) {
+        if (null != clientMessenger) {
+            try {
+                clientMessenger.send(m);
+            } catch (RemoteException e) {
+                Log.e(TAG, "Sending message error, what: " + m.what, e);
+            }
+        }
+        else
+            Log.w(TAG, "Client messenger is null, message can't be sent");
+    }
+
+    protected boolean handleClientMessage(Message m) {
         if (m.what == Constants.MESSAGE_SERVICE_SHOW_NOTIFICATION) {
             getNotificationFactory().createNotification();
             return true;
@@ -100,7 +118,7 @@ public abstract class CommonIntentService extends Service {
 
                 clientMessenger = msg.replyTo;
 
-                if (!handleServiceMessage(msg))
+                if (!handleClientMessage(msg))
                     super.handleMessage(msg);
             }
         });

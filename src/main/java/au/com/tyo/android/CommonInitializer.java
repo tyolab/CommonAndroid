@@ -233,17 +233,21 @@ public class CommonInitializer {
 				}
 		}
 
-		CommonController ca = (CommonController) instance;
-		if (context != null) {
-			if (ca.getContext() == null)
-				ca.setContext(context);
+		if (null != instance) {
+			CommonController ca = (CommonController) instance;
+			if (context != null) {
+				if (ca.getContext() == null)
+					ca.setContext(context);
 
-			if (initializeMain)
-				ca.initializeInMainThread(context);
+				if (initializeMain)
+					ca.initializeInMainThread(context);
 
-			if (initializeBackground)
-				ca.initializeInBackgroundThread(context);
+				if (initializeBackground)
+					ca.initializeInBackgroundThread(context);
+			}
 		}
+		else
+			Log.e(LOG_TAG, "Initialise controller implementation class error: " + theClass.getName());
 
 		return instance;
 	}

@@ -40,6 +40,8 @@ public abstract class CommonNotification implements NotificationClient {
 
     private NotificationHelpers helpers;
 
+    private int smallIcondResourceId;
+
     private int notificationId = this.getClass().getSimpleName().hashCode();
 
     public CommonNotification(Context ctx, CharSequence applicationLabel) {
@@ -48,9 +50,12 @@ public abstract class CommonNotification implements NotificationClient {
         mLabel = applicationLabel;
         mNotificationManager = (NotificationManager)
                 mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotification = new Notification();
-        mCurrentNotification = mNotification;
 
+        smallIcondResourceId = -1;
+    }
+
+    public void setSmallIcondResourceId(int smallIcondResourceId) {
+        this.smallIcondResourceId = smallIcondResourceId;
     }
 
     public int getNotificationId() {
@@ -83,6 +88,30 @@ public abstract class CommonNotification implements NotificationClient {
         createNotification (null != helpers ? helpers.isOngoingEvent() : false);
     }
 
+    protected Notification buildNotification() {
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
+
+        builder.setContentTitle(mLabel.toString());
+        builder.setContentText(mCurrentText);
+
+        if (null != helpers) {
+            builder.setContentInfo(helpers.getNotificationContentText());
+            builder.setSmallIcon(helpers.getNotificationIconId());
+            builder.setContentIntent(helpers.getContentIntent(mContext));
+        }
+        else {
+            builder.setContentIntent(mContentIntent);
+            builder.setSmallIcon(smallIcondResourceId > -1 ? smallIcondResourceId : R.drawable.ic_noti_backup);
+        }
+
+        // builder.setOngoing(true);
+        builder.setTicker(mLabel + ": " + mCurrentText);
+        builder.setVibrate(new long[] {200, 100, 300, 200, 100});
+        // builder.setOnlyAlertOnce(!ongoingEvent);
+
+        return builder.build();
+    }
+
     /**
      * Override this method to create your own custom notification
      *
@@ -99,33 +128,17 @@ public abstract class CommonNotification implements NotificationClient {
 
         if (ongoingEvent) {
             // TODO put the stuff here
+            if (null == mNotification) {
+                mNotification = buildNotification();
+                mCurrentNotification = mNotification;
+            }
 
             noti = mCurrentNotification;
             noti.tickerText = mLabel + ": " + mCurrentText;
             noti.contentIntent = mContentIntent;
         }
-        else {
-            NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
-
-            builder.setContentTitle(mLabel.toString());
-            builder.setContentText(mCurrentText);
-
-            if (null != helpers) {
-                builder.setContentInfo(helpers.getNotificationContentText());
-                builder.setSmallIcon(helpers.getNotificationIconId());
-                builder.setContentIntent(helpers.getContentIntent(mContext));
-            }
-            else {
-                builder.setContentIntent(mContentIntent);
-            }
-
-            // builder.setOngoing(true);
-            builder.setTicker(mLabel + ": " + mCurrentText);
-            builder.setVibrate(new long[] {200, 100, 300, 200, 100});
-            // builder.setOnlyAlertOnce(!ongoingEvent);
-
-            noti = builder.getNotification();
-        }
+        else
+            noti = buildNotification();
 
         return noti;
     }

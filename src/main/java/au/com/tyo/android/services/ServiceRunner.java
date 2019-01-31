@@ -6,6 +6,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
@@ -26,6 +27,7 @@ public class ServiceRunner {
     private static final String TAG = "ServiceRunner";
 
     private Messenger clientMessenger = null;
+    private Messenger serviceMessenger = null;
 
     private boolean isRunning = false;
     private boolean shallStop = false;
@@ -94,6 +96,15 @@ public class ServiceRunner {
 
             if (doesRequireMessenger()) {
                 clientMessenger = new Messenger(service);
+                serviceMessenger = new Messenger(new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        Log.d(TAG, "received message from client");
+
+                        if (!handleClientMessage(msg))
+                            super.handleMessage(msg);
+                    }
+                });
                 sendMessage(Constants.MESSAGE_SERVICE_REGISTER_CLIENT);
             }
 
@@ -104,9 +115,18 @@ public class ServiceRunner {
         public void onServiceDisconnected(ComponentName className) {
             clientMessenger = null;
             alive = false;
+            isRunning = false;
             ServiceRunner.this.service = null;
         }
     };
+
+    protected boolean handleClientMessage(Message msg) {
+        if (msg.what == Constants.MESSAGE_CLIENT_TASK_FINISHED) {
+            shallStop = true;
+            return true;
+        }
+        return false;
+    }
 
     public boolean sendMessage(int message) {
         return sendMessage(message, null);
@@ -114,7 +134,7 @@ public class ServiceRunner {
 
     public boolean sendMessage(int message, Object obj) {
         Message msg = Message.obtain(null, message);
-        msg.replyTo = clientMessenger;
+        msg.replyTo = serviceMessenger;
         msg.obj = obj;
         return sendMessage(msg);
     }
@@ -189,7 +209,12 @@ public class ServiceRunner {
             if (isRunning) {
                 if (null != clientMessenger) {
                     sendMessage(Constants.MESSAGE_SERVICE_UNREGISTER_CLIENT);
-                    context.unbindService(connection);
+                    try {
+                        context.unbindService(connection);
+                    }
+                    catch (Exception ex) {
+                        Log.e(TAG, "Unbinding service error. ", ex);
+                    }
                 }
 
                 context.stopService(serviceIntent);

@@ -24,6 +24,7 @@ public interface Constants {
 
     int MESSAGE_SERVICE_STORAGE_ACCESSIBLE = 4333;
 
+    int MESSAGE_CLIENT_TASK_FINISHED = 50001;
 
     /**
      * Activity Communication
@@ -35,4 +36,10 @@ public interface Constants {
     int REQUEST_CODE_PICK_DOCUMENT = 6666;
     int REQUEST_CODE_PICK_IMAGE = 6667;
 
+    /**
+     * Activity Intent
+     */
+    String EXIT_APP = "TYODROID_EXIT_APP";
+    String RELOAD = "TYODROID_RESTART";
+    String DATA_RESET = "TYODROID_DATA_RESET";
 }
