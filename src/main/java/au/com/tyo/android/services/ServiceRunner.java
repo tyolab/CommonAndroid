@@ -218,11 +218,12 @@ public class ServiceRunner {
                 if (null != connection)
                     try {
                         context.unbindService(connection);
+                        connection = null;
                     }
                     catch (Exception ex) {
                         Log.e(TAG, "Unbinding service error. ", ex);
                     }
-
+                clientMessenger = null;
                 context.stopService(serviceIntent);
                 isRunning = false;
             }

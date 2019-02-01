@@ -107,7 +107,15 @@ public abstract class CommonIntentService extends Service {
             getNotificationFactory().createNotification();
             return true;
         }
+        else if (m.what == Constants.MESSAGE_SERVICE_UNREGISTER_CLIENT) {
+            onClientUnregistered();
+            return true;
+        }
         return false;
+    }
+
+    protected void onClientUnregistered() {
+        Log.d(TAG, "client is leaving");
     }
 
     private void init() {
