@@ -39,6 +39,8 @@ public class ServiceRunner {
     private boolean requiresMessenger;
     private boolean alive;
 
+    private ServiceConnection connection;
+
     public interface ServiceListener {
         void onConnected();
     }
@@ -88,37 +90,39 @@ public class ServiceRunner {
         this.requiresMessenger = requiresMessenger;
     }
 
-    private ServiceConnection connection = new ServiceConnection() {
+    public ServiceConnection createServiceConnection() {
+        return new ServiceConnection() {
 
-        public void onServiceConnected(ComponentName className, IBinder service) {
-            ServiceRunner.this.service = service;
-            alive = true;
+            public void onServiceConnected(ComponentName className, IBinder service) {
+                    ServiceRunner.this.service = service;
+                    alive = true;
 
-            if (doesRequireMessenger()) {
-                clientMessenger = new Messenger(service);
-                serviceMessenger = new Messenger(new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        Log.d(TAG, "received message from client");
+                    if (doesRequireMessenger()) {
+                    clientMessenger = new Messenger(service);
+                    serviceMessenger = new Messenger(new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            Log.d(TAG, "received message from client");
 
-                        if (!handleClientMessage(msg))
-                            super.handleMessage(msg);
-                    }
-                });
-                sendMessage(Constants.MESSAGE_SERVICE_REGISTER_CLIENT);
+                            if (!handleClientMessage(msg))
+                                super.handleMessage(msg);
+                        }
+                    });
+                    sendMessage(Constants.MESSAGE_SERVICE_REGISTER_CLIENT);
+                }
+
+                if (null != serviceListener)
+                    serviceListener.onConnected();
             }
 
-            if (null != serviceListener)
-                serviceListener.onConnected();
-        }
-
-        public void onServiceDisconnected(ComponentName className) {
-            clientMessenger = null;
-            alive = false;
-            isRunning = false;
-            ServiceRunner.this.service = null;
-        }
-    };
+            public void onServiceDisconnected(ComponentName className) {
+                clientMessenger = null;
+                alive = false;
+                isRunning = false;
+                ServiceRunner.this.service = null;
+            }
+        };
+    }
 
     protected boolean handleClientMessage(Message msg) {
         if (msg.what == Constants.MESSAGE_CLIENT_TASK_FINISHED) {
@@ -191,6 +195,7 @@ public class ServiceRunner {
 
         if (toStart) {
             shallStop = false;
+            connection = createServiceConnection();
 
             if (null != pendingIntent)
                 serviceIntent.putExtra(CommonIntentService.EXTRA_PENDING_INTENT, pendingIntent);
@@ -207,15 +212,16 @@ public class ServiceRunner {
             shallStop = true;
 
             if (isRunning) {
-                if (null != clientMessenger) {
+                if (null != clientMessenger)
                     sendMessage(Constants.MESSAGE_SERVICE_UNREGISTER_CLIENT);
+
+                if (null != connection)
                     try {
                         context.unbindService(connection);
                     }
                     catch (Exception ex) {
                         Log.e(TAG, "Unbinding service error. ", ex);
                     }
-                }
 
                 context.stopService(serviceIntent);
                 isRunning = false;

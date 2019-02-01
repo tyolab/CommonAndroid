@@ -70,6 +70,17 @@ public class CommonCache extends CacheManager<File> {
        return getCacheDir() + File.separator + name;
     }
 
+    public void makeDirectory() {
+        String cacheDir = getCacheDir().getAbsolutePath();
+        try {
+
+            new File(cacheDir).mkdirs();
+        }
+        catch (Exception ex) {
+            Log.e(LOG_TAG, "Failed to make directory: " + cacheDir);
+        }
+    }
+
     public void makeDirectory(String dir) {
         try {
             String parentDir = getCacheDir().getAbsolutePath();
