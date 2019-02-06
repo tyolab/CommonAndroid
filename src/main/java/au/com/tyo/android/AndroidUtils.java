@@ -5,6 +5,7 @@ import android.accounts.AccountManager;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.WallpaperManager;
 import android.content.Context;
 import android.content.Intent;
@@ -954,5 +955,22 @@ public class AndroidUtils {
 	 */
 	public static int generateViewId() {
 		return Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1 ? View.generateViewId() : (int) System.currentTimeMillis();
+	}
+
+    /**
+     *
+     * @param context
+     * @param packageName
+     * @return
+     */
+	public static boolean isAppRunning(Context context, String packageName) {
+		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningAppProcessInfo> processInfoList = activityManager.getRunningAppProcesses();
+		if (processInfoList != null) {
+			for (final ActivityManager.RunningAppProcessInfo processInfo : processInfoList)
+				if (processInfo.processName.equals(packageName))
+					return true;
+		}
+		return false;
 	}
 }
