@@ -89,7 +89,7 @@ public interface CommonController extends Observer {
 
 	void onCreate();
 
-    void onDeleteFromList(Object data);
+    void onDeleteFromList(int listId, Object data);
 
-	void onListItemClick(Object obj);
+	void onListItemClick(int listId, Object obj);
 }
