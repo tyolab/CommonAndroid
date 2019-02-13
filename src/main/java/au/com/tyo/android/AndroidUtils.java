@@ -301,18 +301,9 @@ public class AndroidUtils {
 	    if (i == null)
 	        throw new PackageManager.NameNotFoundException();
 	    
-//	    if (action != null) {
-//	    	i.setAction(action);
-//	    }
-//	    else {
-		    i.setAction(Intent.ACTION_MAIN);
-//	    }
-	    
+		i.setAction(Intent.ACTION_MAIN);
 	    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | flags);
 	    i.addCategory(Intent.CATEGORY_LAUNCHER);
-	    
-//	    if (flags > 0)
-//	    	i.setFlags(flags);
 	    
 	    if (extras != null)
 	    	i.putExtras(extras);
