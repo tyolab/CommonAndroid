@@ -57,7 +57,7 @@ public abstract class CommonIntentService extends Service {
     private volatile Looper mServiceLooper;
 
     private boolean serviceStopIndicator;
-    private static final String LOG_TAG = "CancellableIntentService";
+    private static final String LOG_TAG = "CommonIntentService";
     private static final int WHAT_MESSAGE = -10;
 
     private BroadcastReceiver broadcastReceiver;
