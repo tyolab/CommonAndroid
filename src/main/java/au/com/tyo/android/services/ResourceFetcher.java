@@ -7,6 +7,7 @@ import android.os.Message;
 import android.util.Log;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.ref.SoftReference;
@@ -267,34 +268,13 @@ public abstract class ResourceFetcher<FileType, ContainerType> extends CacheMana
 	public FileType downloadFileWithUrl(String url) {
     	FileType fileType = null;
 		InputStream inputStream = null;
-//    	HttpParams params = new BasicHttpParams();
-//    	params.setParameter(CoreProtocolPNames.PROTOCOL_VERSION, HttpVersion.HTTP_1_1);
-//    	HttpClient client = new DefaultHttpClient(params);
-//
-//    	HttpGet getRequest = null;
     	try {
-//	        getRequest = new HttpGet(url);
-//
-//            HttpResponse response = client.execute(getRequest);
-//            final int statusCode = response.getStatusLine().getStatusCode();
-//            if (statusCode != HttpStatus.SC_OK) {
-//                Log.w("Downloader", "Error " + statusCode + " while retrieving file from " + url);
-//                return null;
-//            }
-//
-//            final HttpEntity entity = response.getEntity();
-//            if (entity != null) {
-//                try {
-//                    inputStream = entity.getContent();
-//                    fileType = processInputStream(inputStream, url);
-//                } finally {
-//                    if (inputStream != null) {
-//                        inputStream.close();
-//                    }
-//                    entity.consumeContent();
-//                }
-//            }
-			inputStream = HttpPool.getConnection().getAsInputStream(url);
+    		// only *nix style local file
+    		if (url.startsWith(File.separator))
+    			inputStream = new FileInputStream(new File(url));
+    		else
+				inputStream = HttpPool.getConnection().getAsInputStream(url);
+
             fileType = processInputStream(inputStream, url);
         } catch (Exception e) {
             // Could provide a more explicit error message for IOException or IllegalStateException
