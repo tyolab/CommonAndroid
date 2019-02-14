@@ -965,6 +965,10 @@ public class AndroidUtils {
      */
 	public static boolean isAppRunning(Context context, String packageName) {
 		ActivityManager activityManager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+		/**
+		 * getRunningAppProcesses may not necessary return all the Apps due to Google's some concerns
+		 */
 		List<ActivityManager.RunningAppProcessInfo> processInfoList = activityManager.getRunningAppProcesses();
 		if (processInfoList != null) {
 			for (final ActivityManager.RunningAppProcessInfo processInfo : processInfoList)
