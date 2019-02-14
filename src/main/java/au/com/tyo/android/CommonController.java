@@ -91,5 +91,5 @@ public interface CommonController extends Observer {
 
     void onDeleteFromList(int listId, Object data);
 
-	void onListItemClick(int listId, Object obj);
+	boolean onListItemClick(int listId, Object obj);
 }
