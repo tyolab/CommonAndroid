@@ -24,6 +24,8 @@ public interface Constants {
 
     int MESSAGE_SERVICE_STORAGE_ACCESSIBLE = 4333;
 
+    int MESSAGE_SERVICE_SETTINGS_UPDATED = 4334;
+
     int MESSAGE_CLIENT_TASK_FINISHED = 50001;
 
     /**
