@@ -16,6 +16,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.Typeface;
 import android.location.Address;
 import android.location.Geocoder;
 import android.media.AudioManager;
@@ -27,6 +28,7 @@ import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.Toolbar;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
@@ -38,6 +40,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -967,5 +970,34 @@ public class AndroidUtils {
 					return true;
 		}
 		return false;
+	}
+
+	/**
+	 *
+	 * @param context
+	 * @param toolbar
+	 * @param fontPath
+	 */
+	public static void changeToolbarTitleFont(Context context, Toolbar toolbar, String fontPath) {
+		for (int i = 0; i < toolbar.getChildCount(); i++) {
+			View view = toolbar.getChildAt(i);
+			if (view instanceof TextView) {
+				TextView tv = (TextView) view;
+				if (tv.getText().equals(toolbar.getTitle())) {
+					setFontTo(context, tv, fontPath);
+					break;
+				}
+			}
+		}
+	}
+
+	/**
+	 *
+	 * @param context
+	 * @param tv
+	 * @param fontPath
+	 */
+	public static void setFontTo(Context context, TextView tv, String fontPath) {
+		tv.setTypeface(Typeface.createFromAsset(context.getAssets(), fontPath));
 	}
 }
