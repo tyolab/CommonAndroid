@@ -198,18 +198,23 @@ public abstract class CommonIntentService extends Service {
     @SuppressLint("LongLogTag")
     protected void onHandleIntent(Intent intent) {
         setServiceRunning(true);
-        final PendingIntent pendingIntent = (PendingIntent) intent
-                .getParcelableExtra(EXTRA_PENDING_INTENT);
 
-        if (null != pendingIntent)
-        {
-            notificationFactory.setClientIntent(pendingIntent);
-            mPendingIntent = pendingIntent;
-        } else if (null != mPendingIntent) {
-            notificationFactory.setClientIntent(mPendingIntent);
-        } else {
-            Log.e(LOG_TAG, "Service started in bad state without notification intent.");
-            return;
+        if (null != intent) {
+            final PendingIntent pendingIntent = (PendingIntent) intent
+                    .getParcelableExtra(EXTRA_PENDING_INTENT);
+
+            if (null != pendingIntent) {
+                if (null != notificationFactory)
+                    notificationFactory.setClientIntent(pendingIntent);
+                mPendingIntent = pendingIntent;
+            }
+            else if (null != mPendingIntent) {
+                notificationFactory.setClientIntent(mPendingIntent);
+            }
+            else {
+                Log.e(LOG_TAG, "Service started in bad state without notification intent.");
+                return;
+            }
         }
     }
 
