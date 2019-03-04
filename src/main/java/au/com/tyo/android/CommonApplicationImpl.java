@@ -13,6 +13,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 
+import javax.annotation.OverridingMethodsMustInvokeSuper;
+
 /**
  * Use pattern for the class names:
  *
@@ -94,6 +96,7 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
     	return application;
 	}
 
+	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void initializeInMainThread(Context context) {
 		if (null == this.context)
@@ -102,7 +105,8 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 		if (notificationManager == null)
 			notificationManager = (NotificationManager) context.getSystemService(Application.NOTIFICATION_SERVICE);
 	}
-	
+
+	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void initializeInBackgroundThread(Context context) {
 		
