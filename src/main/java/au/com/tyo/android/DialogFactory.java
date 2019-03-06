@@ -330,7 +330,7 @@ public class DialogFactory {
 		setDialogAttributes(dialog, verticalButtons, button1Color, button2Color, -1);
 	}
 
-	public static void setDialogAttributes(final AlertDialog dialog, final boolean verticalButtons, final int button1Color, final int button2Color, final int buttonColor) {
+	public static void setDialogAttributes(final Dialog dialog, final boolean verticalButtons, final int button1Color, final int button2Color, final int buttonColor) {
 
         dialog.setOnShowListener(new DialogInterface.OnShowListener() {
             @Override

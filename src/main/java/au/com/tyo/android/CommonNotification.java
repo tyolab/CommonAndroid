@@ -19,7 +19,7 @@ public abstract class CommonNotification implements NotificationClient {
 
     private static final String TAG = "CommonNotification";
 
-    protected static int countNoti = 0;
+    protected int countNoti = 0;
 
     public static final int STATE_NONE = -1;
     public static final int STATE_STARTED = 0;
@@ -59,7 +59,7 @@ public abstract class CommonNotification implements NotificationClient {
     }
 
     public int getNotificationId() {
-        return notificationId;
+        return notificationId + countNoti;
     }
 
     public void setNotificationId(int notificationId) {
@@ -176,15 +176,23 @@ public abstract class CommonNotification implements NotificationClient {
         mNotificationManager.notify(notificationId, mCurrentNotification);
     }
 
-    public static boolean isNotificationVisible(Context context, Class cls) {
+    public static boolean isNotificationVisible(Context context, Class cls, int notificationId) {
         Intent notificationIntent = new Intent(context, cls);
-        PendingIntent test = PendingIntent.getActivity(context, countNoti - 1, notificationIntent, PendingIntent.FLAG_NO_CREATE);
+        PendingIntent test = PendingIntent.getActivity(context, notificationId, notificationIntent, PendingIntent.FLAG_NO_CREATE);
         return test != null;
     }
 
     public static void cancel(Context context, int notificationId) {
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.cancel(notificationId);
+    }
+
+    public void cancel(int notificationId) {
+        cancel(mContext, notificationId);
+    }
+
+    public void cancel() {
+        cancel(notificationId);
     }
 
 }

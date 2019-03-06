@@ -87,7 +87,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 	public AndroidSettings(Context context) {
 		super();
 		this.context = context;
-		this.display = AndroidDisplay.differentDensityAndScreenSize(context);
+		this.display = AndroidDisplay.checkDifferentDensityAndScreenSize(context);
 		
 		externalStorage = new ExternalStorage(context);
 		externalStorage.updateExternalStorageState();
@@ -135,9 +135,13 @@ public class AndroidSettings extends CommonSettings implements Android {
 		this.dataStoragePath = externalStorage.isAvailable() ? externalStorage.getDir().getAbsolutePath() : context.getCacheDir().getAbsolutePath(); /// + "/Android/data/" + AndroidUtils.getPackageName(context) + "/";
 		
 		Debug.build = AndroidUtils.isAppDebuggable(context); // || context.getResources().getBoolean(R.bool.tyo_debug_build);
-		Log.i(LOG_TAG, "App (" + (Debug.build ? "debug" : "release") + ") runs on display (" + display.display + ", " + display.dpi + ")");
+		Log.i(LOG_TAG, "App (" + (Debug.build ? "debug" : "release") + ") runs on display (" + display.display + ", " + display.pixel + ")");
 	}
-	
+
+	public AndroidDisplay.Display getDisplay() {
+		return display;
+	}
+
 	public Context getContext() {
 		return context;
 	}

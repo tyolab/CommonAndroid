@@ -16,20 +16,25 @@ import android.util.DisplayMetrics;
 public class AndroidDisplay {
 
     public static class Display {
-        public int dpi;
+        public int pixel;
         public String display;
+        public int dpi;
 
-        public Display(String str, int value) {
+        public Display(String str, int value, int dpi) {
             display = str;
-            dpi = value;
+            pixel = value;
+            this.dpi = dpi;
         }
     }
 
-    public static  Display differentDensityAndScreenSize(Context context) {
+    public static  Display checkDifferentDensityAndScreenSize(Context context) {
         int value = 20;
-        String str = "";
-        if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
-            switch (context.getResources().getDisplayMetrics().densityDpi) {
+        String str = "unknown-unknown";
+
+        int screenLayout = context.getResources().getConfiguration().screenLayout;
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        if ((screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_SMALL) {
+            switch (metrics.densityDpi) {
                 case DisplayMetrics.DENSITY_LOW:
                     str = "small-ldpi";
                     value = 20;
@@ -64,8 +69,8 @@ public class AndroidDisplay {
                     break;
             }
 
-        } else if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
-            switch (context.getResources().getDisplayMetrics().densityDpi) {
+        } else if ((screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_NORMAL) {
+            switch (metrics.densityDpi) {
                 case DisplayMetrics.DENSITY_LOW:
                     str = "normal-ldpi";
                     value = 82;
@@ -99,8 +104,8 @@ public class AndroidDisplay {
                     value = 82;
                     break;
             }
-        } else if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
-            switch (context.getResources().getDisplayMetrics().densityDpi) {
+        } else if ((screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE) {
+            switch (metrics.densityDpi) {
                 case DisplayMetrics.DENSITY_LOW:
                     str = "large-ldpi";
                     value = 78;
@@ -135,8 +140,8 @@ public class AndroidDisplay {
                     break;
             }
 
-        } else if ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
-            switch (context.getResources().getDisplayMetrics().densityDpi) {
+        } else if ((screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_XLARGE) {
+            switch (metrics.densityDpi) {
                 case DisplayMetrics.DENSITY_LOW:
                     str = "xlarge-ldpi";
                     value = 125;
@@ -172,7 +177,7 @@ public class AndroidDisplay {
             }
         }
 
-        return new Display(str, value);
+        return new Display(str, value, metrics.densityDpi);
     }
 
 }
