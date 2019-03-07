@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.graphics.drawable.VectorDrawableCompat;
 import android.support.v7.content.res.AppCompatResources;
+import android.util.TypedValue;
 
 public class ResourceUtils {
 
@@ -58,5 +59,12 @@ public class ResourceUtils {
         else
             drawable = AppCompatResources.getDrawable(context, resId);
         return drawable;
+    }
+
+    public static int getAttributeColor(Context context, int resId) {
+        TypedValue typedValue = new TypedValue();
+        Resources.Theme theme = context.getTheme();
+        theme.resolveAttribute(resId, typedValue, true);
+        return typedValue.data;
     }
 }
