@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
 import android.support.v4.content.FileProvider;
+import android.view.View;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -160,7 +161,13 @@ public class AndroidHelper {
         return null;
     }
 
-    private static Intent createShareIntent(String text, File file) {
+    /**
+     *
+     * @param text
+     * @param file
+     * @return
+     */
+    public static Intent createShareIntent(String text, File file) {
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
         intent.setType("image/*");
         if (text != null) {
@@ -168,5 +175,28 @@ public class AndroidHelper {
         }
         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
         return intent;
+    }
+
+    /**
+     *
+      * @param activity
+     */
+    public static void setFullScreenMode(Activity activity) {
+        View decorView = activity.getWindow().getDecorView();
+        // Hide the status bar.
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        int oldOptions = decorView.getSystemUiVisibility();
+        decorView.setSystemUiVisibility(uiOptions | oldOptions);
+    }
+
+    /**
+     *
+     * @param activity
+     */
+    public static void hideHardwareButtons(Activity activity) {
+        View decorView = activity.getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        int oldOptions = decorView.getSystemUiVisibility();
+        decorView.setSystemUiVisibility(uiOptions | oldOptions);
     }
 }
