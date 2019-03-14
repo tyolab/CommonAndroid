@@ -27,6 +27,7 @@ public interface Constants {
     int MESSAGE_SERVICE_SETTINGS_UPDATED = 4334;
 
     int MESSAGE_CLIENT_TASK_FINISHED = 50001;
+    int MESSAGE_CLIENT_TASK_RESULT = 50002;
 
     /**
      * Activity Communication

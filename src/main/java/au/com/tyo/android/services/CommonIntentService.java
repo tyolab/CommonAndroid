@@ -61,7 +61,15 @@ public abstract class CommonIntentService extends Service {
     private static final int WHAT_MESSAGE = -10;
 
     private BroadcastReceiver broadcastReceiver;
+
+    /**
+     * The messenger for receiving message from client
+     */
     private Messenger serviceMessenger;
+
+    /**
+     * Message for deliver message back to the client which could reside in the controller or a service runner
+     */
     private Messenger clientMessenger;
     private PendingIntent mPendingIntent;
     private PendingIntent mAlarmIntent;
@@ -85,8 +93,13 @@ public abstract class CommonIntentService extends Service {
     }
 
     public void sendClientMessage(int msgId) {
+        sendClientMessage(msgId, null);
+    }
+
+    public void sendClientMessage(int msgId, Object obj) {
         Message msg = Message.obtain();
         msg.what = msgId;
+        msg.obj = obj;
         sendClientMessage(msg);
     }
 

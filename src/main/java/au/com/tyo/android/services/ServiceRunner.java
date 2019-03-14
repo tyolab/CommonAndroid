@@ -41,6 +41,12 @@ public class ServiceRunner {
 
     private ServiceConnection connection;
 
+    private MessageHandler messageHandler;
+
+    public interface MessageHandler {
+        void handleMessageFromService(Message msg);
+    }
+
     public interface ServiceListener {
         void onConnected();
     }
@@ -50,6 +56,14 @@ public class ServiceRunner {
         this.alive = false;
 
         setRequireMessenger(true);
+    }
+
+    public MessageHandler getMessageHandler() {
+        return messageHandler;
+    }
+
+    public void setMessageHandler(MessageHandler messageHandler) {
+        this.messageHandler = messageHandler;
     }
 
     public boolean isAlive() {
@@ -102,7 +116,7 @@ public class ServiceRunner {
                     serviceMessenger = new Messenger(new Handler() {
                         @Override
                         public void handleMessage(Message msg) {
-                            Log.d(TAG, "received message from client");
+                            Log.d(TAG, "received message from service");
 
                             if (!handleClientMessage(msg))
                                 super.handleMessage(msg);
@@ -125,6 +139,9 @@ public class ServiceRunner {
     }
 
     protected boolean handleClientMessage(Message msg) {
+        if (null != messageHandler)
+            messageHandler.handleMessageFromService(msg);
+
         if (msg.what == Constants.MESSAGE_CLIENT_TASK_FINISHED) {
             shallStop = true;
             return true;
