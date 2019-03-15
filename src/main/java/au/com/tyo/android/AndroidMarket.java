@@ -118,4 +118,8 @@ public class AndroidMarket {
 		}
 		return packageName;
 	}
+
+    public void goToMarket() {
+		goToMarketById(context.getPackageName());
+    }
 }
