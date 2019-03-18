@@ -27,11 +27,19 @@ public class AndroidHelper {
      * @return
      */
     public static Intent createOpenDocumentIntent(String type) {
+        return createOpenDocumentIntent(type, false);
+    }
+
+    public static Intent createOpenDocumentIntent(String type, boolean allowMutileSelection) {
         Intent intent = null;
         if (AndroidUtils.getAndroidVersion() >= 19)
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         else
             intent = new Intent(Intent.ACTION_GET_CONTENT);
+
+        if (allowMutileSelection)
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
         if (null != type)
@@ -56,11 +64,27 @@ public class AndroidHelper {
      * @param requestCode
      */
     public static void openDocumentManager(Activity context, int requestCode) {
-        openDocumentManager(context, requestCode, null);
+        openDocumentManager(context, requestCode, null, false);
     }
 
-    public static void openDocumentManager(Activity context, int requestCode, String type) {
-        Intent intent = createOpenDocumentIntent(type);
+    /**
+     *
+     * @param context
+     * @param requestCode
+     */
+    public static void openDocumentManager(Activity context, int requestCode, boolean allowMultipleSelection) {
+        openDocumentManager(context, requestCode, null, allowMultipleSelection);
+    }
+
+    /**
+     *
+     * @param context
+     * @param requestCode
+     * @param type
+     * @param allowMultipleSelection
+     */
+    public static void openDocumentManager(Activity context, int requestCode, String type, boolean allowMultipleSelection) {
+        Intent intent = createOpenDocumentIntent(type, allowMultipleSelection);
 
         if (requestCode > -1)
             context.startActivityForResult(intent, requestCode);
@@ -68,10 +92,27 @@ public class AndroidHelper {
             context.startActivity(intent);
     }
 
+    /**
+     *
+     * @param context
+     */
     public static void openImageManager(Activity context) {
-        openDocumentManager(context, Constants.REQUEST_CODE_PICK_IMAGE, "image/*");
+        openImageManager(context, false);
     }
 
+    /**
+     *
+     * @param context
+     * @param allowMultipleSelection
+     */
+    public static void openImageManager(Activity context, boolean allowMultipleSelection) {
+        openDocumentManager(context, Constants.REQUEST_CODE_PICK_IMAGE, "image/*", allowMultipleSelection);
+    }
+
+    /**
+     *
+     * @param context
+     */
     public static void openGalleryApp(Activity context) {
         Intent galleryIntent = new Intent(Intent.ACTION_VIEW, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         context.startActivity(galleryIntent);
