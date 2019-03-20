@@ -100,19 +100,24 @@ public class BitmapUtils {
 		stream.close();
 	}
 
+	public static void saveTo(Bitmap bitmap, OutputStream stream, Bitmap.CompressFormat format) {
+		saveTo(bitmap, stream, format, 100);
+	}
+
 	/**
+	 * If the format is lossless, such as png, the quality will be ignored
 	 *
 	 * @param bitmap
 	 * @param stream
 	 * @param format
-	 * @throws IOException
+	 * @param quality
 	 */
-	public static void saveTo(Bitmap bitmap, OutputStream stream, Bitmap.CompressFormat format) throws IOException {
+	public static void saveTo(Bitmap bitmap, OutputStream stream, Bitmap.CompressFormat format, int quality) {
 		Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
 		Canvas canvas = new Canvas(newBitmap);
 		canvas.drawColor(Color.WHITE);
 		canvas.drawBitmap(bitmap, 0, 0, null);
-		newBitmap.compress(format, 80, stream);
+		newBitmap.compress(format, quality, stream);
 	}
 
     /**
