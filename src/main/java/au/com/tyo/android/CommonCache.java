@@ -148,6 +148,14 @@ public class CommonCache extends CacheManager<File> {
         return null;
     }
 
+    public String readText(String dir, String file) throws IOException {
+        return readText(createFile(dir, file));
+    }
+
+    public String readText(String file) throws IOException {
+        return readText(createFile(file));
+    }
+
     public String readText(File file) throws IOException {
         if (file.exists())
             return new String(IO.readFileIntoBytes(file));
