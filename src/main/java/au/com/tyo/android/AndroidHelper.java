@@ -7,7 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
-import android.support.v4.content.FileProvider;
+import androidx.core.content.FileProvider;
 import android.view.View;
 
 import java.io.File;

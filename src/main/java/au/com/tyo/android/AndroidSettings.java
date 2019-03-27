@@ -10,8 +10,8 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Rect;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
-import android.support.v7.preference.Preference;
-import android.support.v7.preference.PreferenceManager;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Window;
 

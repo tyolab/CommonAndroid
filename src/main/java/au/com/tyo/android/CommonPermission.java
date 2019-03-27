@@ -4,7 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.pm.PackageManager;
 import android.os.Build;
-import android.support.v4.app.ActivityCompat;
+import androidx.core.app.ActivityCompat;
 
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 17/6/17.
