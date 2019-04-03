@@ -44,7 +44,13 @@ public class ServiceRunner {
     private MessageHandler messageHandler;
 
     public interface MessageHandler {
-        void handleMessageFromService(Message msg);
+        /**
+         * There could be many service, so need service name for identification
+         *
+         * @param serviceName
+         * @param msg
+         */
+        void handleMessageFromService(String serviceName, Message msg);
     }
 
     public interface ServiceListener {
@@ -140,7 +146,7 @@ public class ServiceRunner {
 
     protected boolean handleClientMessage(Message msg) {
         if (null != messageHandler)
-            messageHandler.handleMessageFromService(msg);
+            messageHandler.handleMessageFromService(serviceClass.getSimpleName(), msg);
 
         if (msg.what == Constants.MESSAGE_CLIENT_TASK_FINISHED) {
             shallStop = true;
