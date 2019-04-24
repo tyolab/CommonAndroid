@@ -117,7 +117,7 @@ public abstract class CommonIntentService extends Service {
 
     protected boolean handleClientMessage(Message m) {
         if (m.what == Constants.MESSAGE_SERVICE_SHOW_NOTIFICATION) {
-            getNotificationFactory().createNotification();
+            checkIfPoppingUpNotificationNeeded();
             return true;
         }
         else if (m.what == Constants.MESSAGE_SERVICE_UNREGISTER_CLIENT) {
@@ -308,4 +308,26 @@ public abstract class CommonIntentService extends Service {
         }
     }
 
+    /**
+     * join use with
+     *
+     * <service android:name=".Service"
+     *             android:stopWithTask="false"
+     *             />
+     *
+     * @param rootIntent
+     */
+    public void onTaskRemoved(Intent rootIntent) {
+        //stop service
+        stopSelf();
+    }
+
+    /**
+     * Yes, needed by default
+     * Otherwise dont send the message
+     */
+    protected void checkIfPoppingUpNotificationNeeded() {
+        // yes needed by default
+        getNotificationFactory().createNotification();
+    }
 }
