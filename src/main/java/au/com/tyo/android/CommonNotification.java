@@ -88,7 +88,7 @@ public abstract class CommonNotification implements NotificationClient {
         createNotification (null != helpers ? helpers.isOngoingEvent() : false);
     }
 
-    protected Notification buildNotification() {
+    protected Notification buildNotification(int state) {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
 
         builder.setContentTitle(mLabel.toString());
@@ -97,7 +97,7 @@ public abstract class CommonNotification implements NotificationClient {
         if (null != helpers) {
             builder.setContentInfo(helpers.getNotificationContentText());
             builder.setSmallIcon(helpers.getNotificationIconId());
-            builder.setContentIntent(helpers.getContentIntent(mContext));
+            builder.setContentIntent(helpers.getContentIntent(mContext, state));
         }
         else {
             builder.setContentIntent(mContentIntent);
@@ -129,16 +129,18 @@ public abstract class CommonNotification implements NotificationClient {
         if (ongoingEvent) {
             // TODO put the stuff here
             if (null == mNotification) {
-                mNotification = buildNotification();
+                mNotification = buildNotification(state);
                 mCurrentNotification = mNotification;
             }
 
             noti = mCurrentNotification;
             noti.tickerText = mLabel + ": " + mCurrentText;
-            noti.contentIntent = mContentIntent;
+
+            // already set in buildNotfication
+            // noti.contentIntent = mContentIntent;
         }
         else
-            noti = buildNotification();
+            noti = buildNotification(state);
 
         return noti;
     }
@@ -193,6 +195,10 @@ public abstract class CommonNotification implements NotificationClient {
 
     public void cancel() {
         cancel(notificationId);
+    }
+
+    public Context getContext() {
+        return mContext;
     }
 
 }
