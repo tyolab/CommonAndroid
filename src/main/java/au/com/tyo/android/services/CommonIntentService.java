@@ -120,6 +120,10 @@ public abstract class CommonIntentService extends Service {
             checkIfPoppingUpNotificationNeeded();
             return true;
         }
+        if (m.what == Constants.MESSAGE_SERVICE_CLEAR_NOTIFICATION) {
+            getNotificationFactory().cancel();
+            return true;
+        }
         else if (m.what == Constants.MESSAGE_SERVICE_UNREGISTER_CLIENT) {
             onClientUnregistered();
             return true;
@@ -324,7 +328,7 @@ public abstract class CommonIntentService extends Service {
 
     /**
      * Yes, needed by default
-     * Otherwise dont send the message
+     * Otherwise just dont send the message
      */
     protected void checkIfPoppingUpNotificationNeeded() {
         // yes needed by default

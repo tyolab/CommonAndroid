@@ -1,6 +1,7 @@
 package au.com.tyo.android;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -18,6 +19,8 @@ import java.lang.reflect.Method;
 public abstract class CommonNotification implements NotificationClient {
 
     private static final String TAG = "CommonNotification";
+
+    private static final String CHANNEL_ID = "CommonNotification";
 
     protected int countNoti = 0;
 
@@ -42,6 +45,10 @@ public abstract class CommonNotification implements NotificationClient {
 
     private int smallIcondResourceId;
 
+    private String channelId;
+
+    private boolean notifictionShowing;
+
     private int notificationId = this.getClass().getSimpleName().hashCode();
 
     public CommonNotification(Context ctx, CharSequence applicationLabel) {
@@ -52,6 +59,33 @@ public abstract class CommonNotification implements NotificationClient {
                 mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
         smallIcondResourceId = -1;
+        channelId = CHANNEL_ID;
+
+        createNotificationChannel();
+    }
+
+    private void createNotificationChannel() {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getContext().getString(R.string.channel_name);
+            String description = getContext().getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            // Register the channel with the system; you can't change the importance
+            // or other notification behaviors after this
+            NotificationManager notificationManager = getContext().getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    public String getChannelId() {
+        return channelId;
+    }
+
+    public void setChannelId(String channelId) {
+        this.channelId = channelId;
     }
 
     public void setSmallIcondResourceId(int smallIcondResourceId) {
@@ -89,7 +123,7 @@ public abstract class CommonNotification implements NotificationClient {
     }
 
     protected Notification buildNotification(int state) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, getChannelId());
 
         builder.setContentTitle(mLabel.toString());
         builder.setContentText(mCurrentText);
@@ -176,6 +210,7 @@ public abstract class CommonNotification implements NotificationClient {
         }
 
         mNotificationManager.notify(notificationId, mCurrentNotification);
+        setNotifictionShowing(true);
     }
 
     public static boolean isNotificationVisible(Context context, Class cls, int notificationId) {
@@ -201,4 +236,11 @@ public abstract class CommonNotification implements NotificationClient {
         return mContext;
     }
 
+    public boolean isNotifictionShowing() {
+        return notifictionShowing;
+    }
+
+    public void setNotifictionShowing(boolean notifictionShowing) {
+        this.notifictionShowing = notifictionShowing;
+    }
 }
