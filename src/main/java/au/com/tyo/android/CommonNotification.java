@@ -246,4 +246,12 @@ public abstract class CommonNotification implements NotificationClient {
     public void setNotifictionShowing(boolean notifictionShowing) {
         this.notifictionShowing = notifictionShowing;
     }
+
+    public NotificationCompat.Builder getBuilder() {
+        return builder;
+    }
+
+    public void setBuilder(NotificationCompat.Builder builder) {
+        this.builder = builder;
+    }
 }
