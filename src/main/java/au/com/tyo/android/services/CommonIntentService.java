@@ -332,6 +332,6 @@ public abstract class CommonIntentService extends Service {
      */
     protected void checkIfPoppingUpNotificationNeeded() {
         // yes needed by default
-        getNotificationFactory().createNotification();
+        getNotificationFactory().createNotification(-1);
     }
 }

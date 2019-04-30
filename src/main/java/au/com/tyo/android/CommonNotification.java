@@ -49,7 +49,9 @@ public abstract class CommonNotification implements NotificationClient {
 
     private boolean notifictionShowing;
 
-    private int notificationId = this.getClass().getSimpleName().hashCode();
+    private NotificationCompat.Builder builder;
+
+    private int notificationId = this.getClass().getSimpleName().hashCode() + Integer.MAX_VALUE;
 
     public CommonNotification(Context ctx, CharSequence applicationLabel) {
         mState = -1;
@@ -118,30 +120,50 @@ public abstract class CommonNotification implements NotificationClient {
         createNotification(ongoingEvent, -1);
     }
 
-    public void createNotification() {
-        createNotification (null != helpers ? helpers.isOngoingEvent() : false);
+    public void createNotification(int state) {
+        createNotification (null != helpers ? helpers.isOngoingEvent(state) : false, state);
     }
 
-    protected Notification buildNotification(int state) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext, getChannelId());
+    protected NotificationCompat.Builder createNotificationBuilder(int state) {
+        if (null == builder) {
+            mCurrentTitle = mLabel.toString();
 
-        builder.setContentTitle(mLabel.toString());
-        builder.setContentText(mCurrentText);
+            builder = new NotificationCompat.Builder(mContext, getChannelId());
+
+            builder.setContentText(mCurrentText);
+
+            builder.setTicker(mLabel + ": " + mCurrentText);
+            builder.setVibrate(new long[]{200, 100, 300, 200, 100});
+
+            if (null != helpers) {
+                builder.setSmallIcon(helpers.getNotificationIconId());
+            }
+        }
 
         if (null != helpers) {
-            builder.setContentInfo(helpers.getNotificationContentText());
-            builder.setSmallIcon(helpers.getNotificationIconId());
+            builder.setContentInfo(helpers.getNotificationContentText(state));
             builder.setContentIntent(helpers.getContentIntent(mContext, state));
+            builder.setContentTitle(helpers.getNotificationTitle(state));
+            builder.setContentText(helpers.getNotificationTextByState(state));
         }
         else {
+            builder.setContentTitle(mLabel.toString());
             builder.setContentIntent(mContentIntent);
             builder.setSmallIcon(smallIcondResourceId > -1 ? smallIcondResourceId : R.drawable.ic_noti_backup);
         }
 
-        // builder.setOngoing(true);
-        builder.setTicker(mLabel + ": " + mCurrentText);
-        builder.setVibrate(new long[] {200, 100, 300, 200, 100});
-        // builder.setOnlyAlertOnce(!ongoingEvent);
+        return builder;
+    }
+
+    protected Notification buildNotification(boolean ongoingEvent, int state) {
+        NotificationCompat.Builder builder = createNotificationBuilder(state);
+
+        if (ongoingEvent) {
+            builder.setOngoing(true);
+        } else {
+            builder.setOngoing(false);
+            builder.setAutoCancel(true);
+        }
 
         return builder.build();
     }
@@ -154,42 +176,23 @@ public abstract class CommonNotification implements NotificationClient {
      * @return
      */
     public Notification updateNotification(boolean ongoingEvent, int state) {
-        if (null != helpers)
-            mCurrentText = helpers.getNotificationTextByState(state);
-        mCurrentTitle = mLabel.toString();
-
-        Notification noti = null;
+        Notification noti = buildNotification(ongoingEvent, state);
 
         if (ongoingEvent) {
             // TODO put the stuff here
             if (null == mNotification) {
-                mNotification = buildNotification(state);
-                mCurrentNotification = mNotification;
+                mNotification = noti;
             }
 
-            noti = mCurrentNotification;
-            noti.tickerText = mLabel + ": " + mCurrentText;
-
-            // already set in buildNotfication
+            // already set in buildNotification
+            // noti.tickerText = mLabel + ": " + mCurrentText;
             // noti.contentIntent = mContentIntent;
         }
-        else
-            noti = buildNotification(state);
 
         return noti;
     }
 
     public void createNotification(boolean ongoingEvent, int state) {
-//        if (null != helpers)
-//            mCurrentText = helpers.getNotificationTextByState(state);
-//        mCurrentTitle = mLabel.toString();
-//        mCurrentNotification.tickerText = mLabel + ": " + mCurrentText;
-//
-//        if (null != helpers)
-//            mCurrentNotification.icon = helpers.getNotificationIconId();
-//            mCurrentNotification.setLatestEventInfo(mContext, mCurrentTitle, mCurrentText,
-//                    mContentIntent);
-
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
             try {
                 Method deprecatedMethod = mCurrentNotification.getClass().getMethod("setLatestEventInfo", Context.class, CharSequence.class, CharSequence.class, PendingIntent.class);
@@ -202,12 +205,12 @@ public abstract class CommonNotification implements NotificationClient {
 
         mCurrentNotification = updateNotification(ongoingEvent, state);
 
-        if (ongoingEvent) {
-            mCurrentNotification.flags |= Notification.FLAG_ONGOING_EVENT;
-        } else {
-            mCurrentNotification.flags &= ~Notification.FLAG_ONGOING_EVENT;
-            mCurrentNotification.flags |= Notification.FLAG_AUTO_CANCEL;
-        }
+        // if (ongoingEvent) {
+        //     mCurrentNotification.flags |= Notification.FLAG_ONGOING_EVENT;
+        // } else {
+        //     mCurrentNotification.flags &= ~Notification.FLAG_ONGOING_EVENT;
+        //     mCurrentNotification.flags |= Notification.FLAG_AUTO_CANCEL;
+        // }
 
         mNotificationManager.notify(notificationId, mCurrentNotification);
         setNotifictionShowing(true);

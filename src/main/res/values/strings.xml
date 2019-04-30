@@ -72,5 +72,5 @@
     <string name="location_settings">Location Settings</string>
     <string name="exit_app_title" />
     <string name="channel_name">TyoDroid Channel</string>
-    <string name="channel_description">This is a default channel for using the TyoDroid framework</string>
+    <string name="channel_description">This is a default channel for using the TyoDroid framework, please change both "channel_name" and "channel_description" in strings.xml of your App.</string>
 </resources>

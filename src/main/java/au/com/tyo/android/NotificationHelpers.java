@@ -15,9 +15,11 @@ public interface NotificationHelpers {
 
     String getNotificationTextByState(int state);
 
-    CharSequence getNotificationContentText();
+    CharSequence getNotificationContentText(int state);
 
     PendingIntent getContentIntent(Context context, int state);
 
-    boolean isOngoingEvent();
+    boolean isOngoingEvent(int state);
+
+    CharSequence getNotificationTitle(int state);
 }
