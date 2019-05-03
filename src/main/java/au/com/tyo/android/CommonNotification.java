@@ -47,7 +47,7 @@ public abstract class CommonNotification implements NotificationClient {
 
     private String channelId;
 
-    private boolean notifictionShowing;
+    private boolean notificationShowing;
 
     private NotificationCompat.Builder builder;
 
@@ -213,7 +213,7 @@ public abstract class CommonNotification implements NotificationClient {
         // }
 
         mNotificationManager.notify(notificationId, mCurrentNotification);
-        setNotifictionShowing(true);
+        setNotificationShowing(true);
     }
 
     public static boolean isNotificationVisible(Context context, Class cls, int notificationId) {
@@ -239,12 +239,12 @@ public abstract class CommonNotification implements NotificationClient {
         return mContext;
     }
 
-    public boolean isNotifictionShowing() {
-        return notifictionShowing;
+    public boolean isNotificationShowing() {
+        return notificationShowing;
     }
 
-    public void setNotifictionShowing(boolean notifictionShowing) {
-        this.notifictionShowing = notifictionShowing;
+    public void setNotificationShowing(boolean showing) {
+        this.notificationShowing = showing;
     }
 
     public NotificationCompat.Builder getBuilder() {

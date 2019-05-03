@@ -209,7 +209,7 @@ public class DialogFactory {
      * @param cancleListener
      * @return
      */
-	public static Dialog createHoloLightDialog(Context context, String title, 
+	public static Dialog createLightDialog(Context context, String title,
 			String message, 
 			DialogInterface.OnClickListener okListener, 
 			DialogInterface.OnClickListener cancleListener) {
