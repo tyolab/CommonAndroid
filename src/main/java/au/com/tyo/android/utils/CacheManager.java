@@ -42,9 +42,15 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	protected Map<String, SoftReference<FileType>> fileCache;
 	
 	protected Context context;
-	
-	protected String subDirStr;
-	
+
+	/**
+	 * Sub dir name
+	 */
+	String subDirName;
+
+	/**
+	 * Cache Dir
+	 */
 	protected File cacheDir;
 	
 	protected boolean cacheEnabled;
@@ -76,17 +82,18 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	
 	public CacheManager(Context context, String subdir, CacheLocation location) {
 		this.context = context;
-		this.subDirStr = subdir;
+		// this.subDirStr = subdir;
 		this.location = location;
 
 		usePackageNameAsRootFolder = false;
 
-        setupCacheDir();
+        setupCacheDir(subdir);
+
         // cacheSpan = DEFAULT_CACHE_LIFE_SPAN;
 	}
 
-    protected void setupCacheDir() {
-        cacheDir = this.getCacheDirectoryFromLocation();
+    protected void setupCacheDir(String subdir) {
+        cacheDir = this.getCacheDirectoryFromLocation(subdir);
 
         if (cacheDir != null) {
             if (!cacheDir.exists())
@@ -99,6 +106,10 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
         }
         else
             cacheEnabled = false;
+
+        subDirName = cacheDir.getName();
+
+		// subDir = new File(cacheDir.getAbsolutePath() + File.separator + subdir);
     }
 
     public long getCacheSpan() {
@@ -117,16 +128,16 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
         return cacheDir;
     }
 
-    public File getCacheDirectoryFromLocation() {
-	    return getCacheDirectoryFromLocation(subDirStr);
-    }
+    // public File getCacheDirectoryFromLocation() {
+	//     return getCacheDirectoryFromLocation(subDir.getName());
+    // }
 
     public File getCacheDirectoryFromLocation(String subDir) {
 		if (context != null) {
 			switch (location) {
 				case SYSTEM_CACHE:
 				default:
-					return getCacheDirectoryFromLocation(context);
+					return getCacheDirectory(context, subDir);
 				case SYSTEM_DATA:
 					return getDataDirectory(context, subDir);
 				case EXTERNAL_STORAGE:
@@ -145,9 +156,9 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		return null;
 	}
 	
-	public File getCacheDirectoryFromLocation(Context refContext) {
-		return getCacheDirectoryFromLocation(refContext, subDirStr);
-	}
+	// public File getCacheDirectoryFromLocation(Context refContext) {
+	// 	return getCacheDirectoryFromLocation(refContext, subDirStr);
+	// }
 
 	public boolean isUsePackageNameAsRootFolder() {
 		return usePackageNameAsRootFolder;
@@ -193,7 +204,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	 * @return
 	 */
 
-	public static File getCacheDirectoryFromLocation(Context refContext, String subDirStr){
+	public static File getCacheDirectory(Context refContext, String subDirStr){
 		File cacheDir = null;
 
 		cacheDir = new File(refContext.getCacheDir(),  subDirStr);
@@ -250,7 +261,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	 */
 	public File locationToFile(String location, boolean readingOrWriting) {
 	   	 String filename = urlHashCodeToString(location);
-	   	 File f = new File(getCacheDirectoryFromLocation(), filename);
+	   	 File f = new File(cacheDir.getAbsolutePath(), filename);
 	   	 return f;
 	}
 	
@@ -314,7 +325,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	 */
 	public void cleanup() {
 		try {
-			FileUtils.delete(getCacheDirectoryFromLocation());
+			FileUtils.delete(cacheDir);
 		}
 		catch (Exception ex) {
 			Log.e(LOG_TAG, "failed to clean up cache with error " + null != ex.getMessage() ? ex.getMessage() : "unknown");
@@ -331,19 +342,25 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		return createTimestampFileName("yyyyMMddHHmmss");
 	}
 
+	/**
+	 * Only change the name of last segment
+	 *
+	 * @param newName
+	 * @return
+	 */
 	public boolean renameTo(String newName) {
 		File oldDir = getCacheDir();
 		if (null != oldDir) {
-		    File newSub = getCacheDirectoryFromLocation(newName);
+			String baseDirPath;
+			baseDirPath = cacheDir.getParent();
+			File newSub = new File(baseDirPath + File.separator + (newName));
 
-		    cacheDir = newSub;
 		    if (!newSub.exists())
-                return oldDir.renameTo(newSub);
+                return cacheDir.renameTo(newSub);
 		    return true;
         }
         else {
-            subDirStr = newName;
-            setupCacheDir();
+            setupCacheDir(newName);
             return true;
         }
 	}
