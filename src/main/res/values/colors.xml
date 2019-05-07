@@ -67,7 +67,10 @@
 
     <color name="colorListHeader">#DBE8F1</color>
     <color name="colorListBackground">@android:color/transparent</color>
-    <color name="colorEnabled">#000000</color>
+    <!--
+        #F01A5B73
+    -->
+    <color name="colorEnabled">#F01A5B73</color>
     <color name="colorDisabled">#4D4D4D</color>
 
 </resources>
