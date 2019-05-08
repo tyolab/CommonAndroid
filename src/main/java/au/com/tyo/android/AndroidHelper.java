@@ -30,15 +30,19 @@ public class AndroidHelper {
         return createOpenDocumentIntent(type, false);
     }
 
-    public static Intent createOpenDocumentIntent(String type, boolean allowMutileSelection) {
+    public static Intent createOpenDocumentIntent(String type, boolean allowMultipleSelection) {
         Intent intent = null;
         if (AndroidUtils.getAndroidVersion() >= 19)
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         else
             intent = new Intent(Intent.ACTION_GET_CONTENT);
 
-        if (allowMutileSelection)
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+        if (allowMultipleSelection) {
+            if (AndroidUtils.getAndroidVersion() >= 18)
+                intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            else
+                throw new IllegalArgumentException("EXTRA_ALLOW_MULTIPLE option is only available in Android API 18 and higher");
+        }
 
         intent.addCategory(Intent.CATEGORY_OPENABLE);
 
