@@ -73,7 +73,6 @@ public class CommonCache extends CacheManager<File> {
     public void makeDirectory() {
         String cacheDir = getCacheDir().getAbsolutePath();
         try {
-
             new File(cacheDir).mkdirs();
         }
         catch (Exception ex) {

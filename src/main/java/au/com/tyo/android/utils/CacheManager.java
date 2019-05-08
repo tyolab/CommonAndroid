@@ -82,22 +82,20 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	
 	public CacheManager(Context context, String subdir, CacheLocation location) {
 		this.context = context;
-		// this.subDirStr = subdir;
 		this.location = location;
 
 		usePackageNameAsRootFolder = false;
 
         setupCacheDir(subdir);
-
-        // cacheSpan = DEFAULT_CACHE_LIFE_SPAN;
 	}
 
     protected void setupCacheDir(String subdir) {
         cacheDir = this.getCacheDirectoryFromLocation(subdir);
 
         if (cacheDir != null) {
-            if (!cacheDir.exists())
-                cacheDir.mkdirs();
+        	// do not make dir yet
+            // if (!cacheDir.exists())
+            //     cacheDir.mkdirs();
 
             if (cacheDir.exists())
                 cacheEnabled = true;
@@ -108,8 +106,6 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
             cacheEnabled = false;
 
         subDirName = cacheDir.getName();
-
-		// subDir = new File(cacheDir.getAbsolutePath() + File.separator + subdir);
     }
 
     public long getCacheSpan() {
@@ -355,8 +351,16 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 			baseDirPath = cacheDir.getParent();
 			File newSub = new File(baseDirPath + File.separator + (newName));
 
-		    if (!newSub.exists())
-                return cacheDir.renameTo(newSub);
+		    if (!newSub.exists()) {
+				boolean ret = cacheDir.renameTo(newSub);
+				if (ret)
+					subDirName = cacheDir.getName();
+				return ret;
+			}
+		    else {
+		    	cacheDir = newSub;
+		    	subDirName = cacheDir.getName();
+			}
 		    return true;
         }
         else {

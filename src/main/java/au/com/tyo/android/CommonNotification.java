@@ -12,6 +12,8 @@ import android.util.Log;
 
 import java.lang.reflect.Method;
 
+import static androidx.core.app.NotificationCompat.PRIORITY_DEFAULT;
+
 /**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 7/10/17.
  */
@@ -53,7 +55,13 @@ public abstract class CommonNotification implements NotificationClient {
 
     private int notificationId = this.getClass().getSimpleName().hashCode() + Integer.MAX_VALUE;
 
+    private int importance;
+
     public CommonNotification(Context ctx, CharSequence applicationLabel) {
+        this(ctx, applicationLabel, AndroidUtils.getAndroidVersion() > 25 ? NotificationManager.IMPORTANCE_DEFAULT : PRIORITY_DEFAULT);
+    }
+
+    public CommonNotification(Context ctx, CharSequence applicationLabel, int importance) {
         mState = -1;
         mContext = ctx;
         mLabel = applicationLabel;
@@ -63,16 +71,17 @@ public abstract class CommonNotification implements NotificationClient {
         smallIcondResourceId = -1;
         channelId = CHANNEL_ID;
 
+        this.importance = importance;
+
         createNotificationChannel();
     }
 
-    private void createNotificationChannel() {
+    protected void createNotificationChannel() {
         // Create the NotificationChannel, but only on API 26+ because
         // the NotificationChannel class is new and not in the support library
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getContext().getString(R.string.channel_name);
             String description = getContext().getString(R.string.channel_description);
-            int importance = NotificationManager.IMPORTANCE_DEFAULT;
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
