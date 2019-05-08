@@ -100,6 +100,28 @@ public class CommonCache extends CacheManager<File> {
         return createFile(dir, fileName, false);
     }
 
+    public File createDirectory(String dir) {
+        return createDirectory(dir, true);
+    }
+
+    public File createDirectory(String dir, boolean deleteFolderIfExists) {
+        String dirName = getCacheFilePathName(dir);
+        try {
+            File dirFile = new File(dirName);
+
+            if (dirFile.exists()) {
+                if (deleteFolderIfExists)
+                    FileUtils.delete(dirFile);
+                dirFile.mkdirs();
+            }
+            else
+                dirFile.mkdirs();
+            return dirFile;
+        }
+        catch (Exception ex) {}
+        return null;
+    }
+
     /**
      *
      * @param dir
@@ -113,21 +135,8 @@ public class CommonCache extends CacheManager<File> {
             fullName = fileName;
         else {
             if (!android.text.TextUtils.isEmpty(dir)) {
-                String dirName = getCacheFilePathName(dir);
-                try {
-                    File dirFile = new File(dirName);
-
-                    if (dirFile.exists()) {
-                        if (deleteFolderIfExists)
-                            FileUtils.delete(dirFile);
-                        dirFile.mkdirs();
-                    }
-                    else
-                        dirFile.mkdirs();
-                }
-                catch (Exception ex) {}
-
-                fullName = dirName + File.separator + fileName;
+                File dirFile = createDirectory(dir, deleteFolderIfExists);
+                fullName = dirFile.getAbsolutePath() + File.separator + fileName;
             }
             else
                 fullName = getCacheFilePathName(fileName);
