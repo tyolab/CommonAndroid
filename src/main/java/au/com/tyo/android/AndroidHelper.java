@@ -110,7 +110,7 @@ public class AndroidHelper {
      * @param allowMultipleSelection
      */
     public static void openImageManager(Activity context, boolean allowMultipleSelection) {
-        openDocumentManager(context, Constants.REQUEST_CODE_PICK_IMAGE, "image/*", allowMultipleSelection);
+        openDocumentManager(context, allowMultipleSelection ? Constants.REQUEST_CODE_PICK_IMAGES : Constants.REQUEST_CODE_PICK_IMAGE, "image/*", allowMultipleSelection);
     }
 
     /**
