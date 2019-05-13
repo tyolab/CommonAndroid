@@ -351,17 +351,13 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 			baseDirPath = cacheDir.getParent();
 			File newSub = new File(baseDirPath + File.separator + (newName));
 
-		    if (!newSub.exists()) {
-				boolean ret = cacheDir.renameTo(newSub);
-				if (ret)
-					subDirName = cacheDir.getName();
-				return ret;
-			}
-		    else {
-		    	cacheDir = newSub;
-		    	subDirName = cacheDir.getName();
-			}
-		    return true;
+			boolean ret = false;
+		    if (!newSub.exists())
+				ret = cacheDir.renameTo(newSub);
+			cacheDir = newSub;
+			subDirName = cacheDir.getName();
+
+		    return ret;
         }
         else {
             setupCacheDir(newName);
