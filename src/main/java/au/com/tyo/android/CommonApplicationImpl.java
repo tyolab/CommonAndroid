@@ -11,6 +11,7 @@ import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.KeyEvent;
 
 import javax.annotation.OverridingMethodsMustInvokeSuper;
@@ -99,6 +100,8 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void initializeInMainThread(Context context) {
+    	Log.i(LOG_TAG, "App initializing in main thread");
+
 		if (null == this.context)
 			this.context = context;
 
@@ -109,7 +112,7 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void initializeInBackgroundThread(Context context) {
-		
+		Log.i(LOG_TAG, "App initializing in background thread");
 	}
 
 	@Override
@@ -274,12 +277,12 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	
 	@Override
 	public Class getMainActivityClass() {
-		return CommonInitializer.mainActivityClass;
+		return CommonInitializer.classMainActivity;
 	}
 
 	@Override
 	public void setMainActivityClass(Class cls) {
-		CommonInitializer.mainActivityClass = cls;
+		CommonInitializer.classMainActivity = cls;
 	}
 	
 	@Override

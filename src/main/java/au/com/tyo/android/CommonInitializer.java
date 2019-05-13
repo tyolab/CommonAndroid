@@ -54,7 +54,7 @@ public class CommonInitializer {
     /**
      * The class of main activity
      */
-	public static Class mainActivityClass;
+	public static Class classMainActivity;
 
 	/**
 	 *
@@ -64,7 +64,7 @@ public class CommonInitializer {
 	/**
 	 *
 	 */
-	public static Class settingsClass;
+	public static Class clsSettings;
 	
 	/**
 	 * The class of controller / not the controller interface
@@ -101,6 +101,7 @@ public class CommonInitializer {
 	}
 
 	public static void detectDefaultClasses(Context context) {
+		Log.i(LOG_TAG, "Detecting classes...");
 
 		String appPackage = context.getResources().getString(R.string.tyodroid_app_package);
 		if (null == appPackage || appPackage.length() == 0)
@@ -109,6 +110,11 @@ public class CommonInitializer {
 	}
 
 	/**
+	 * WARN:
+	 *
+	 * Due to obfuscation during generating the production code
+	 * The class name will be changed
+	 *
 	 *
 	 * @param packageName
 	 */
@@ -118,10 +124,13 @@ public class CommonInitializer {
         for (String clsName : classNames) {
             Class cls = null;
 
+			String classStr = packageName + "." + clsName;
             try {
-                cls = Class.forName(packageName + "." + clsName);
+                cls = Class.forName(classStr);
             }
-            catch (Exception ex) {}
+            catch (Exception ex) {
+            	Log.w(LOG_TAG, "Failed to get class definition from: " + classStr);
+			}
 
             if (null != cls)
                 switch (clsName) {
@@ -142,16 +151,16 @@ public class CommonInitializer {
                         	clsUiInterface = cls;
                         break;
                     case APP_ACTIVITY_MAIN:
-						if (null == mainActivityClass)
-                        	mainActivityClass = cls;
+						if (null == classMainActivity)
+                        	classMainActivity = cls;
                         break;
                     case APP_ACTIVITY_PREFERENCE:
 						if (null == preferenceActivityClass)
                         	preferenceActivityClass = cls;
                         break;
                     case SETTINGS:
-						if (null == settingsClass)
-                        	settingsClass = cls;
+						if (null == clsSettings)
+                        	clsSettings = cls;
                         break;
                 }
         }
@@ -205,7 +214,9 @@ public class CommonInitializer {
 	 */
 	public static <T extends CommonController> T initializeInstance(Class<T> theClass, Context context, boolean initializeMain, boolean initializeBackground) {
 		T instance = null;
-		String errorMessage = "Failed to create class instance";
+		String errorMessage = "Failed to create class instance: " + theClass.getName();
+
+		Log.i(LOG_TAG, "Creating controller's instance by calling the constructor, main: " + initializeMain + ", background: " + initializeBackground);
 
 		try {
 			if (null != context) {
@@ -260,7 +271,10 @@ public class CommonInitializer {
         if (clsController == null)
             detectDefaultClasses(context);
 
-		return clsController == null ? null : initializeInstance(clsController, context, initializeMain, initializeBackground);
+        if (clsController == null)
+        	throw new IllegalStateException("Cannot find the class type of controller interface");
+
+		return initializeInstance(clsController, context, initializeMain, initializeBackground);
 	}
 
 	public static Object newInstanceWithContext(Class cls, Context context) {
@@ -302,9 +316,9 @@ public class CommonInitializer {
     }
 
     public static Object newSettings(Context context) {
-        if (null == settingsClass)
+        if (null == clsSettings)
             return null;
 
-        return newInstanceWithContext(settingsClass, context);
+        return newInstanceWithContext(clsSettings, context);
     }
 }
