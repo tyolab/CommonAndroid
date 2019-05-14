@@ -77,7 +77,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	}
 
 	public CacheManager(Context context, String subdir) {
-		this(context, subdir, CacheLocation.SYSTEM_CACHE);
+		this(context, subdir, CacheLocation.SYSTEM_DATA);
 	}
 	
 	public CacheManager(Context context, String subdir, CacheLocation location) {

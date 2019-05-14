@@ -22,6 +22,19 @@ import au.com.tyo.data.ContentTypes;
 public class AndroidHelper {
 
     /**
+     * Pick folder
+     *
+     * @param context
+     * @param title
+     * @param requestCode
+     */
+    public static void pickFolder(Activity context, String title, int requestCode) {
+        Intent i = new Intent(Intent.ACTION_OPEN_DOCUMENT_TREE);
+        i.addCategory(Intent.CATEGORY_DEFAULT);
+        context.startActivityForResult(Intent.createChooser(i, title), requestCode);
+    }
+
+    /**
      *
      * @param type
      * @return
