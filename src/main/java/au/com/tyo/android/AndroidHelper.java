@@ -1,4 +1,4 @@
-    package au.com.tyo.android;
+package au.com.tyo.android;
 
 import android.app.Activity;
 import android.content.Context;
