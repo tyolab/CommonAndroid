@@ -899,7 +899,7 @@ public class AndroidUtils {
 	}
 
 	/**
-	 * @link{https://stackoverflow.com/questions/30119604/how-to-get-the-number-of-cores-of-an-android-device}
+	 * <a href="https://stackoverflow.com/questions/30119604/how-to-get-the-number-of-cores-of-an-android-device">Reference</a>
 	 *
 	 * Gets the number of cores available in this device, across all processors.
 	 * Requires: Ability to peruse the filesystem at "/sys/devices/system/cpu"
