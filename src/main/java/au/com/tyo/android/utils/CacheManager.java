@@ -46,7 +46,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	/**
 	 * Sub dir name
 	 */
-	String subDirName;
+	String dirName;
 
 	/**
 	 * Cache Dir
@@ -105,7 +105,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
         else
             cacheEnabled = false;
 
-        subDirName = cacheDir.getName();
+        dirName = cacheDir.getName();
     }
 
     public long getCacheSpan() {
@@ -355,7 +355,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		    if (!newSub.exists())
 				ret = cacheDir.renameTo(newSub);
 			cacheDir = newSub;
-			subDirName = cacheDir.getName();
+			dirName = cacheDir.getName();
 
 		    return ret;
         }
@@ -363,5 +363,9 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
             setupCacheDir(newName);
             return true;
         }
+	}
+
+	public String getDirName() {
+		return dirName;
 	}
 }
