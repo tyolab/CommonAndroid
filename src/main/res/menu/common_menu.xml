@@ -25,8 +25,7 @@
     <item android:id="@+id/menuItemAbout"
          android:title="@string/infoAbout" 
          android:icon="@android:drawable/ic_menu_help"
-         android:showAsAction="never" 
-         >
+        app:showAsAction="never">
     </item>
         
 </menu>
