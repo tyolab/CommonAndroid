@@ -238,7 +238,7 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
      */
     protected void onCreate(Context context, int resource) {
         sectionHeaderFactory = new ListSectionHeaderFactory(context);
-        // itemFactory = new ListItemFactory(context, resource);
+        // itemFactory = new CommonItemFactory(context, resource);
     }
 
     @Override

@@ -46,21 +46,6 @@ public class ResourceUtils {
         return value;
     }
 
-    /**
-     *
-     * @param context
-     * @param resId
-     * @return
-     */
-    public static Drawable getVectorDrawable(Context context, int resId) {
-        Drawable drawable;
-        if (Build.VERSION.SDK_INT  >= 21)
-            drawable = VectorDrawableCompat.create(context.getResources(), resId, context.getTheme());
-        else
-            drawable = AppCompatResources.getDrawable(context, resId);
-        return drawable;
-    }
-
     public static int getAttributeColor(Context context, int resId) {
         TypedValue typedValue = new TypedValue();
         Resources.Theme theme = context.getTheme();

@@ -11,7 +11,7 @@ import au.com.tyo.android.R;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 3/8/17.
  */
 
-public class ListSectionHeaderFactory extends ListItemFactory {
+public class ListSectionHeaderFactory extends CommonItemFactory {
 
     private Integer backgroundColor = null;
 

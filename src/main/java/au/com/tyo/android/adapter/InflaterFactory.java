@@ -15,9 +15,17 @@ public abstract class InflaterFactory {
 
     private int resId;
 
+    private Context context;
+
     public InflaterFactory(Context context, int resource) {
+        this.context = context;
+
         inflater = LayoutInflater.from(context);
         resId = resource;
+    }
+
+    public Context getContext() {
+        return context;
     }
 
     public int getResId() {

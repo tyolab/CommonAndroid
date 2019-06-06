@@ -16,7 +16,7 @@ import au.com.tyo.android.R;
  * Created by Eric Tang (eric.tang@tyo.com.au) on 17/8/17.
  */
 
-public class SwipeDeleteItemFactory extends ListItemFactory {
+public class SwipeDeleteItemFactory extends CommonItemFactory {
 
     private static final String TAG = "SwipeDeleteItemFactory";
     private ViewBinderHelper binderHelper;

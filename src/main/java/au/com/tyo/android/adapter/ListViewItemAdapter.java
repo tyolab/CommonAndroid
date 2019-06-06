@@ -23,7 +23,7 @@ public class ListViewItemAdapter extends BaseAdapter {
 	
 	private int resId;
 
-	private ListItemFactory itemFactory;
+	private CommonItemFactory itemFactory;
 	
 	public ListViewItemAdapter(){
 		this(null);
@@ -50,11 +50,11 @@ public class ListViewItemAdapter extends BaseAdapter {
 
 	}
 
-	public ListItemFactory getItemFactory() {
+	public CommonItemFactory getItemFactory() {
 		return itemFactory;
 	}
 
-	public void setItemFactory(ListItemFactory itemFactory) {
+	public void setItemFactory(CommonItemFactory itemFactory) {
 		this.itemFactory = itemFactory;
 	}
 
@@ -119,7 +119,7 @@ public class ListViewItemAdapter extends BaseAdapter {
 		Object obj = get(position);
 
 		if (null == itemFactory)
-			itemFactory = new ListItemFactory(parent.getContext(), resId);
+			itemFactory = new CommonItemFactory(parent.getContext(), resId);
 
         return itemFactory.getViewHolder(convertView, parent, obj).view;
 	}
