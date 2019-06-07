@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2019. TYONLINE TECHNOLOGY PTY. LTD. (TYOLAB)
+  ~
+  -->
+
+<resources>
+    <style name="AppStyle.Common.List.SectionHeader">
+        <item name="android:textAppearance">@style/TextAppearanceListHeaderText.Common</item>
+        <item name="android:paddingStart">@dimen/list_header_padding_left</item>
+        <item name="android:paddingLeft">@dimen/list_header_padding_left</item>
+        <item name="android:paddingTop">@dimen/list_header_padding_top</item>
+        <item name="android:paddingBottom">@dimen/list_header_padding_bottom</item>
+    </style>
+
+    <style name="AppStyle.Common.List"></style>
+
+    <style name="AppStyle.Common"></style>
+
+    <style name="AppStyle"></style>
+
+    <style name="AppStyle.Common.List.Separator">
+        <item name="android:minHeight">@dimen/list_separator_height</item>
+    </style>
+
+    <style name="AppStyle.Common.List.Cell">
+        <item name="android:paddingTop">12dp</item>
+        <item name="android:paddingBottom">12dp</item>
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingRight">8dp</item>
+    </style>
+
+    <style name="AppStyle.Common.List.CellTitle">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMediumInverse</item>
+    </style>
+
+    <style name="AppStyle.Common.List.CellSubTitle">
+        <item name="android:paddingLeft">8dp</item>
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceSmallInverse</item>
+    </style>
+</resources>

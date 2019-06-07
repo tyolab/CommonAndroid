@@ -70,23 +70,4 @@
     <style name="TextAppearanceListHeaderText.Common">
 	</style>
 
-    <style name="AppStyle.Common.List.SectionHeader">
-		<item name="android:textAppearance">@style/TextAppearanceListHeaderText.Common</item>
-		<item name="android:paddingStart">@dimen/list_header_padding_left</item>
-		<item name="android:paddingLeft">@dimen/list_header_padding_left</item>
-		<item name="android:paddingTop">@dimen/list_header_padding_top</item>
-		<item name="android:paddingBottom">@dimen/list_header_padding_bottom</item>
-	</style>
-
-	<style name="AppStyle.Common.List"></style>
-
-	<style name="AppStyle.Common"></style>
-
-	<style name="AppStyle"></style>
-
-    <style name="AppStyle.Common.List.Separator">
-        <item name="android:minHeight">@dimen/list_separator_height</item>
-    </style>
-
-    <dimen name="list_separator_height">4dp</dimen>
 </resources>

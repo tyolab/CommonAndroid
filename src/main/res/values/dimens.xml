@@ -103,4 +103,6 @@
 
     <dimen name="default_list_view_header_height">40dp</dimen>
     <dimen name="default_list_view_item_height">64dp</dimen>
+
+    <dimen name="list_separator_height">4dp</dimen>
 </resources>

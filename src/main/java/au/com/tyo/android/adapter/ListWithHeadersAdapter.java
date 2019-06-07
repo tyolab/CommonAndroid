@@ -62,7 +62,7 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
     /**
      * The real list for the actual items (== ITEM.ordial())
      */
-    protected List items;
+    // protected List items;
 
     public ListWithHeadersAdapter(@NonNull Context context, int resource) {
         super(context, resource);
@@ -343,64 +343,64 @@ public class ListWithHeadersAdapter extends ArrayAdapter {
         remove((ListItemViewType) oldObj);
     }
 
-    public List getItems() {
-        return items;
-    }
-
-    public int getItemCount() { return null != items ? items.size() : 0; }
+    // public List getItems() {
+    //     return items;
+    // }
+    //
+    // public int getItemCount() { return null != items ? items.size() : 0; }
 
     @Override
     public long getItemId(int position) {
         return position;
     }
 
-    public void setItems(List obj) {
-        if (null == obj)
-            return;
+    // public void setItems(List obj) {
+    //     if (null == obj)
+    //         return;
+    //
+    //     if (null == getItems())
+    //         this.items = new ArrayList();
+    //
+    //     this.items.addAll(obj);
+    // }
 
-        if (null == getItems())
-            this.items = new ArrayList();
+    // @Override
+    // public void add(Object item) {
+    //     // if (item instanceof ListItemViewType && ((ListItemViewType) item).getViewType() == ItemType.ITEM.ordinal()) {
+    //     //     push(item);
+    //     //     return;
+    //     // }
+    //
+    //     super.insert(item, 0);
+    // }
 
-        this.items.addAll(obj);
-    }
+    // public void push(Object item) {
+    //     setItem(item, 0);
+    // }
 
-    @Override
-    public void add(Object item) {
-        if (item instanceof ListItemViewType && ((ListItemViewType) item).getViewType() == ItemType.ITEM.ordinal()) {
-            push(item);
-            return;
-        }
+    // public void setItem(Object item, int index) {
+    //     if (((ListItemViewType) item).getViewType() != ItemType.ITEM.ordinal())
+    //         throw new IllegalArgumentException("The object being inserted is not a valid item type");
+    //
+    //     if (getItems() == null)
+    //         items = new ArrayList();
+    //
+    //     getItems().add(index, item);
+    //     super.insert(item, index);
+    // }
 
-        super.insert(item, 0);
-    }
-
-    public void push(Object item) {
-        setItem(item, 0);
-    }
-
-    public void setItem(Object item, int index) {
-        if (((ListItemViewType) item).getViewType() != ItemType.ITEM.ordinal())
-            throw new IllegalArgumentException("The object being inserted is not a valid item type");
-
-        if (getItems() == null)
-            items = new ArrayList();
-
-        getItems().add(index, item);
-        super.insert(item, index);
-    }
-
-    public void pushItem(Object item) { push(item); }
-
-    public void removeItem(Object item) {
-        getItems().remove(item);
-        remove(item);
-    }
-
-    public void clear() {
-        if (null != items) {
-            items.clear();
-        }
-        super.clear();
-    }
+    // public void pushItem(Object item) { push(item); }
+    //
+    // public void removeItem(Object item) {
+    //     getItems().remove(item);
+    //     remove(item);
+    // }
+    //
+    // public void clear() {
+    //     if (null != items) {
+    //         items.clear();
+    //     }
+    //     super.clear();
+    // }
 
 }
