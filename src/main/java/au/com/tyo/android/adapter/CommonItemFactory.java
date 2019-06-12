@@ -85,6 +85,14 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
         return null;
     }
 
+    protected boolean isSelectable(ItemType obj) {
+        return false;
+    }
+
+    protected boolean isSelected(ItemType obj) {
+        return false;
+    }
+
     @Override
     public void bindData(ViewHolder holder, Object obj) {
         View view = holder.view;

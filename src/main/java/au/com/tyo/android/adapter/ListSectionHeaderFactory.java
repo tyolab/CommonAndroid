@@ -78,6 +78,16 @@ public class ListSectionHeaderFactory extends CommonItemFactory {
         public boolean shouldShowImageButton() {
             return false;
         }
+
+        @Override
+        public boolean isSelected() {
+            return false;
+        }
+
+        @Override
+        public boolean isSelectable() {
+            return false;
+        }
     }
     public ListSectionHeaderFactory(Context context, int resId, int backgroundColor) {
         super(context, resId);

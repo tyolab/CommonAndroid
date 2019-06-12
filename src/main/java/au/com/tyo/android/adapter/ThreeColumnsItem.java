@@ -116,4 +116,14 @@ public class ThreeColumnsItem implements DisablableListItem {
     public boolean shouldShowImageButton() {
         return null != getImageButtonDrawable();
     }
+
+    @Override
+    public boolean isSelected() {
+        return false;
+    }
+
+    @Override
+    public boolean isSelectable() {
+        return true;
+    }
 }

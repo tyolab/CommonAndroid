@@ -52,4 +52,5 @@ public class ListItemFactory<ItemType extends ListItem> extends CommonItemFactor
     protected Drawable getImageButtonDrawable(ListItem obj) {
         return obj.getImageButtonDrawable();
     }
+
 }

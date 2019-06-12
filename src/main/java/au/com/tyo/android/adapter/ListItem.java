@@ -39,4 +39,7 @@ public interface ListItem extends ListItemViewType {
      * Row 2 / Column 3
      */
     CharSequence getText2();
+
+    boolean isSelected();
+    boolean isSelectable();
 }

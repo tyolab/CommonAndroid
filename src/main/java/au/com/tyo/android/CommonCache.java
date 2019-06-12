@@ -211,7 +211,8 @@ public class CommonCache extends CacheManager<File> {
     public void clear() {
         try {
             WildcardFileStack fileStack = new WildcardFileStack(getCacheDir());
-            fileStack.setToListAllFiles(true);
+            // fileStack.setToListAllFiles(true); // list the fils for the subdirectory when coming to it
+            fileStack.setIncludeAllSubfolders(true);
             fileStack.listFiles();
 
             File file;
