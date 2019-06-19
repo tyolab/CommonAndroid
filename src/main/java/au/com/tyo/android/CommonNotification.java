@@ -8,6 +8,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import androidx.core.app.NotificationCompat;
+
+import android.text.TextUtils;
 import android.util.Log;
 
 import java.lang.reflect.Method;
@@ -141,7 +143,10 @@ public abstract class CommonNotification implements NotificationClient {
 
             builder.setContentText(mCurrentText);
 
-            builder.setTicker(mLabel + ": " + mCurrentText);
+            /**
+             * Ticker text will be shown on the status bar for a very short period of time
+             */
+            builder.setTicker(mLabel + (TextUtils.isEmpty(mCurrentText) ? "" : ": " + mCurrentText));
             builder.setVibrate(new long[]{200, 100, 300, 200, 100});
 
             if (null != helpers) {
