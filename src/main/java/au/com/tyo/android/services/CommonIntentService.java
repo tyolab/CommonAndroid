@@ -79,6 +79,7 @@ public abstract class CommonIntentService extends Service {
 
     private PackageInfo mPackageInfo;
     private CharSequence applicationLabel;
+    private boolean showNotificationCountingDown = false;
 
     public CommonIntentService() {
         this(TAG);
@@ -116,11 +117,29 @@ public abstract class CommonIntentService extends Service {
     }
 
     protected boolean handleClientMessage(Message m) {
-        if (m.what == Constants.MESSAGE_SERVICE_SHOW_NOTIFICATION) {
+        if (m.what == au.com.tyo.android.Constants.MESSAGE_SERVICE_SHOW_NOTIFICATION_ON_HOLD) {
+            showNotificationCountingDown = true;
+            int countdown = 3000;
+            if (m.obj != null)
+                countdown = (int) m.obj;
+
+            mServiceHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if (showNotificationCountingDown)
+                        checkIfPoppingUpNotificationNeeded();
+                }
+            }, countdown);
+        }
+        else if (m.what == Constants.MESSAGE_SERVICE_SHOW_NOTIFICATION) {
             checkIfPoppingUpNotificationNeeded();
             return true;
         }
-        if (m.what == Constants.MESSAGE_SERVICE_CLEAR_NOTIFICATION) {
+        else if (m.what == Constants.MESSAGE_SERVICE_CLEAR_NOTIFICATION_ON_HOLD) {
+            showNotificationCountingDown = false;
+            return true;
+        }
+        else if (m.what == Constants.MESSAGE_SERVICE_CLEAR_NOTIFICATION) {
             getNotificationFactory().cancel();
             return true;
         }
