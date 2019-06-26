@@ -38,7 +38,7 @@ public interface Constants {
     /**
      * Activity Communication
      */
-    String DATA = "TYODROID_DATA";
+    String DATA = "TYODROID_DATA";      // Anything if pass through intent as parcel, must be Serializable
     String BUNDLE = "TYODROID_BUNDLE";
     String RESULT = "TYODROID_RESULT";
 
