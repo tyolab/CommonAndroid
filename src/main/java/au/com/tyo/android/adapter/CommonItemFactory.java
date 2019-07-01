@@ -53,7 +53,7 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
 
      */
 
-    protected CharSequence getText1(ItemType obj) {
+    public CharSequence getText1(ItemType obj) {
         return obj.toString();
     }
 
@@ -65,7 +65,7 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
         return null;
     }
 
-    protected Drawable getImageViewDrawable(ItemType obj) {
+    public Drawable getImageViewDrawable(ItemType obj) {
         return null;
     }
 
@@ -73,7 +73,7 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
         return false;
     }
 
-    protected CharSequence getText2(ItemType obj) {
+    public CharSequence getText2(ItemType obj) {
         return null;
     }
 

@@ -19,7 +19,7 @@ public class ListItemFactory<ItemType extends ListItem> extends CommonItemFactor
         super(context, resId);
     }
 
-    protected CharSequence getText1(ListItem listItem) {
+    public CharSequence getText1(ListItem listItem) {
         return listItem.getText1();
     }
 
@@ -29,7 +29,7 @@ public class ListItemFactory<ItemType extends ListItem> extends CommonItemFactor
     }
 
     @Override
-    protected Drawable getImageViewDrawable(ListItem obj) {
+    public Drawable getImageViewDrawable(ListItem obj) {
         return obj.getImageViewDrawable();
     }
 
@@ -39,7 +39,7 @@ public class ListItemFactory<ItemType extends ListItem> extends CommonItemFactor
     }
 
     @Override
-    protected CharSequence getText2(ListItem obj) {
+    public CharSequence getText2(ListItem obj) {
         return obj.getText2();
     }
 
