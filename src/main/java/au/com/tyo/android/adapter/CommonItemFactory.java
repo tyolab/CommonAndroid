@@ -99,17 +99,7 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
         TextView tvTitle = (TextView) view.findViewById(getTitleResId());
 
         ItemType item = (ItemType) obj;
-
-        String title = getText1(item).toString();
-
-        if (null != tvTitle) {
-            tvTitle.setText(title);
-
-            // if (obj instanceof DisablableListItem) {
-            //     boolean disabled = ((DisablableListItem) item).isDisabled();
-                tvTitle.setEnabled(!isItemDisabled(item));
-            // }
-        }
+        setText1(item, tvTitle);
 
         // containers
         View containerCol1 = view.findViewById(R.id.itl_image_view_container);
@@ -156,11 +146,7 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
 
         if (null != containerCol3) {
             ImageView imgButton = (ImageView) view.findViewById(R.id.itl_image_button);
-            Drawable imgButtonDrawable = getImageButtonDrawable(item);
-            //
-            if (imgButton != null && imgButtonDrawable != null) {
-                imgButton.setImageDrawable(imgButtonDrawable);
-            }
+            setImageRight(item, imgButton);
 
             if (shouldShowImageButton(item)) {
                 containerCol3.setVisibility(View.VISIBLE);
@@ -179,6 +165,30 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
         }
 
         TextView tv2 = (TextView) view.findViewById(android.R.id.text2);
+        setText2(item, tv2);
+    }
+
+    protected void setImageRight(ItemType item, ImageView imgButton) {
+
+        Drawable imgButtonDrawable = getImageButtonDrawable(item);
+        //
+        if (imgButton != null && imgButtonDrawable != null) {
+            imgButton.setImageDrawable(imgButtonDrawable);
+        }
+    }
+
+    protected void setText1(ItemType item, TextView tvTitle) {
+
+        String title = getText1(item).toString();
+
+        if (null != tvTitle) {
+            tvTitle.setText(title);
+
+            tvTitle.setEnabled(!isItemDisabled(item));
+        }
+    }
+
+    protected void setText2(ItemType item, TextView tv2) {
         if (null != tv2) {
             CharSequence text2 = getText2(item);
             if (text2 != null) {
@@ -189,5 +199,4 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
                 tv2.setVisibility(View.GONE);
         }
     }
-
 }
