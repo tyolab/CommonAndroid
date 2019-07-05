@@ -54,6 +54,8 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
      */
 
     public CharSequence getText1(ItemType obj) {
+        if (null == obj)
+            return "";
         return obj.toString();
     }
 
@@ -178,10 +180,11 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
     }
 
     protected void setText1(ItemType item, TextView tvTitle) {
-
-        String title = getText1(item).toString();
-
         if (null != tvTitle) {
+            CharSequence text = getText1(item);
+
+            String title = (null != text) ? text.toString() : "";
+
             tvTitle.setText(title);
 
             tvTitle.setEnabled(!isItemDisabled(item));

@@ -208,19 +208,15 @@ public class CommonCache extends CacheManager<File> {
         return new FileOutputStream(createFile(dir, name));
     }
 
-    public void clear() {
-        try {
-            WildcardFileStack fileStack = new WildcardFileStack(getCacheDir());
-            // fileStack.setToListAllFiles(true); // list the files for the subdirectory when coming to it
-            fileStack.setIncludeAllSubfolders(true);
-            fileStack.listFiles();
+    public void clear() throws Exception {
+        WildcardFileStack fileStack = new WildcardFileStack(getCacheDir());
+        // fileStack.setToListAllFiles(true); // list the files for the subdirectory when coming to it
+        fileStack.setIncludeAllSubfolders(true);
+        fileStack.listFiles();
 
-            File file;
-            while ((file = fileStack.next()) != null) {
-                file.delete();
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+        File file;
+        while ((file = fileStack.next()) != null) {
+            file.delete();
         }
     }
 }
