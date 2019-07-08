@@ -23,6 +23,15 @@ public class DialogFactory {
 	};
 
 	/**
+	 *
+	 * @param context
+	 * @return
+	 */
+	public static AlertDialog.Builder getBuilder(Context context) {
+		return getBuilder(context, 0, -1);
+	}
+
+	/**
 	 * if an dialog icon is needed
 	 * android.R.attr.alertDialogIcon
 	 *
@@ -156,7 +165,7 @@ public class DialogFactory {
 														  String message,
 														  DialogInterface.OnClickListener okListener,
 														  DialogInterface.OnClickListener cancelListener) {
-		return createDialogBuilder(context, themeResId, title, message, "OK", okListener, context.getString(R.string.alert_dialog_cancel), cancelListener, null, null);
+		return createDialogBuilder(context, themeResId, title, message, context.getString(R.string.alert_dialog_ok), okListener, context.getString(R.string.alert_dialog_cancel), cancelListener, null, null);
 	}
 
 	/**
@@ -198,6 +207,37 @@ public class DialogFactory {
 			builder.setNeutralButton(buttonText, listener);
 		
        return builder;
+	}
+
+	public static AlertDialog.Builder createDialogBuilder(Context context, int titleResId,
+														  DialogInterface.OnClickListener okListener,
+														  DialogInterface.OnClickListener cancelListener) {
+		return createDialogBuilder(context, 0, titleResId, context.getString(R.string.alert_dialog_ok), okListener, context.getString(R.string.alert_dialog_cancel), cancelListener, null, null);
+	}
+
+	public static AlertDialog.Builder createDialogBuilder(Context context, int themeResId, int titleResId,
+														  String okButtonText,
+														  DialogInterface.OnClickListener okListener,
+														  String cancelButtonText,
+														  DialogInterface.OnClickListener cancelListener,
+														  String buttonText,
+														  DialogInterface.OnClickListener listener) {
+
+		AlertDialog.Builder builder = getBuilder(context, themeResId);
+
+		builder
+				.setTitle(titleResId);
+
+		if (okListener != null)
+			builder.setPositiveButton(okButtonText, okListener);
+
+		if (cancelListener != null)
+			builder.setNegativeButton(cancelButtonText, cancelListener);
+
+		if (null != listener)
+			builder.setNeutralButton(buttonText, listener);
+
+		return builder;
 	}
 
     /**
