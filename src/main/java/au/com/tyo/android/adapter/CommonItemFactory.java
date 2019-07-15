@@ -109,15 +109,7 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
         if (null != containerCol1) {
             ImageView imgView = (ImageView) view.findViewById(R.id.itl_image_view);
 
-            if (null != getImageViewDrawable(item) && null != imgView) {
-                imgView.setVisibility(View.VISIBLE);
-                imgView.setImageDrawable(getImageViewDrawable(item));
-            }
-            else {
-                if (null != imgView)
-                    imgView.setVisibility(View.GONE);
-                imgView = null;
-            }
+            setImageDrawable(item, imgView);
 
             CharSequence altText = getAltText(item);
             TextView tvAlt = (TextView) view.findViewById(R.id.itl_image_alt);
@@ -168,6 +160,18 @@ public class CommonItemFactory<ItemType> extends InflaterFactory {
 
         TextView tv2 = (TextView) view.findViewById(android.R.id.text2);
         setText2(item, tv2);
+    }
+
+    protected void setImageDrawable(ItemType item, ImageView imgView) {
+        Drawable drawable = getImageViewDrawable(item);
+        if (null != drawable && null != imgView) {
+            imgView.setVisibility(View.VISIBLE);
+            imgView.setImageDrawable(drawable);
+        }
+        else {
+            if (null != imgView)
+                imgView.setVisibility(View.GONE);
+        }
     }
 
     protected void setImageRight(ItemType item, ImageView imgButton) {
