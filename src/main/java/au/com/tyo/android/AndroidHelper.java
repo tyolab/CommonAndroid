@@ -39,13 +39,13 @@ public class AndroidHelper {
      * @param type
      * @return
      */
-    public static Intent createOpenDocumentIntent(String type) {
-        return createOpenDocumentIntent(type, false);
+    public static Intent createSelectDocumentIntent(String type) {
+        return createSelectDocumentIntent(type, false, false);
     }
 
-    public static Intent createOpenDocumentIntent(String type, boolean allowMultipleSelection) {
+    public static Intent createSelectDocumentIntent(String type, boolean allowMultipleSelection, boolean persistentAccess) {
         Intent intent = null;
-        if (AndroidUtils.getAndroidVersion() >= 19)
+        if (persistentAccess && AndroidUtils.getAndroidVersion() >= 19)
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         else
             intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -81,27 +81,29 @@ public class AndroidHelper {
      * @param requestCode
      */
     public static void openDocumentManager(Activity context, int requestCode) {
-        openDocumentManager(context, requestCode, null, false);
+        openDocumentManager(context, requestCode, null, false, false);
+    }
+
+        /**
+         *
+         * @param context
+         * @param requestCode
+         * @param allowMultipleSelection
+         * @param persistentAccess
+         */
+    public static void openDocumentManager(Activity context, int requestCode, boolean allowMultipleSelection, boolean persistentAccess) {
+        openDocumentManager(context, requestCode, null, allowMultipleSelection, persistentAccess);
     }
 
     /**
-     *
-     * @param context
-     * @param requestCode
-     */
-    public static void openDocumentManager(Activity context, int requestCode, boolean allowMultipleSelection) {
-        openDocumentManager(context, requestCode, null, allowMultipleSelection);
-    }
-
-    /**
-     *
-     * @param context
+     *  @param context
      * @param requestCode
      * @param type
      * @param allowMultipleSelection
+     * @param persistentAccess
      */
-    public static void openDocumentManager(Activity context, int requestCode, String type, boolean allowMultipleSelection) {
-        Intent intent = createOpenDocumentIntent(type, allowMultipleSelection);
+    public static void openDocumentManager(Activity context, int requestCode, String type, boolean allowMultipleSelection, boolean persistentAccess) {
+        Intent intent = createSelectDocumentIntent(type, allowMultipleSelection, persistentAccess);
 
         if (requestCode > -1)
             context.startActivityForResult(intent, requestCode);
@@ -123,7 +125,7 @@ public class AndroidHelper {
      * @param allowMultipleSelection
      */
     public static void openImageManager(Activity context, boolean allowMultipleSelection) {
-        openDocumentManager(context, allowMultipleSelection ? Constants.REQUEST_CODE_PICK_IMAGES : Constants.REQUEST_CODE_PICK_IMAGE, "image/*", allowMultipleSelection);
+        openDocumentManager(context, allowMultipleSelection ? Constants.REQUEST_CODE_PICK_IMAGES : Constants.REQUEST_CODE_PICK_IMAGE, "image/*", allowMultipleSelection, false);
     }
 
     /**
@@ -152,7 +154,7 @@ public class AndroidHelper {
      * @param type
      */
     public static void openFolder(Activity context, String path, String type, String authority) {
-        Intent intent = createOpenDocumentIntent(type);
+        Intent intent = createSelectDocumentIntent(type);
 
         if (AndroidUtils.getAndroidVersion() < 24)
             intent.setData(Uri.fromFile(new File(path)));

@@ -217,7 +217,11 @@ public class AndroidSettings extends CommonSettings implements Android {
 	}
 
 	public int getPreferenceInteger(String key) {
-		return prefs.getInt(key, -1);
+		return getPreferenceInteger(key, -1);
+	}
+
+	public int getPreferenceInteger(String key, int fallback) {
+		return prefs.getInt(key, fallback);
 	}
 
 	public Set getPreferenceSet(String key) {
