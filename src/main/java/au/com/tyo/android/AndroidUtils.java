@@ -973,22 +973,24 @@ public class AndroidUtils {
 	}
 
 	/**
+	 * Not all pages have toolbar
 	 *
 	 * @param context
 	 * @param toolbar
 	 * @param fontPath
 	 */
 	public static void changeToolbarTitleFont(Context context, Toolbar toolbar, String fontPath) {
-		for (int i = 0; i < toolbar.getChildCount(); i++) {
-			View view = toolbar.getChildAt(i);
-			if (view instanceof TextView) {
-				TextView tv = (TextView) view;
-				if (tv.getText().equals(toolbar.getTitle())) {
-					setFontTo(context, tv, fontPath);
-					break;
+		if (null != toolbar)
+			for (int i = 0; i < toolbar.getChildCount(); i++) {
+				View view = toolbar.getChildAt(i);
+				if (view instanceof TextView) {
+					TextView tv = (TextView) view;
+					if (tv.getText().equals(toolbar.getTitle())) {
+						setFontTo(context, tv, fontPath);
+						break;
+					}
 				}
 			}
-		}
 	}
 
 	/**
