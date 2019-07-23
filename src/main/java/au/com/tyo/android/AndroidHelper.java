@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
 import androidx.core.content.FileProvider;
+
+import android.util.Log;
 import android.view.View;
 
 import java.io.File;
@@ -54,7 +56,7 @@ public class AndroidHelper {
             if (AndroidUtils.getAndroidVersion() >= 18)
                 intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
             else
-                throw new IllegalArgumentException("EXTRA_ALLOW_MULTIPLE option is only available in Android API 18 and higher");
+                Log.w("AndroidHelper", "EXTRA_ALLOW_MULTIPLE option is only available in Android API 18 and higher");
         }
 
         intent.addCategory(Intent.CATEGORY_OPENABLE);

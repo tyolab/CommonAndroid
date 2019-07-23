@@ -101,7 +101,7 @@ public class CommonCache extends CacheManager<File> {
     }
 
     public File createDirectory(String dir) {
-        return createDirectory(dir, true);
+        return createDirectory(dir, false);
     }
 
     public File createDirectory(String dir, boolean deleteFolderIfExists) {
