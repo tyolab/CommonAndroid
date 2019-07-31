@@ -1,6 +1,7 @@
 package au.com.tyo.android;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
@@ -11,6 +12,7 @@ import androidx.core.content.FileProvider;
 
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -18,7 +20,7 @@ import java.util.List;
 
 import au.com.tyo.data.ContentTypes;
 
-    /**
+/**
  * Created by Eric Tang (eric.tang@tyo.com.au) on 6/8/18.
  */
 public class AndroidHelper {
@@ -168,8 +170,8 @@ public class AndroidHelper {
         context.startActivity(intent);
     }
 
-    public static Intent shareToOtherApps(String title, Context ctx, String imagePath) {
-        return shareExclude(title, ctx, AndroidUtils.getPackageName(ctx), imagePath);
+    public static Intent shareToOtherApps(String title, Context ctx, Uri imagePath, String type) {
+        return shareExclude(title, ctx, AndroidUtils.getPackageName(ctx), imagePath, type);
     }
 
     /**
@@ -180,33 +182,41 @@ public class AndroidHelper {
      * @param imagePath
      * @return
      */
-    public static Intent shareExclude(String title, Context ctx, String packageNameToExclude, String imagePath) {
-        return shareExclude(title, ctx, packageNameToExclude, imagePath, null);
+    public static Intent shareExclude(String title, Context ctx, String packageNameToExclude, Uri imagePath, String type) {
+        return shareExclude(title, ctx, packageNameToExclude, imagePath, null, type);
     }
 
     /**
      *
      * https://stackoverflow.com/questions/4064848/how-to-exclude-your-own-app-from-the-share-menu
      *
-     * @param ctx
+     * @param context
      * @param packageNameToExclude
-     * @param imagePath
+     * @param uri
      * @param text
      * @return
      */
-    public static Intent shareExclude(String title, Context ctx, String packageNameToExclude, String imagePath, String text) {
+    public static Intent shareExclude(String title, Context context, String packageNameToExclude, Uri uri, String text, String type) {
         List<Intent> targetedShareIntents = new ArrayList<>();
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
 
-        if (ContentTypes.isImage(imagePath))
-            share.setType("image/*");
-        else
-            share.setType("*/*");
+        if (null != type) {
+            try {
+                ContentResolver contentResolver = context.getContentResolver();
+                MimeTypeMap mime = MimeTypeMap.getSingleton();
+                type = mime.getExtensionFromMimeType(contentResolver.getType(uri));
+            }
+            catch (Exception ex) {
+                type = "*/*";
+            }
+        }
 
-        List<ResolveInfo> resInfo = ctx.getPackageManager().queryIntentActivities(createShareIntent(text,new File(imagePath)), 0);
+        share.setType(type);
+
+        List<ResolveInfo> resInfo = context.getPackageManager().queryIntentActivities(createShareIntent(text, (uri), type), 0);
         if (!resInfo.isEmpty()) {
             for (ResolveInfo info : resInfo) {
-                Intent targetedShare = createShareIntent(text, new File(imagePath));
+                Intent targetedShare = createShareIntent(text, (uri), type);
 
                 if (!info.activityInfo.packageName.equalsIgnoreCase(packageNameToExclude)) {
                     targetedShare.setPackage(info.activityInfo.packageName);
@@ -229,13 +239,24 @@ public class AndroidHelper {
      * @param file
      * @return
      */
-    public static Intent createShareIntent(String text, File file) {
+    public static Intent createShareIntent(String text, File file, String type) {
+        return createShareIntent(text, Uri.fromFile(file), type);
+    }
+
+    /**
+     *
+     * @param text
+     * @param uri
+     * @param type
+     * @return
+     */
+    public static Intent createShareIntent(String text, Uri uri, String type) {
         Intent intent = new Intent(android.content.Intent.ACTION_SEND);
-        intent.setType("image/*");
+        intent.setType(type);
         if (text != null) {
             intent.putExtra(Intent.EXTRA_TEXT, text);
         }
-        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        intent.putExtra(Intent.EXTRA_STREAM, uri);
         return intent;
     }
 
