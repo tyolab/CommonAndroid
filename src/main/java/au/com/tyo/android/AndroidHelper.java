@@ -200,15 +200,17 @@ public class AndroidHelper {
         List<Intent> targetedShareIntents = new ArrayList<>();
         Intent share = new Intent(android.content.Intent.ACTION_SEND);
 
-        if (null != type) {
+        if (null == type) {
             try {
                 ContentResolver contentResolver = context.getContentResolver();
                 MimeTypeMap mime = MimeTypeMap.getSingleton();
                 type = mime.getExtensionFromMimeType(contentResolver.getType(uri));
             }
             catch (Exception ex) {
-                type = "*/*";
             }
+
+            if (null == type)
+                type = "*/*";
         }
 
         share.setType(type);
