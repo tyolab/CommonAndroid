@@ -47,10 +47,22 @@ public class AndroidHelper {
         return createSelectDocumentIntent(type, false, false);
     }
 
+    /**
+     * Be careful with the persistent access because you might get error:
+     *
+     * java.lang.SecurityException: No persistable permission grants found
+     *
+     * @param type
+     * @param allowMultipleSelection
+     * @param persistentAccess
+     * @return
+     */
     public static Intent createSelectDocumentIntent(String type, boolean allowMultipleSelection, boolean persistentAccess) {
         Intent intent = null;
-        if (persistentAccess && AndroidUtils.getAndroidVersion() >= 19)
+        if (persistentAccess && AndroidUtils.getAndroidVersion() >= 19) {
             intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+            intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+        }
         else
             intent = new Intent(Intent.ACTION_GET_CONTENT);
 
@@ -62,6 +74,7 @@ public class AndroidHelper {
         }
 
         intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
         if (null != type)
             intent.setType(type);
