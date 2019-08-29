@@ -69,6 +69,8 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 		CommonInitializer.detectDefaultClasses(context);
 
 		notificationManager = (NotificationManager) context.getSystemService(Application.NOTIFICATION_SERVICE);
+
+		setInstance(this);
 	}
 
 	public static <T> T getInstance() {
