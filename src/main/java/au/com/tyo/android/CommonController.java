@@ -13,14 +13,8 @@ import android.view.MenuItem;
 import java.util.Observer;
 
 public interface CommonController extends Observer {
-	
-//	void initializeUserInterface(CommonUI ui);
-
-	boolean onKeyDown(int keyCode, KeyEvent event);
 
 	Handler getHandler();
-
-	boolean onKeyUp(int keyCode, KeyEvent event);
 	
 	Context getContext();
 	
@@ -75,21 +69,14 @@ public interface CommonController extends Observer {
 	void onActivityResult(int requestCode, int resultCode, Intent data);
 
 	void onPostCreate(Bundle savedInstanceState);
-
-	void showInfo();
 	
 	String getAppName();
-	
-	void showAlertDialog(String string, String message,
-			OnClickListener okListener, OnClickListener cancelListener);
-
-	void showAlertDialog(String title, String message,
-			OnClickListener okListener, OnClickListener cancelListner,
-			boolean cancelable);
 
 	void onCreate();
 
     void onDeleteFromList(int listId, Object data);
 
 	boolean onListItemClick(String listKey, int listId, Object obj);
+
+    String getAppNameWithVersion();
 }

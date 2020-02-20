@@ -51,8 +51,6 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	protected String appName = "";
 
 	protected String version = "0.9.9"; // that is the number to show something wrong
-	protected String acknowledgementTitle = null;
-	protected String acknowledgementInfo = null;
 
     private CommonApplicationImpl() {
 		notificationManager = null;
@@ -122,75 +120,39 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
     	return msgHandler;
 	}
 	
-	public boolean onKeyUp(int keyCode, KeyEvent event) {
-        switch(keyCode) {
-        case KeyEvent.KEYCODE_BACK:
-            if (event.isTracking() && !event.isCanceled()) {
-                onBackKeyPressed();
-                return true;
-            }
-            break;
-        }
-		return false;
-	}
-	
-	@SuppressLint("NewApi")
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		boolean hasNoModifiers = true;
-		
-        if (AndroidUtils.getAndroidVersion() > android.os.Build.VERSION_CODES.HONEYCOMB /*>=11*/) {
-	        hasNoModifiers = event.hasNoModifiers();
-//	        ctrl = event.hasModifiers(KeyEvent.META_CTRL_ON);
-//	        shift = event.hasModifiers(KeyEvent.META_SHIFT_ON);
-        }
-        
-        switch(keyCode) {
-        case KeyEvent.KEYCODE_VOLUME_UP:
-        case KeyEvent.KEYCODE_VOLUME_DOWN:
+// 	@SuppressLint("NewApi")
+// 	public boolean onKeyDown(int keyCode, KeyEvent event) {
+// 		boolean hasNoModifiers = true;
+//
+//         if (AndroidUtils.getAndroidVersion() > android.os.Build.VERSION_CODES.HONEYCOMB /*>=11*/) {
+// 	        hasNoModifiers = event.hasNoModifiers();
+// //	        ctrl = event.hasModifiers(KeyEvent.META_CTRL_ON);
+// //	        shift = event.hasModifiers(KeyEvent.META_SHIFT_ON);
+//         }
+//
+//         switch(keyCode) {
+//         case KeyEvent.KEYCODE_VOLUME_UP:
+//         case KeyEvent.KEYCODE_VOLUME_DOWN:
+//
+//         	break;
+//
+//         case KeyEvent.KEYCODE_BACK:
+// //			if (getCurrentActivity().getApplicationInfo().targetSdkVersion
+// //					>= Build.VERSION_CODES.ECLAIR) {
+// //				event.startTracking();
+// //			} else {
+// 				onBackKeyPressed();
+// //			}
+//         	return true;
+//
+//         case  KeyEvent.KEYCODE_F12:
+//         case  KeyEvent.KEYCODE_I:
+//             showInfo();
+//             break;
+// 		}
+// 		return false;
+// 	}
 
-        	break;
-			
-        case KeyEvent.KEYCODE_BACK:
-//			if (getCurrentActivity().getApplicationInfo().targetSdkVersion
-//					>= Build.VERSION_CODES.ECLAIR) {
-//				event.startTracking();
-//			} else {
-				onBackKeyPressed();
-//			}
-        	return true;
-
-        case  KeyEvent.KEYCODE_F12:
-        case  KeyEvent.KEYCODE_I:
-            showInfo();
-            break;
-		}
-		return false;
-	}
-
-	protected void onBackKeyPressed() {
-		showConfirmQuitDialog();
-	}
-	
-	protected void showConfirmQuitDialog() {
-		Dialog dialog = DialogFactory.createExitPromptDialog(context, this.getAppName(),
-				new DialogInterface.OnClickListener() {
-	
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						backKeyCount = 0;
-						quitOrRestart(false);
-					}
-					
-				}, new DialogInterface.OnClickListener() {
-	
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						backKeyCount = 0;
-					}
-					
-				});
-		showDialog(dialog);
-	}
 	
 //	public void initializeUserInterface(CommonUI ui) {
 //		Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
@@ -369,54 +331,8 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	}	
 	
 	@Override
-	public boolean onOptionsItemSelected(Activity activity, android.view.MenuItem item) {
-	    int itemId = item.getItemId();
-	    
-	    if (itemId == R.id.menuItemAbout) {
-			showInfo(context.getResources().getBoolean(R.bool.showAcknowledgement)
-					|| context.getResources().getString(R.string.app_acknowledgement).length() > 0);
-			return true;
-	    }
-	    
-		return false;
-	}
-	
-	@Override
-	public void showInfo() {
-		showInfo(false);
-	}
-	
-	protected abstract void showInfo(boolean showAcknowledgement);
-	
-	protected void showDialog(Dialog dialog) {
-		if(dialog != null && !((Activity) context).isFinishing())
-			dialog.show();
-	}
-	
-	@Override
-	public void showAlertDialog(String title, String message,
-			OnClickListener okListener, OnClickListener cancelListener) {
-		showAlertDialog(title, message, okListener, cancelListener, true);
-	}
-	
-	@Override
-	public void showAlertDialog(String title, String message, DialogInterface.OnClickListener okListener, 
-			DialogInterface.OnClickListener cancelListner, boolean cancelable) {
-		Dialog dialog = DialogFactory.createDialogBuilder(context, -1, title, message, okListener, cancelListner).create();
-		dialog.setCancelable(cancelable);
-		showDialog(dialog);
-	}
-
-	@Override
 	public String getVersion() {
 		return version;
 	}
 
-    public void setAcknowledgementTitle(String acknowledgementTitle) {
-        this.acknowledgementTitle = acknowledgementTitle;
-    }
-
-    public void setAcknowledgementInfo(String acknowledgementInfo) {
-        this.acknowledgementInfo = acknowledgementInfo;
-    }
 }

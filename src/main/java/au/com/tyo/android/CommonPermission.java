@@ -48,13 +48,7 @@ public class CommonPermission {
     }
 
     public static boolean checkAndRequestPermissions(Activity context, String[] requiredPermissions) {
-        boolean hasIt = true;
-        for (String permission : requiredPermissions) {
-            if (!checkPermission(context, permission)) {
-                hasIt = false;
-                break;
-            }
-        }
+        boolean hasIt = hasPermissions(context, requiredPermissions);
 
         if (!hasIt) {
             requestPermissions(context, requiredPermissions);
@@ -64,5 +58,24 @@ public class CommonPermission {
 
     public static boolean checkLocationPermissions(Activity context) {
        return checkAndRequestPermissions(context, PERMISSIONS_LOCATION);
+    }
+
+    public static boolean checkExternalStoragePermissions(Activity context) {
+        return checkAndRequestPermissions(context, PERMISSIONS_STORAGE);
+    }
+
+    public static boolean checkCameraPermissions(Activity context) {
+        return checkAndRequestPermissions(context, PERMISSIONS_CAMERA);
+    }
+
+    public static boolean hasPermissions(Activity context, String[] requiredPermissions) {
+        boolean hasIt = true;
+        for (String permission : requiredPermissions) {
+            if (!checkPermission(context, permission)) {
+                hasIt = false;
+                break;
+            }
+        }
+        return hasIt;
     }
 }
