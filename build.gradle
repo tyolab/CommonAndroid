@@ -65,11 +65,8 @@ dependencies {
 
     // Android support
     //noinspection GradleCompatible
-    implementation "androidx.appcompat:appcompat:$ANDROIDX_LIBERY_VERSION"
-    // For loading and tinting drawables on older versions of the platform
-    implementation "androidx.appcompat:appcompat-resources:$ANDROIDX_LIBERY_VERSION"
-
-    implementation "androidx.preference:preference:$ANDROIDX_LIBERY_VERSION"
+    implementation "androidx.appcompat:appcompat:1.0.0-beta01"
+    implementation 'androidx.preference:preference:1.0.0-beta01'
 
     // svg image library
     // https://mvnrepository.com/artifact/com.caverock/androidsvg

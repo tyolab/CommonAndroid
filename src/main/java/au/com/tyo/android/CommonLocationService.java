@@ -141,19 +141,23 @@ public class CommonLocationService extends CommonIntentService {
      * @param provider
      * @param locationListener
      */
-    @SuppressLint("MissingPermission")
     public void startTracking(Context context, String provider, LocationListener locationListener) {
         if (!hasLocationPermission())
             return;
 
+        queryLastKnowLocation(context);
+
+        if (null != locationListener)
+            requestLocationUpdates(context, provider, locationListener);
+    }
+
+    @SuppressLint("MissingPermission")
+    public void queryLastKnowLocation(Context context) {
         LocationManager locationManager = getLocationManager(context);
         if (null == lastKnownLocation)
             lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (null == lastKnownLocation)
             lastKnownLocation = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
-
-        if (null != locationListener)
-            requestLocationUpdates(context, provider, locationListener);
     }
 
     public Location getLastKnownLocation() {
