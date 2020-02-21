@@ -154,29 +154,70 @@ public class AndroidHelper {
         context.startActivity(galleryIntent);
     }
 
+    /**
+     *
+     * @param context
+     */
     public static void openSamsungMyFiles(Activity context) {
         Intent intent = new Intent("com.sec.android.app.myfiles.PICK_DATA");
         intent.putExtra("CONTENT_TYPE", "*/*");
         intent.addCategory(Intent.CATEGORY_DEFAULT);
     }
 
+    /**
+     *
+     * @return
+     */
     public static boolean isSamsungDevice() {
         return Build.MANUFACTURER.equalsIgnoreCase("samsung");
+    }
+
+    /**
+     * Assuming that authority = package name + ".fileprovider"
+     *
+     * @param context
+     * @param path
+     */
+    public static void openImage(Activity context, String path) {
+        openImage(context, path, context.getPackageName() + ".fileprovider");
     }
 
     /**
      *
      * @param context
      * @param path
+     * @param authority
+     */
+    public static void openImage(Activity context, String path, String authority) {
+        openFile(context, path, "image/*", authority);
+    }
+
+    /**
+     *
+     * Assuming that authority = package name + ".fileprovider"
+     *
+     * @param context
+     * @param path
      * @param type
      */
-    public static void openFolder(Activity context, String path, String type, String authority) {
-        Intent intent = createSelectDocumentIntent(type);
+    public static void openFile(Activity context, String path, String type) {
+        openFile(context, path, type, context.getPackageName() + ".fileprovider");
+    }
+
+    /**
+     * Open file with default app
+     *
+     * @param context
+     * @param path
+     * @param type
+     */
+    public static void openFile(Activity context, String path, String type, String authority) {
+        Intent intent = new Intent(Intent.ACTION_VIEW);
 
         if (AndroidUtils.getAndroidVersion() < 24)
-            intent.setData(Uri.fromFile(new File(path)));
+            intent.setDataAndType(Uri.fromFile(new File(path)), type);
         else {
-            intent.setData(FileProvider.getUriForFile(context, authority, new File(path)));
+            intent.setDataAndType(FileProvider.getUriForFile(context, authority, new File(path)), type);
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         }
 
