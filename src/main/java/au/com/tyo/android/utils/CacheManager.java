@@ -90,7 +90,8 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	}
 
     protected void setupCacheDir(String subdir) {
-        cacheDir = this.getCacheDirectoryFromLocation(subdir);
+		dirName = subdir;
+        cacheDir = this.getCacheDirectoryFromLocation(dirName);
 
         if (cacheDir != null) {
         	// do not make dir yet
@@ -104,8 +105,6 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
         }
         else
             cacheEnabled = false;
-
-        dirName = cacheDir.getName();
     }
 
     public long getCacheSpan() {
@@ -124,9 +123,9 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
         return cacheDir;
     }
 
-    // public File getCacheDirectoryFromLocation() {
-	//     return getCacheDirectoryFromLocation(subDir.getName());
-    // }
+     public File getCacheDirectoryFromLocation() {
+	     return getCacheDirectoryFromLocation(dirName);
+     }
 
     public File getCacheDirectoryFromLocation(String subDir) {
 		if (context != null) {
