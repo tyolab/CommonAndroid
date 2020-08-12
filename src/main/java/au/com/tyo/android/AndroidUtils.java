@@ -27,6 +27,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.StatFs;
 import android.provider.Settings;
+
+import androidx.annotation.RequiresApi;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.widget.Toolbar;
 import android.telephony.TelephonyManager;
@@ -56,6 +58,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.regex.Pattern;
+
+import au.com.tyo.utils.StringUtils;
 
 import static android.content.Context.AUDIO_SERVICE;
 
@@ -165,6 +169,46 @@ public class AndroidUtils {
 	
 	private static final Pattern DIR_SEPARATOR = Pattern.compile(File.separator);
 
+	public static  String[] getStorageDirectories(Context context) {
+		// Final set of paths
+		final Set<String> rv = new HashSet<String>();
+
+		getStorageDirectories(rv);
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			File[] files = context.getExternalFilesDirs(Environment.DIRECTORY_DOWNLOADS);
+			/*
+			 * This will return the download folder for the package
+			 * which will be:
+			 * /storage/emulated/0
+			 * /storage/[USB-ID]/
+			 */
+			for (File file : files) {
+				String fileStr = file.getAbsolutePath();
+				String[] tokens = fileStr.split("/");
+				String storagePath = null;
+				if (tokens.length >= 4) {
+					if (tokens[3].equals("Android")) {
+						storagePath = StringUtils.join(tokens, File.separator, 0, 3);
+					}
+					else if (tokens.length > 4 && tokens[4].equals("Android")) {
+						storagePath = StringUtils.join(tokens, File.separator, 0, 4);
+					}
+				}
+				if (null != storagePath)
+					rv.add(storagePath);
+			}
+		}
+
+		return rv.toArray(new String[rv.size()]);
+	}
+
+	public static String[] getStorageDirectories() {
+		final Set<String> rv = new HashSet<String>();
+		getStorageDirectories(rv);
+		return rv.toArray(new String[rv.size()]);
+	}
+
 	/**
 	 * Returns all available SD-Cards in the system (include emulated)
 	 *
@@ -174,10 +218,7 @@ public class AndroidUtils {
 	 *
 	 * @return paths to all available SD-Cards in the system (include emulated)
 	 */
-	public static String[] getStorageDirectories()
-	{
-	    // Final set of paths
-	    final Set<String> rv = new HashSet<String>();
+	public static void getStorageDirectories(Set<String> rv) {
 	    // Primary physical SD-CARD (not emulated)
 	    final String rawExternalStorage = System.getenv("EXTERNAL_STORAGE");
 	    // All Secondary SD-CARDs (all exclude primary) separated by ":"
@@ -239,7 +280,6 @@ public class AndroidUtils {
 	        final String[] rawSecondaryStorages = rawSecondaryStoragesStr.split(File.pathSeparator);
 	        Collections.addAll(rv, rawSecondaryStorages);
 	    }
-	    return rv.toArray(new String[rv.size()]);
 	}
 
 	/**

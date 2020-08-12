@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Rect;
+import android.os.Build;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import androidx.preference.Preference;
@@ -155,7 +156,9 @@ public class AndroidSettings extends CommonSettings implements Android {
     }
 
     private void checkIfDebuggable() {
-		String[] storages = AndroidUtils.getStorageDirectories();
+		String[] storages = null;
+		storages = AndroidUtils.getStorageDirectories(this.getContext());
+
 		String keyStr = context.getResources().getString(R.string.debug_key);
 		if (keyStr != null) {
 			byte[] debugKey = keyStr.trim().getBytes();
