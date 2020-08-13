@@ -177,6 +177,7 @@ public class AndroidUtils {
 
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
 			File[] files = context.getExternalFilesDirs(Environment.DIRECTORY_DOWNLOADS);
+
 			/*
 			 * This will return the download folder for the package
 			 * which will be:
@@ -184,6 +185,10 @@ public class AndroidUtils {
 			 * /storage/[USB-ID]/
 			 */
 			for (File file : files) {
+				// the file got from the context could be nullable
+				if (null == file)
+					continue;
+
 				String fileStr = file.getAbsolutePath();
 				String[] tokens = fileStr.split("/");
 				String storagePath = null;
