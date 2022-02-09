@@ -52,7 +52,7 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 
 	protected String version = "0.9.9"; // that is the number to show something wrong
 
-    private CommonApplicationImpl() {
+    public CommonApplicationImpl() {
 		notificationManager = null;
 	}
 	

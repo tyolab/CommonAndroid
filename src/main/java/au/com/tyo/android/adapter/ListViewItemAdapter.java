@@ -71,6 +71,8 @@ public class ListViewItemAdapter extends BaseAdapter {
 
 	@Override
 	public Object getItem(int position) {
+		if (position < 0 || position >= getItems().size())
+			return null;
 		return getItems().get(position);
 	}
 

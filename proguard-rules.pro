@@ -16,4 +16,8 @@
 #   public *;
 #}
 
+-keep public class au.com.tyo.android.** {
+  public protected private *;
+}
+
 -dontobfuscate
