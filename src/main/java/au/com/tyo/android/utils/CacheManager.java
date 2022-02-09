@@ -1,6 +1,7 @@
 package au.com.tyo.android.utils;
 
 import android.content.Context;
+import android.os.Environment;
 import android.util.Log;
 
 import java.io.File;
@@ -34,7 +35,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	 * External storage can't be granteed
 	 */
 	public enum CacheLocation {
-		SYSTEM_CACHE, SYSTEM_DATA, EXTERNAL_STORAGE
+		GLOBAL_CACHE, APP_CACHE_DIR, APP_DATA_DIR, EXTERNAL_STORAGE
 	}
 	
 	private static final String LOG_TAG = "CacheManager";
@@ -77,7 +78,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 	}
 
 	public CacheManager(Context context, String subdir) {
-		this(context, subdir, CacheLocation.SYSTEM_DATA);
+		this(context, subdir, CacheLocation.APP_DATA_DIR);
 	}
 	
 	public CacheManager(Context context, String subdir, CacheLocation location) {
@@ -130,10 +131,12 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
     public File getCacheDirectoryFromLocation(String subDir) {
 		if (context != null) {
 			switch (location) {
-				case SYSTEM_CACHE:
+				case GLOBAL_CACHE:
+					return getGlobalCacheDirectory(subDir);
+				case APP_CACHE_DIR:
 				default:
 					return getCacheDirectory(context, subDir);
-				case SYSTEM_DATA:
+				case APP_DATA_DIR:
 					return getDataDirectory(context, subDir);
 				case EXTERNAL_STORAGE:
                     /**
@@ -142,7 +145,7 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
                     File externalFileDir = getCacheDirectoryFromExternalStorage(context, subDir, usePackageNameAsRootFolder);
                     if (null == externalFileDir) {
                         externalFileDir = getDataDirectory(context, subDir);
-                        location = CacheLocation.SYSTEM_DATA;
+                        location = CacheLocation.APP_DATA_DIR;
                     }
 					return externalFileDir;
 			}
@@ -203,6 +206,21 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
 		File cacheDir = null;
 
 		cacheDir = new File(refContext.getCacheDir(),  subDirStr);
+
+		return cacheDir;
+	}
+
+	/**
+	 * Global cache directory
+	 * Find the dir to save cached images
+	 * @param subDirStr
+	 * @return
+	 */
+
+	public static File getGlobalCacheDirectory(String subDirStr){
+		File cacheDir = null;
+
+		cacheDir = new File(Environment.getDownloadCacheDirectory(),  subDirStr);
 
 		return cacheDir;
 	}
