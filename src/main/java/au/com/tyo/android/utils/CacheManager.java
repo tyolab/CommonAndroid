@@ -1,6 +1,7 @@
 package au.com.tyo.android.utils;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
@@ -142,7 +143,12 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
                     /**
                      * OK, not all the phone has external storage
                      */
-                    File externalFileDir = getCacheDirectoryFromExternalStorage(context, subDir, usePackageNameAsRootFolder);
+                    File externalFileDir = null;
+                    // Android 11 (30)
+                    if (AndroidUtils.getAndroidVersion() >= 30)
+						externalFileDir = context.getExternalFilesDir(subDir);
+                    else
+                    	externalFileDir = getCacheDirectoryFromExternalStorage(context, subDir, usePackageNameAsRootFolder);
                     if (null == externalFileDir) {
                         externalFileDir = getDataDirectory(context, subDir);
                         location = CacheLocation.APP_DATA_DIR;
