@@ -43,30 +43,25 @@ dependencies {
     // implementation files('libs/amazon-ads-5.8.1.1.jar')
     implementation 'com.amazon.android:mobile-ads:5.+'
 
-    // Apache HTTP
-//    implementation files('libs/org.apache.http.legacy.jar')
-//    implementation 'org.apache.httpcomponents:httpcore:4.0.1'
-//    implementation 'org.apache.httpcomponents:httpclient:4.0.1'
-
-    // gson support
-    implementation ('com.google.code.gson:gson:2.8.0') {
-        exclude module: 'httpclient'
-        exclude group: 'org.apache.httpcomponents'
-    }
-
-    implementation ('com.google.http-client:google-http-client-gson:1.22.0') {
-        exclude module: 'httpclient'
-        exclude group: 'org.apache.httpcomponents'
-    }
-
-    // Dependencies for the REST implementation example
-    implementation 'com.google.api-client:google-api-client:1.22.0' exclude module: 'httpclient'
-    implementation 'com.google.api-client:google-api-client-android:1.22.0' exclude module: 'httpclient'
-
     // Android support
     //noinspection GradleCompatible
-    implementation "androidx.appcompat:appcompat:1.0.0-beta01"
-    implementation 'androidx.preference:preference:1.0.0-beta01'
+    implementation "androidx.appcompat:appcompat:1.4.1"
+    implementation 'androidx.preference:preference:1.2.0'
+
+    implementation ('com.google.api-client:google-api-client:1.30.10') {
+        exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+    implementation ('com.google.http-client:google-http-client-android:1.36.0') {
+        exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+    }
+
+    implementation ('com.google.http-client:google-http-client-jackson2:1.36.0') {
+        exclude module: 'httpclient'
+        exclude group: 'org.apache.httpcomponents'
+    }
 
     // svg image library
     // https://mvnrepository.com/artifact/com.caverock/androidsvg

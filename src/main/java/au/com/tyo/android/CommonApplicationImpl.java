@@ -3,18 +3,12 @@ package au.com.tyo.android;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
-import android.app.Dialog;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-import android.view.KeyEvent;
-
-import javax.annotation.OverridingMethodsMustInvokeSuper;
 
 /**
  * Use pattern for the class names:
@@ -52,7 +46,7 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 
 	protected String version = "0.9.9"; // that is the number to show something wrong
 
-    private CommonApplicationImpl() {
+    public CommonApplicationImpl() {
 		notificationManager = null;
 	}
 	
@@ -97,7 +91,6 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
     	return application;
 	}
 
-	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void initializeInMainThread(Context context) {
     	Log.i(LOG_TAG, "App initializing in main thread");
@@ -109,7 +102,6 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 			notificationManager = (NotificationManager) context.getSystemService(Application.NOTIFICATION_SERVICE);
 	}
 
-	@OverridingMethodsMustInvokeSuper
 	@Override
 	public void initializeInBackgroundThread(Context context) {
 		Log.i(LOG_TAG, "App initializing in background thread");
