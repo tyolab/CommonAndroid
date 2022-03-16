@@ -207,6 +207,8 @@ public class CommonInitializer {
 	}
 
 	/**
+	 * Be very careful, optimization will renamed all the methods including constructors
+	 *
 	 * @param theClass
 	 * @param context
 	 * @param initializeMain

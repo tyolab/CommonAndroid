@@ -6,7 +6,9 @@ import android.util.Log;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 
+import au.com.tyo.io.IO;
 import au.com.tyo.utils.StringUtils;
 
 /**
@@ -29,5 +31,25 @@ public class AssetsUtils {
             Log.e(TAG, StringUtils.exceptionStackTraceToString(e));
         }
         return null;
+    }
+
+    public static boolean exists(Context context, String assetName) {
+        try {
+            InputStream assetStream = context.getAssets().open(assetName);
+            return true;
+        } catch (IOException e) {}
+
+        return false;
+    }
+
+    public static String loadString(Context context, String assetName) {
+        try {
+            InputStream assetStream = context.getAssets().open(assetName);
+            String content = new String(IO.inputStreamToBytes(assetStream));
+            assetStream.close();
+            return content;
+        } catch (IOException e) {}
+
+        return "";
     }
 }

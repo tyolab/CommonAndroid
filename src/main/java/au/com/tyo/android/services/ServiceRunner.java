@@ -114,10 +114,10 @@ public class ServiceRunner {
         return new ServiceConnection() {
 
             public void onServiceConnected(ComponentName className, IBinder service) {
-                    ServiceRunner.this.service = service;
-                    alive = true;
+                ServiceRunner.this.service = service;
+                alive = true;
 
-                    if (doesRequireMessenger()) {
+                if (doesRequireMessenger()) {
                     clientMessenger = new Messenger(service);
                     serviceMessenger = new Messenger(new Handler() {
                         @Override

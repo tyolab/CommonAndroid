@@ -47,7 +47,7 @@ public abstract class CommonNotification implements NotificationClient {
 
     private NotificationHelpers helpers;
 
-    private int smallIcondResourceId;
+    private int smallIconResourceId;
 
     private String channelId;
 
@@ -70,7 +70,7 @@ public abstract class CommonNotification implements NotificationClient {
         mNotificationManager = (NotificationManager)
                 mContext.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        smallIcondResourceId = -1;
+        smallIconResourceId = -1;
         channelId = CHANNEL_ID;
 
         this.importance = importance;
@@ -84,7 +84,7 @@ public abstract class CommonNotification implements NotificationClient {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             CharSequence name = getContext().getString(R.string.channel_name);
             String description = getContext().getString(R.string.channel_description);
-            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            NotificationChannel channel = new NotificationChannel(channelId, name, importance);
             channel.setDescription(description);
             // Register the channel with the system; you can't change the importance
             // or other notification behaviors after this
@@ -101,8 +101,8 @@ public abstract class CommonNotification implements NotificationClient {
         this.channelId = channelId;
     }
 
-    public void setSmallIcondResourceId(int smallIcondResourceId) {
-        this.smallIcondResourceId = smallIcondResourceId;
+    public void setSmallIconResourceId(int smallIconResourceId) {
+        this.smallIconResourceId = smallIconResourceId;
     }
 
     public int getNotificationId() {
@@ -163,7 +163,7 @@ public abstract class CommonNotification implements NotificationClient {
         else {
             builder.setContentTitle(mLabel.toString());
             builder.setContentIntent(mContentIntent);
-            builder.setSmallIcon(smallIcondResourceId > -1 ? smallIcondResourceId : R.drawable.ic_noti_backup);
+            builder.setSmallIcon(smallIconResourceId > -1 ? smallIconResourceId : R.drawable.ic_noti_backup);
         }
 
         return builder;

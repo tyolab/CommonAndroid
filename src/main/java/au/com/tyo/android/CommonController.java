@@ -76,7 +76,7 @@ public interface CommonController extends Observer {
 
     void onDeleteFromList(int listId, Object data);
 
-	boolean onListItemClick(String listKey, int listId, Object obj);
+	boolean onSuggestionItemClick(String listKey, int listId, Object obj);
 
     String getAppNameWithVersion();
 }

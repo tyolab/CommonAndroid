@@ -9,8 +9,11 @@
         <item name="android:textViewStyle">@android:style/TextAppearance.Medium</item>
     	<item name="android:textAppearance">@android:style/TextAppearance.Medium</item>
     	<item name="android:textSize">26sp</item>
-    	
+
+		<!--
+		This will create border around the menu item
     	<item name="android:background">@drawable/popup_bg</item>
+    	-->
     </style>
     
     <style name="PopupMenuStyle.Dark">

@@ -111,54 +111,6 @@ public abstract class CommonApplicationImpl<T extends CommonController> implemen
 	public Handler getHandler() {
     	return msgHandler;
 	}
-	
-// 	@SuppressLint("NewApi")
-// 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-// 		boolean hasNoModifiers = true;
-//
-//         if (AndroidUtils.getAndroidVersion() > android.os.Build.VERSION_CODES.HONEYCOMB /*>=11*/) {
-// 	        hasNoModifiers = event.hasNoModifiers();
-// //	        ctrl = event.hasModifiers(KeyEvent.META_CTRL_ON);
-// //	        shift = event.hasModifiers(KeyEvent.META_SHIFT_ON);
-//         }
-//
-//         switch(keyCode) {
-//         case KeyEvent.KEYCODE_VOLUME_UP:
-//         case KeyEvent.KEYCODE_VOLUME_DOWN:
-//
-//         	break;
-//
-//         case KeyEvent.KEYCODE_BACK:
-// //			if (getCurrentActivity().getApplicationInfo().targetSdkVersion
-// //					>= Build.VERSION_CODES.ECLAIR) {
-// //				event.startTracking();
-// //			} else {
-// 				onBackKeyPressed();
-// //			}
-//         	return true;
-//
-//         case  KeyEvent.KEYCODE_F12:
-//         case  KeyEvent.KEYCODE_I:
-//             showInfo();
-//             break;
-// 		}
-// 		return false;
-// 	}
-
-	
-//	public void initializeUserInterface(CommonUI ui) {
-//		Display display = ((Activity) context).getWindowManager().getDefaultDisplay();
-//		int width = display.getWidth();
-//		int height = display.getHeight();
-//		
-//   		int rotation = display.getOrientation();
-//   		if (rotation == Surface.ROTATION_90 || rotation == Surface.ROTATION_270)
-//   			ui.setOrientation(Configuration.ORIENTATION_LANDSCAPE);
-//   		else
-//   			ui.setOrientation(Configuration.ORIENTATION_PORTRAIT);
-//		ui.setScreenSize(width, height);
-//		
-//	}
 
 	@Override
 	public void onCreate() {

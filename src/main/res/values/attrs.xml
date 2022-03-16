@@ -5,7 +5,7 @@
     
     <attr name="ic_action_navigation_expand" format="reference"/>
     
-    <attr name="ic_action_navigation_collpase" format="reference"/>
+    <attr name="ic_action_navigation_collapse" format="reference"/>
     
     <attr name="ic_action_up" format="reference"/>
     
