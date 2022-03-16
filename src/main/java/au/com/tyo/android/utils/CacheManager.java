@@ -238,11 +238,11 @@ public abstract class CacheManager<FileType> extends Cache<FileType> {
      * @return
      */
 	public static File getDataDirectory(Context refContext, String subDirStr){
-		File cacheDir = null;
+		File dataDir = null;
 
-		cacheDir = new File(refContext.getFilesDir(),  subDirStr);
+		dataDir = new File(refContext.getFilesDir(),  subDirStr);
 
-		return cacheDir;
+		return dataDir;
 	}
 
 	/**

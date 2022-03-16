@@ -156,13 +156,19 @@ public class UriUtils {
             return uri.getLastPathSegment();
 
         if (scheme.equals("content")) {
-            Cursor cursor = context.getContentResolver().query(uri, null, null, null, null);
+            Cursor cursor = null;
             try {
+                cursor = context.getContentResolver().query(uri, null, null, null, null);
                 if (cursor != null && cursor.moveToFirst()) {
                     name = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                 }
-            } finally {
-                cursor.close();
+            }
+            catch (Exception ex) {
+
+            }
+            finally {
+                if (null != cursor)
+                    cursor.close();
             }
         }
         if (name == null) {

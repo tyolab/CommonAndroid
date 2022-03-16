@@ -41,7 +41,7 @@ dependencies {
 
     // Amazon
     // implementation files('libs/amazon-ads-5.8.1.1.jar')
-    implementation 'com.amazon.android:mobile-ads:6.0.0'
+    // implementation 'com.amazon.android:mobile-ads:6.0.0'
 
     // Android support
     //noinspection GradleCompatible
