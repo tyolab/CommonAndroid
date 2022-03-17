@@ -89,6 +89,8 @@ public class AndroidSettings extends CommonSettings implements Android {
 		super();
 		this.context = context;
 		this.display = AndroidDisplay.checkDifferentDensityAndScreenSize(context);
+
+		this.themeId = -1;
 		
 		externalStorage = new ExternalStorage(context);
 		externalStorage.updateExternalStorageState();
@@ -192,7 +194,7 @@ public class AndroidSettings extends CommonSettings implements Android {
 		
 		this.firstTimeRun = prefs.getBoolean(PREF_FIRST_TIME_RUN, true);
 		
-		this.themeId = prefs.getInt(PREF_THEME_ID, -1);
+		this.themeId = prefs.getInt(PREF_THEME_ID, getThemeId());
 
 		String theDefaultExternalFilePath = this.dataStoragePath;
 		
